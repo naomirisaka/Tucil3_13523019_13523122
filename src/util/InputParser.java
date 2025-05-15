@@ -7,52 +7,80 @@ import java.util.Scanner;
 import model.Board;
 
 public class InputParser {
+
     public static Board parse(File file) throws FileNotFoundException {
         Scanner scanner = new Scanner(file);
 
         int rows = 0, cols = 0;
-
-        // Baca ukuran papan
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine().trim();
             if (!line.isEmpty()) {
-                String[] size = line.split("\\s+");
-                if (size.length == 2) {
-                    rows = Integer.parseInt(size[0]);
-                    cols = Integer.parseInt(size[1]);
+                String[] parts = line.split("\\s+");
+                if (parts.length == 2) {
+                    rows = Integer.parseInt(parts[0]);
+                    cols = Integer.parseInt(parts[1]);
                     break;
                 }
             }
         }
 
-        // Lewati baris jumlah kendaraan (tidak digunakan)
+        int nonPrimaryPiecesCount = 0;
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine().trim();
-            if (!line.isEmpty() && line.matches("\\d+")) {
+            if (!line.isEmpty()) {
+                nonPrimaryPiecesCount = Integer.parseInt(line);
                 break;
             }
         }
 
-        // Baca konfigurasi papan
         char[][] grid = new char[rows][cols];
-        int currentRow = 0;
+        int exitRow = -1;
+        int exitCol = -1;
 
+        int currentRow = 0;
         while (scanner.hasNextLine() && currentRow < rows) {
-            String line = scanner.nextLine().trim();
+            String line = scanner.nextLine();
+            if (line == null) break;
+            line = line.trim();
             if (line.isEmpty()) continue;
 
-            char[] row = new char[cols];
             for (int j = 0; j < cols; j++) {
-                row[j] = (j < line.length()) ? line.charAt(j) : '.'; // Isi . jika kurang
+                if (j < line.length()) {
+                    char c = line.charAt(j);
+                    if (c == 'K') {
+                        // Jika K ada di dalam grid, anggap titik biasa, dan simpan posisi exit di grid
+                        exitRow = currentRow;
+                        exitCol = j;
+                        grid[currentRow][j] = '.'; // K di grid diganti titik
+                    } else {
+                        grid[currentRow][j] = c;
+                    }
+                } else {
+                    grid[currentRow][j] = '.';
+                }
             }
 
-            grid[currentRow++] = row;
+            // Jika line lebih panjang dari cols, cek posisi K di luar grid (misal di kanan)
+            if (line.length() > cols) {
+                for (int j = cols; j < line.length(); j++) {
+                    if (line.charAt(j) == 'K') {
+                        exitRow = currentRow;
+                        exitCol = j;
+                        break;
+                    }
+                }
+            }
+
+            currentRow++;
         }
+
+        scanner.close();
 
         if (currentRow != rows) {
             throw new IllegalArgumentException("Jumlah baris konfigurasi tidak sesuai ukuran papan.");
         }
 
-        return new Board(grid, rows, cols);
+        // buat board dengan exit position yang mungkin di luar grid (exitCol bisa == cols)
+        return new Board(grid, rows, cols, exitRow, exitCol);
     }
 }

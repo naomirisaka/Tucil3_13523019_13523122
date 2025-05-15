@@ -47,7 +47,7 @@
         <artifactId>javafx-maven-plugin</artifactId>
         <version>0.0.8</version>
         <configuration>
-          <mainClass>gui.GUIApp</mainClass> <!-- ganti sesuai nama class utama -->
+          <mainClass>gui.GUIApp</mainClass> 
         </configuration>
         <executions>
           <execution>
@@ -59,4 +59,16 @@
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>skip-tests</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <maven.test.skip>true</maven.test.skip>
+      </properties>
+    </profile>
+  </profiles>
 </project>

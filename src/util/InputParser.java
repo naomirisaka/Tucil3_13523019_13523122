@@ -3,8 +3,10 @@ package util;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.util.Map;
 
 import model.Board;
+import model.Piece;
 
 public class InputParser {
 
@@ -44,14 +46,14 @@ public class InputParser {
             line = line.trim();
             if (line.isEmpty()) continue;
 
+            // Cek karakter di dalam grid
             for (int j = 0; j < cols; j++) {
                 if (j < line.length()) {
                     char c = line.charAt(j);
                     if (c == 'K') {
-                        // Jika K ada di dalam grid, anggap titik biasa, dan simpan posisi exit di grid
-                        exitRow = currentRow;
-                        exitCol = j;
-                        grid[currentRow][j] = '.'; // K di grid diganti titik
+                        // ❌ K tidak boleh berada di dalam grid
+                        scanner.close();
+                        throw new RuntimeException("Exit (K) tidak boleh berada di dalam grid pada baris " + currentRow + ", kolom " + j);
                     } else {
                         grid[currentRow][j] = c;
                     }
@@ -60,7 +62,7 @@ public class InputParser {
                 }
             }
 
-            // Jika line lebih panjang dari cols, cek posisi K di luar grid (misal di kanan)
+            // ✅ Cek K di luar grid
             if (line.length() > cols) {
                 for (int j = cols; j < line.length(); j++) {
                     if (line.charAt(j) == 'K') {
@@ -80,7 +82,15 @@ public class InputParser {
             throw new IllegalArgumentException("Jumlah baris konfigurasi tidak sesuai ukuran papan.");
         }
 
-        // buat board dengan exit position yang mungkin di luar grid (exitCol bisa == cols)
-        return new Board(grid, rows, cols, exitRow, exitCol);
+        if (exitRow == -1 || exitCol == -1) {
+            throw new RuntimeException("Exit (K) tidak ditemukan di luar grid.");
+        }
+
+        Map<Character, Piece> pieces = Board.detectPieces(grid, rows, cols);
+
+        Board board = new Board(grid, rows, cols, exitRow, exitCol, pieces);
+        board.buildGridFromPieces();
+
+        return board;
     }
 }

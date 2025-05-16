@@ -8,14 +8,19 @@ import java.util.Set;
 import model.Board;
 
 public class IDSSolver implements Solver {
-    private int visitedNodes = 0;
+    private final int maxDepth;
+    private int visitedNodeCount = 0;
     private long executionTime = 0;
+
+    public IDSSolver(int maxDepth) {
+        this.maxDepth = maxDepth;
+    }
 
     @Override
     public List<Board> solve(Board start) {
         long startTime = System.currentTimeMillis();
 
-        for (int depth = 0; depth < 100; depth++) {
+        for (int depth = 0; depth <= maxDepth; depth++) {
             Set<Board> visited = new HashSet<>();
             List<Board> result = dfs(start, depth, visited);
 
@@ -30,7 +35,7 @@ public class IDSSolver implements Solver {
     }
 
     private List<Board> dfs(Board current, int depth, Set<Board> visited) {
-        visitedNodes++;
+        visitedNodeCount++;
         if (depth < 0) return new ArrayList<>();
         if (current.isGoal()) return reconstructPath(current);
 
@@ -57,7 +62,7 @@ public class IDSSolver implements Solver {
 
     @Override
     public int getVisitedNodeCount() {
-        return visitedNodes;
+        return visitedNodeCount;
     }
 
     @Override

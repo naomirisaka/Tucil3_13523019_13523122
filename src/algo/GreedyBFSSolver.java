@@ -8,10 +8,20 @@ import java.util.PriorityQueue;
 import java.util.Set;
 
 import model.Board;
+import util.Heuristic;
 
 public class GreedyBFSSolver implements Solver {
     private int visitedNodes = 0;
     private long executionTime = 0;
+    private final String heuristicName;
+
+    public GreedyBFSSolver(String heuristicName) {
+        this.heuristicName = heuristicName;
+    }
+
+    private int heuristic(Board board) {
+        return Heuristic.evaluate(board, heuristicName);
+    }
 
     @Override
     public List<Board> solve(Board start) {
@@ -42,22 +52,6 @@ public class GreedyBFSSolver implements Solver {
 
         executionTime = System.currentTimeMillis() - startTime;
         return new ArrayList<>();
-    }
-
-    private int heuristic(Board board) {
-        // Heuristik dasar: jarak horizontal dari P ke K
-        for (int i = 0; i < board.rows; i++) {
-            for (int j = 0; j < board.cols; j++) {
-                if (board.grid[i][j] == 'P') {
-                    for (int k = j + 1; k < board.cols; k++) {
-                        if (board.grid[i][k] == 'K') {
-                            return k - j;
-                        }
-                    }
-                }
-            }
-        }
-        return Integer.MAX_VALUE;
     }
 
     private List<Board> reconstructPath(Board goal) {

@@ -1,13 +1,24 @@
 package algo;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Set;
+
 import model.Board;
 import util.Heuristic;
 
-import java.util.*;
-
 public class AStarSolver implements Solver {
-    private int visitedCount = 0;
-    private long execTime = 0;
+    private int visitedNodeCount = 0;
+    private long executionTime = 0;
+    private final String heuristicName;
+
+    public AStarSolver(String heuristicName) {
+        this.heuristicName = heuristicName;
+    }
 
     @Override
     public List<Board> solve(Board start) {
@@ -15,14 +26,14 @@ public class AStarSolver implements Solver {
 
         PriorityQueue<Node> open = new PriorityQueue<>(Comparator.comparingInt(n -> n.f));
         Set<Board> visited = new HashSet<>();
-        open.add(new Node(start, 0, Heuristic.blockingCars(start)));
+        open.add(new Node(start, 0, Heuristic.evaluate(start, heuristicName)));
 
         while (!open.isEmpty()) {
             Node curr = open.poll();
-            visitedCount++;
+            visitedNodeCount++;
 
             if (curr.board.isGoal()) {
-                execTime = System.currentTimeMillis() - startTime;
+                executionTime = System.currentTimeMillis() - startTime;
                 return reconstructPath(curr.board);
             }
 
@@ -30,14 +41,14 @@ public class AStarSolver implements Solver {
             for (Board neighbor : curr.board.getNeighbors()) {
                 if (!visited.contains(neighbor)) {
                     int g = curr.g + 1;
-                    int h = Heuristic.blockingCars(neighbor);
+                    int h = Heuristic.evaluate(neighbor, heuristicName);
                     open.add(new Node(neighbor, g, g + h));
                     neighbor.parent = curr.board;
                 }
             }
         }
 
-        execTime = System.currentTimeMillis() - startTime;
+        executionTime = System.currentTimeMillis() - startTime;
         return new ArrayList<>(); // tidak ada solusi
     }
 
@@ -51,12 +62,12 @@ public class AStarSolver implements Solver {
 
     @Override
     public int getVisitedNodeCount() {
-        return visitedCount;
+        return visitedNodeCount;
     }
 
     @Override
     public long getExecutionTime() {
-        return execTime;
+        return executionTime;
     }
 
     private static class Node {

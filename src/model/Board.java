@@ -129,7 +129,7 @@ public class Board {
                     break;
                 }
             }
-            boolean vertical = !horizontal;
+            // boolean vertical = !horizontal;
             final boolean isHorizontal = horizontal;
 
             // Urut posisi berdasarkan orientasi supaya gampang cek gerakan
@@ -172,17 +172,13 @@ public class Board {
             // Gerak horizontal: baris tetap, kolom berubah
             if (newCol < 0) {
                 // Kalau kendaraan K boleh keluar grid di sebelah kiri
-                if (vehicle == 'K' && exitRow == newRow && exitCol == -1) {
-                    return true;
-                }
-                return false;
+                
+                return vehicle == 'K' && exitRow == newRow && exitCol == -1;
             }
             if (newCol >= cols) {
                 // Kalau kendaraan K keluar sebelah kanan
-                if (vehicle == 'K' && exitRow == newRow && exitCol == cols) {
-                    return true;
-                }
-                return false;
+                
+                return vehicle == 'K' && exitRow == newRow && exitCol == cols;
             }
             if (newRow < 0 || newRow >= rows) return false;
 

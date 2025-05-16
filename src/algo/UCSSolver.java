@@ -10,7 +10,7 @@ import java.util.Set;
 import model.Board;
 
 public class UCSSolver implements Solver {
-    private int visitedNodes = 0;
+    private int visitedNodeCount = 0;
     private long executionTime = 0;
 
     @Override
@@ -24,7 +24,7 @@ public class UCSSolver implements Solver {
 
         while (!pq.isEmpty()) {
             Node current = pq.poll();
-            visitedNodes++;
+            visitedNodeCount++;
 
             if (current.board.isGoal()) {
                 executionTime = System.currentTimeMillis() - startTime;
@@ -46,7 +46,7 @@ public class UCSSolver implements Solver {
 
     @Override
     public int getVisitedNodeCount() {
-        return visitedNodes;
+        return visitedNodeCount;
     }
 
     @Override

@@ -39,11 +39,12 @@ public class InputParser {
         // 3. Ambil semua baris setelahnya
         List<String> rawLines = new ArrayList<>();
         while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            if (!line.trim().isEmpty()) {
+            String line = scanner.nextLine().trim();
+            if (!line.isEmpty() && !line.matches("\\.*")) {
                 rawLines.add(line);
             }
         }
+
 
         scanner.close();
 
@@ -85,15 +86,19 @@ public class InputParser {
         for (int i = 0; i < rows; i++) {
             String line = rawLines.get(i);
 
-            if (line.length() > cols && line.charAt(0) == 'K') {
-                exitRow = i;
-                exitCol = -1;
-                line = line.substring(1); // Hapus 'K' dari kiri
-            } else if (line.length() > cols && line.charAt(line.length() - 1) == 'K') {
-                exitRow = i;
-                exitCol = cols;
-                line = line.substring(0, line.length() - 1); // Hapus 'K' dari kanan
+            // Check if 'K' is immediately left or right of the board line
+            if (line.length() > cols) {
+                if (line.charAt(0) == 'K') {
+                    exitRow = i;
+                    exitCol = -1;
+                    line = line.substring(1); // Remove K from left
+                } else if (line.charAt(line.length() - 1) == 'K') {
+                    exitRow = i;
+                    exitCol = cols;
+                    line = line.substring(0, line.length() - 1); // Remove K from right
+                }
             }
+
 
             for (int j = 0; j < cols; j++) {
                 if (j < line.length()) {

@@ -243,7 +243,11 @@ public class Board {
             if (i == exitRow && exitCol == -1) sb.append('K');
             for (int j = 0; j < cols; j++) {
                 char c = grid[i][j];
-                sb.append(c == 'P' ? '.' : c);
+                if (c == 'P') {
+                    sb.append(isGoal() ? '.' : 'P');
+                } else {
+                    sb.append(c);
+                }
             }
             if (i == exitRow && exitCol == cols) sb.append('K');
             sb.append('\n');

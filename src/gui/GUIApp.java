@@ -12,6 +12,7 @@ import algo.UCSSolver;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -136,73 +137,96 @@ public class GUIApp extends Application {
                 try {
                     board[0] = InputParser.parse(file);
                     outputArea.setText("File loaded successfully.\n");
-                    outputArea.appendText(board[0].toString());
+                    outputArea.appendText(board[0].toString(false));
                 } catch (FileNotFoundException ex) {
                     outputArea.setText("Failed to read the file: " + ex.getMessage() + "\n");
                 }
             }
         });
 
-        solveButton.setOnAction(e -> {
+        solveButton.setOnAction((ActionEvent e) -> {
             if (board[0] == null) {
                 outputArea.setText("Please select an input file first.\n");
                 return;
             }
 
-            String selectedAlgorithm = algoComboBox.getValue();
-            String selectedHeuristic = heuristicComboBox.getValue();
+            outputArea.setText("Solving...\n");
+            solveButton.setDisable(true);
 
-            if (selectedAlgorithm.equals("A*")) {
-                solver = new AStarSolver(selectedHeuristic);
-            } else if (selectedAlgorithm.equals("UCS")) {
-                solver = new UCSSolver();
-            } else if (selectedAlgorithm.equals("GBFS")) {
-                solver = new GreedyBFSSolver(selectedHeuristic);
-            } else if (selectedAlgorithm.equals("IDS")) {
-                int maxDepth;
-                try {
-                    maxDepth = Integer.parseInt(depthInput.getText());
-                } catch (NumberFormatException ex) {
-                    outputArea.setText("Invalid max depth for IDS.\n");
+        Task<List<Board>> solveTask = new Task<>() {
+            @Override
+            protected List<Board> call() {
+                System.out.println("Started solving...");
+                String algorithm = algoComboBox.getValue();
+                String heuristic = heuristicComboBox.getValue();
+                switch (algorithm) {
+                    case "A*" -> solver = new AStarSolver(heuristic);
+                    case "UCS" -> solver = new UCSSolver();
+                    case "GBFS" -> solver = new GreedyBFSSolver(heuristic);
+                    case "IDS" -> {
+                        int maxDepth = Integer.parseInt(depthInput.getText());
+                        solver = new IDSSolver(maxDepth);
+                    }
+                }
+                List<Board> result = solver.solve(board[0]);
+                System.out.println("Finished solving with " + result.size() + " steps.");
+                return result;
+            }
+        };
+
+            solveTask.setOnSucceeded(ev -> {
+                solveButton.setDisable(false);
+                solution = solveTask.getValue();
+
+                if (solution == null || solution.isEmpty()) {
+                    outputArea.setText("No solution found.\n");
                     return;
                 }
-                solver = new IDSSolver(maxDepth);
-            } else {
-                outputArea.setText("Unknown algorithm selected.\n");
-                return;
-            }
 
-            solution = solver.solve(board[0]);
-            if (solution.isEmpty()) {
-                outputArea.setText("No solution found.\n");
-                return;
-            }
+                currentStep = 0;
+                String mode = outputTypeComboBox.getValue();
+                outputArea.clear();
 
-            currentStep = 0;
-            String mode = outputTypeComboBox.getValue();
-            outputArea.clear();
+                if (mode.equals("Pagination")) {
+                    prevButton.setVisible(true);
+                    nextButton.setVisible(true);
+                    finalButton.setVisible(true);
+                    stepLabel.setVisible(true);
+                    displayStep(currentStep, stepLabel);
+                } else if (mode.equals("Animation")) {
+                    int delay;
+                    try {
+                        delay = Integer.parseInt(delayInput.getText());
+                    } catch (NumberFormatException ex) {
+                        outputArea.setText("Invalid delay value.\n");
+                        return;
+                    }
 
-            if (mode.equals("Pagination")) {
-                prevButton.setVisible(true);
-                nextButton.setVisible(true);
-                finalButton.setVisible(true);
-                stepLabel.setVisible(true);
-                displayStep(currentStep, stepLabel);
-            } else if (mode.equals("Animation")) {
-                int delay = Integer.parseInt(delayInput.getText());
-                animationTimeline = new Timeline(
-                    new KeyFrame(Duration.millis(delay), ev -> {
-                        if (currentStep < solution.size()) {
-                            displayStep(currentStep, stepLabel);
-                            currentStep++;
-                        } else {
-                            animationTimeline.stop();
-                        }
-                    })
-                );
-                animationTimeline.setCycleCount(Timeline.INDEFINITE);
-                animationTimeline.play();
-            }
+                    animationTimeline = new Timeline(
+                        new KeyFrame(Duration.millis(delay), ev2 -> {
+                            if (currentStep < solution.size()) {
+                                displayStep(currentStep, stepLabel);
+                                currentStep++;
+                            } else {
+                                animationTimeline.stop();
+                            }
+                        })
+                    );
+                    animationTimeline.setCycleCount(Timeline.INDEFINITE);
+                    animationTimeline.play();
+                }
+            });
+
+            solveTask.setOnFailed(ev -> {
+                solveButton.setDisable(false);
+                Throwable ex = solveTask.getException();
+                ex.printStackTrace();  // DEBUG ke console
+                outputArea.setText("An error occurred:\n" + ex.getMessage());
+            });
+
+            Thread solverThread = new Thread(solveTask);
+            solverThread.setDaemon(true);
+            solverThread.start();
         });
 
         prevButton.setOnAction(e -> {
@@ -227,11 +251,22 @@ public class GUIApp extends Application {
 
     private void displayStep(int step, Label stepLabel) {
         outputArea.clear();
+
+        Board currentBoard = solution.get(step); // <-- pindah ke atas
         outputArea.appendText("Step " + step + ":\n");
-        outputArea.appendText(solution.get(step).toString());
+
+        boolean isGoal = (step == solution.size() - 1 && currentBoard.isGoal());
+        outputArea.appendText(currentBoard.toString(isGoal)); // <-- sekarang bisa pakai
+
+        // Tambahkan label jika GOAL STATE
+        if (isGoal) {
+            outputArea.appendText("\n=== GOAL STATE ===\n");
+        }
+
         stepLabel.setText("Step " + (step + 1) + " / " + solution.size());
 
-        if (step == solution.size() - 1 && solver != null) {
+        // Tampilkan benchmarking
+        if (isGoal && solver != null) {
             outputArea.appendText("\nNodes Visited: " + solver.getVisitedNodeCount() + "\n");
             outputArea.appendText("Execution Time: " + solver.getExecutionTime() + " ms\n");
         }

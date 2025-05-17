@@ -11,7 +11,7 @@ import model.Board;
 import util.Heuristic;
 
 public class GreedyBFSSolver implements Solver {
-    private int visitedNodes = 0;
+    private int visitedNodeCount = 0;
     private long executionTime = 0;
     private final String heuristicName;
 
@@ -19,22 +19,17 @@ public class GreedyBFSSolver implements Solver {
         this.heuristicName = heuristicName;
     }
 
-    private int heuristic(Board board) {
-        return Heuristic.evaluate(board, heuristicName);
-    }
-
     @Override
     public List<Board> solve(Board start) {
         long startTime = System.currentTimeMillis();
 
-        PriorityQueue<Board> pq = new PriorityQueue<>(Comparator.comparingInt(this::heuristic));
+        PriorityQueue<Board> pq = new PriorityQueue<>(Comparator.comparingInt(b -> Heuristic.evaluate(b, heuristicName)));
         Set<Board> visited = new HashSet<>();
-
         pq.add(start);
 
         while (!pq.isEmpty()) {
             Board current = pq.poll();
-            visitedNodes++;
+            visitedNodeCount++;
 
             if (current.isGoal()) {
                 executionTime = System.currentTimeMillis() - startTime;
@@ -45,8 +40,10 @@ public class GreedyBFSSolver implements Solver {
             visited.add(current);
 
             for (Board neighbor : current.getNeighbors()) {
-                neighbor.parent = current;
-                pq.add(neighbor);
+                if (!visited.contains(neighbor)) {
+                    neighbor.parent = current;
+                    pq.add(neighbor);
+                }
             }
         }
 
@@ -64,7 +61,7 @@ public class GreedyBFSSolver implements Solver {
 
     @Override
     public int getVisitedNodeCount() {
-        return visitedNodes;
+        return visitedNodeCount;
     }
 
     @Override

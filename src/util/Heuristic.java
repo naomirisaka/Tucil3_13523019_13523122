@@ -8,8 +8,8 @@ public class Heuristic {
         int row = 2; // baris utama
         int count = 0;
         boolean started = false;
-        for (int j = 0; j < board.cols; j++) {
-            char c = board.grid[row][j];
+        for (int j = 0; j < board.getCols(); j++) {
+            char c = board.getGrid()[row][j];
             if (c == 'P') started = true;
             else if (started && c != '.' && c != 'K') count++;
         }
@@ -20,13 +20,13 @@ public class Heuristic {
     public static int blockingCarsWithMovability(Board board) {
         int row = 2;
         int pEndCol = -1;
-        for (int j = 0; j < board.cols; j++) {
-            if (board.grid[row][j] == 'P') pEndCol = j;
+        for (int j = 0; j < board.getCols(); j++) {
+            if (board.getGrid()[row][j] == 'P') pEndCol = j;
         }
 
         int score = 0;
-        for (int j = pEndCol + 1; j < board.cols; j++) {
-            char block = board.grid[row][j];
+        for (int j = pEndCol + 1; j < board.getCols(); j++) {
+            char block = board.getGrid()[row][j];
             if (block != '.' && block != 'K') {
                 score += 1;
                 if (!canMoveVertically(board, block)) {
@@ -39,11 +39,11 @@ public class Heuristic {
     }
 
     private static boolean canMoveVertically(Board board, char vehicle) {
-        for (int i = 0; i < board.rows; i++) {
-            for (int j = 0; j < board.cols; j++) {
-                if (board.grid[i][j] == vehicle) {
-                    boolean up = i > 0 && board.grid[i - 1][j] == '.';
-                    boolean down = i < board.rows - 1 && board.grid[i + 1][j] == '.';
+        for (int i = 0; i < board.getRows(); i++) {
+            for (int j = 0; j < board.getCols(); j++) {
+                if (board.getGrid()[i][j] == vehicle) {
+                    boolean up = i > 0 && board.getGrid()[i - 1][j] == '.';
+                    boolean down = i < board.getRows() - 1 && board.getGrid()[i + 1][j] == '.';
                     return up || down;
                 }
             }
@@ -53,11 +53,11 @@ public class Heuristic {
 
     // Third Heuristic
     public static int distanceToExit(Board board) {
-        for (int i = 0; i < board.rows; i++) {
-            for (int j = 0; j < board.cols; j++) {
-                if (board.grid[i][j] == 'P') {
-                    for (int k = j + 1; k < board.cols; k++) {
-                        if (board.grid[i][k] == 'K') {
+        for (int i = 0; i < board.getRows(); i++) {
+            for (int j = 0; j < board.getCols(); j++) {
+                if (board.getGrid()[i][j] == 'P') {
+                    for (int k = j + 1; k < board.getCols(); k++) {
+                        if (board.getGrid()[i][k] == 'K') {
                             return k - j;
                         }
                     }

@@ -40,35 +40,33 @@ public class InputParser {
         int currentRow = 0;
         while (scanner.hasNextLine() && currentRow < rows) {
             String line = scanner.nextLine();
-            if (line == null) break;
-            line = line.trim();
-            if (line.isEmpty()) continue;
 
+            if (line == null || line.trim().isEmpty()) continue;
+
+            // Cek K di luar kolom kiri
+            if (line.startsWith("K")) {
+                exitRow = currentRow;
+                exitCol = -1; // kiri luar
+            }
+
+            // Isi grid
             for (int j = 0; j < cols; j++) {
                 if (j < line.length()) {
                     char c = line.charAt(j);
                     if (c == 'K') {
-                        // Jika K ada di dalam grid, anggap titik biasa, dan simpan posisi exit di grid
-                        exitRow = currentRow;
-                        exitCol = j;
-                        grid[currentRow][j] = '.'; // K di grid diganti titik
-                    } else {
-                        grid[currentRow][j] = c;
+                        // K di dalam grid = salah
+                        throw new IllegalArgumentException("Posisi K tidak boleh berada di dalam grid.");
                     }
+                    grid[currentRow][j] = c;
                 } else {
                     grid[currentRow][j] = '.';
                 }
             }
 
-            // Jika line lebih panjang dari cols, cek posisi K di luar grid (misal di kanan)
-            if (line.length() > cols) {
-                for (int j = cols; j < line.length(); j++) {
-                    if (line.charAt(j) == 'K') {
-                        exitRow = currentRow;
-                        exitCol = j;
-                        break;
-                    }
-                }
+            // Cek K di luar kolom kanan
+            if (line.length() > cols && line.charAt(cols) == 'K') {
+                exitRow = currentRow;
+                exitCol = cols; // kanan luar
             }
 
             currentRow++;
@@ -76,11 +74,10 @@ public class InputParser {
 
         scanner.close();
 
-        if (currentRow != rows) {
-            throw new IllegalArgumentException("Jumlah baris konfigurasi tidak sesuai ukuran papan.");
+        if (exitRow == -1 || exitCol == -1) {
+            throw new IllegalArgumentException("Pintu keluar 'K' tidak ditemukan di sisi luar grid.");
         }
 
-        // buat board dengan exit position yang mungkin di luar grid (exitCol bisa == cols)
         return new Board(grid, rows, cols, exitRow, exitCol);
     }
 }

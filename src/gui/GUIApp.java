@@ -43,6 +43,11 @@ public class GUIApp extends Application {
     private VBox rightPanel = new VBox(10);
     private Label nodeVisitedLabel = new Label();  
     private Label execTimeLabel = new Label();
+    private final Label movementBlock = new Label();
+
+    public GUIApp() {
+        this.nodeVisitedLabel = new Label();
+    }
 
     @Override
     public void start(Stage primaryStage) {
@@ -97,14 +102,19 @@ public class GUIApp extends Application {
         nextButton.setVisible(false);
         finalButton.setVisible(false);
         stepLabel.setVisible(false); 
+        exportButton.setVisible(false);
 
         HBox fileBox = new HBox(10,fileLabel, fileButton, selectedFileLabel);
-        VBox inputPanel = new VBox(10, fileBox, algoLabel, algoComboBox,
-                heuristicLabel, heuristicComboBox,
+        VBox inputPanel = new VBox(10);
+            inputPanel.getChildren().addAll(
+                fileLabel, fileButton, selectedFileLabel,
+                algoLabel, algoComboBox,
                 depthLabel, depthInput,
+                heuristicLabel, heuristicComboBox,
                 outputTypeLabel, outputTypeComboBox,
                 delayLabel, delayInput,
-                solveButton, exportButton);
+                solveButton
+            );
         inputPanel.setPadding(new Insets(10));
 
         outputArea.setPrefWidth(300);
@@ -114,27 +124,28 @@ public class GUIApp extends Application {
         HBox controls = new HBox(10, prevButton, stepLabel, nextButton, finalButton);
         controls.setAlignment(Pos.CENTER);
 
-        // ToggleButton toggleLogButton = new ToggleButton("Show Logs");
-        // toggleLogButton.setOnAction(ev -> {
-        //     if (toggleLogButton.isSelected()) {
-        //         toggleLogButton.setText("Hide Logs");
-        //         if (!rightPanel.getChildren().contains(outputArea)) {
-        //             rightPanel.getChildren().add(outputArea);
-        //         }
-        //     } else {
-        //         toggleLogButton.setText("Show Logs");
-        //         rightPanel.getChildren().remove(outputArea);
-        //     }
-        // });
+        ToggleButton toggleLogButton = new ToggleButton("Show Logs");
+        toggleLogButton.setOnAction(ev -> {
+            if (toggleLogButton.isSelected()) {
+                toggleLogButton.setText("Hide Logs");
+                if (!rightPanel.getChildren().contains(outputArea)) {
+                    rightPanel.getChildren().add(outputArea);
+                }
+            } else {
+                toggleLogButton.setText("Show Logs");
+                rightPanel.getChildren().remove(outputArea);
+            }
+        });
 
         rightPanel.getChildren().addAll(
             new Label("Board:"),
             boardGrid,
             controls,
+            movementBlock,
             nodeVisitedLabel,
-            execTimeLabel
+            execTimeLabel,
+            toggleLogButton
         ); 
-        // toggleLogButton
         rightPanel.setPadding(new Insets(10));
 
         HBox mainPanels = new HBox(20, inputPanel, rightPanel);
@@ -182,16 +193,10 @@ public class GUIApp extends Application {
             }
 
             switch (algoComboBox.getValue()) {
-                case "A*":
-                    solver = new AStarSolver(heuristicComboBox.getValue());
-                    break;
-                case "UCS":
-                    solver = new UCSSolver();
-                    break;
-                case "GBFS":
-                    solver = new GreedyBFSSolver(heuristicComboBox.getValue());
-                    break;
-                case "IDS":
+                case "A*" -> solver = new AStarSolver(heuristicComboBox.getValue());
+                case "UCS" -> solver = new UCSSolver();
+                case "GBFS" -> solver = new GreedyBFSSolver(heuristicComboBox.getValue());
+                case "IDS" -> {
                     try {
                         int maxDepth = Integer.parseInt(depthInput.getText());
                         solver = new IDSSolver(maxDepth);
@@ -199,10 +204,28 @@ public class GUIApp extends Application {
                         outputArea.setText("Invalid IDS max depth.");
                         return;
                     }
-                    break;
-                default:
+                }
+                default -> {
                     outputArea.setText("Unknown algorithm.");
                     return;
+                }
+            }
+
+            solution = solver.solve(board[0]);
+            if (solution.isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("No Solution");
+                alert.setHeaderText(null);
+                alert.setContentText("No solution was found for this puzzle.");
+                alert.showAndWait();
+                nodeVisitedLabel.setText("");
+                execTimeLabel.setText("");
+                stepLabel.setVisible(false);
+                prevButton.setVisible(false);
+                nextButton.setVisible(false);
+                finalButton.setVisible(false);
+                exportButton.setVisible(false);
+                return;
             }
 
             solution = solver.solve(board[0]);
@@ -418,8 +441,38 @@ public class GUIApp extends Application {
     }
 
     private void displayStep(int step) {
-        drawBoard(solution.get(step));
-        outputArea.setText("Step " + step + ":\n" + solution.get(step));
+        Board current = solution.get(step);
+        drawBoard(current);
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("Step ").append(step).append(":\n");
+
+        // Default label text
+        String movementText = "Initial state";
+
+        // Tampilkan info gerakan jika bukan board awal
+        if (step > 0) {
+            String move = current.move;
+            if (move != null) {
+                String[] parts = move.split(" ");
+                if (parts.length == 3) {
+                    char piece = parts[1].charAt(0);
+                    String direction = parts[2];
+
+                    sb.append("Block ").append(piece).append(" moved ").append(direction).append("\n");
+
+                    // Set ke label
+                    movementText = "Block " + piece + " moved " + direction;
+                }
+            }
+        } else {
+            sb.append("Initial state\n");
+        }
+
+        sb.append(current.toString());
+
+        outputArea.setText(sb.toString());
+        movementBlock.setText(movementText);
         stepLabel.setText("Step " + step + " / " + (solution.size() - 1));
         nodeVisitedLabel.setText("Nodes Visited: " + solver.getVisitedNodeCount());
         execTimeLabel.setText("Execution Time: " + solver.getExecutionTime() + " ms");
@@ -427,5 +480,13 @@ public class GUIApp extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public VBox getRightPanel() {
+        return rightPanel;
+    }
+
+    public void setRightPanel(VBox rightPanel) {
+        this.rightPanel = rightPanel;
     }
 }

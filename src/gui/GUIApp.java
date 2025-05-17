@@ -8,37 +8,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import algo.AStarSolver;
-import algo.GreedyBFSSolver;
-import algo.IDSSolver;
-import algo.Solver;
-import algo.UCSSolver;
+import algo.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -72,6 +50,12 @@ public class GUIApp extends Application {
         primaryStage.setTitle("Rush Hour Puzzle Solver");
 
         initializeColorPalette();
+
+        Font titleFont = Font.loadFont(getClass().getResourceAsStream("/fonts/StayPlayful.ttf"), 32);
+        Label title = new Label("Rush Hour Puzzle Solver");
+        title.setFont(titleFont);
+        HBox titleBox = new HBox(title);
+        titleBox.setAlignment(Pos.CENTER);
 
         Label fileLabel = new Label("Select input configuration file:");
         Button fileButton = new Button("Browse...");
@@ -116,16 +100,17 @@ public class GUIApp extends Application {
         stepLabel.setVisible(false);
         exportButton.setVisible(false);
 
+        HBox fileBox = new HBox(10, fileLabel, fileButton, selectedFileLabel);
         VBox inputPanel = new VBox(10);
         inputPanel.getChildren().addAll(
-            fileLabel, fileButton, selectedFileLabel,
-            algoLabel, algoComboBox,
+            fileBox,algoLabel, algoComboBox,
             depthLabel, depthInput,
             heuristicLabel, heuristicComboBox,
             outputTypeLabel, outputTypeComboBox,
             delayLabel, delayInput,
             solveButton
         );
+        inputPanel.setPadding(new Insets(10));
 
         outputArea.setPrefWidth(300);
         outputArea.setEditable(false);

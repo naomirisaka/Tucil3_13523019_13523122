@@ -8,15 +8,37 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import algo.*;
+import algo.AStarSolver;
+import algo.GreedyBFSSolver;
+import algo.IDSSolver;
+import algo.Solver;
+import algo.UCSSolver;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -120,18 +142,18 @@ public class GUIApp extends Application {
         HBox controls = new HBox(10, prevButton, stepLabel, nextButton, finalButton);
         controls.setAlignment(Pos.CENTER);
 
-        // ToggleButton toggleLogButton = new ToggleButton("Show Logs");
-        // toggleLogButton.setOnAction(ev -> {
-        //     if (toggleLogButton.isSelected()) {
-        //         toggleLogButton.setText("Hide Logs");
-        //         if (!rightPanel.getChildren().contains(outputArea)) {
-        //             rightPanel.getChildren().add(outputArea);
-        //         }
-        //     } else {
-        //         toggleLogButton.setText("Show Logs");
-        //         rightPanel.getChildren().remove(outputArea);
-        //     }
-        // });
+        ToggleButton toggleLogButton = new ToggleButton("Show Logs");
+        toggleLogButton.setOnAction(ev -> {
+            if (toggleLogButton.isSelected()) {
+                toggleLogButton.setText("Hide Logs");
+                if (!rightPanel.getChildren().contains(outputArea)) {
+                    rightPanel.getChildren().add(outputArea);
+                }
+            } else {
+                toggleLogButton.setText("Show Logs");
+                rightPanel.getChildren().remove(outputArea);
+            }
+        });
 
         rightPanel.getChildren().addAll(
             new Label("Board:"),
@@ -140,9 +162,9 @@ public class GUIApp extends Application {
             movementBlock,
             nodeVisitedLabel,
             execTimeLabel,
-            statusLabel
+            statusLabel,
+            toggleLogButton
         ); 
-        // toggleLogButton
         rightPanel.setPadding(new Insets(10));
 
         HBox mainPanels = new HBox(20, inputPanel, rightPanel);

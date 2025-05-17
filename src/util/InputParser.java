@@ -17,7 +17,6 @@ public class InputParser {
 
         int rows = 0, cols = 0;
 
-        // 1. Baca ukuran papan
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine().trim();
             if (!line.isEmpty()) {
@@ -30,13 +29,11 @@ public class InputParser {
             }
         }
 
-        // 2. Baca jumlah kendaraan (skip)
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine().trim();
             if (!line.isEmpty()) break;
         }
 
-        // 3. Ambil semua baris setelahnya
         List<String> rawLines = new ArrayList<>();
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine().trim();
@@ -44,13 +41,10 @@ public class InputParser {
                 rawLines.add(line);
             }
         }
-
-
         scanner.close();
 
         int exitRow = -1, exitCol = -1;
 
-        // 4. Cek baris atas
         if (rawLines.size() > rows && rawLines.get(0).length() >= cols) {
             String top = rawLines.get(0);
             for (int j = 0; j < cols; j++) {
@@ -63,7 +57,6 @@ public class InputParser {
             }
         }
 
-        // 5. Cek baris bawah
         if (rawLines.size() > rows && rawLines.get(rawLines.size() - 1).length() >= cols) {
             String bottom = rawLines.get(rawLines.size() - 1);
             for (int j = 0; j < cols; j++) {
@@ -76,17 +69,13 @@ public class InputParser {
             }
         }
 
-        // 6. Validasi jumlah baris
         if (rawLines.size() != rows) {
             throw new IllegalArgumentException("Jumlah baris tidak sesuai dengan ukuran papan.");
         }
 
-        // 7. Parse grid dan cari 'K' di kiri/kanan/dalam
         char[][] grid = new char[rows][cols];
         for (int i = 0; i < rows; i++) {
             String line = rawLines.get(i);
-
-            // Check if 'K' is immediately left or right of the board line
             if (line.length() > cols) {
                 if (line.charAt(0) == 'K') {
                     exitRow = i;
@@ -98,7 +87,6 @@ public class InputParser {
                     line = line.substring(0, line.length() - 1); // Remove K from right
                 }
             }
-
 
             for (int j = 0; j < cols; j++) {
                 if (j < line.length()) {
@@ -116,7 +104,6 @@ public class InputParser {
             }
         }
 
-        // 8. Validasi kendaraan
         validateGrid(grid);
 
         return new Board(grid, rows, cols, exitRow, exitCol);

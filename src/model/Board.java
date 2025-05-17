@@ -2,7 +2,10 @@ package model;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Scanner;
 
 public class Board {
@@ -61,41 +64,57 @@ public class Board {
 
         if (pPositions.isEmpty()) return false;
 
-        // Determine orientation: horizontal or vertical
         boolean isHorizontal = pPositions.stream().allMatch(p -> p[0] == pPositions.get(0)[0]);
+        boolean isVertical = pPositions.stream().allMatch(p -> p[1] == pPositions.get(0)[1]);
 
-        // Find front and back of 'P'
+        if (!isHorizontal && !isVertical) return false;
+
+        // urutkan dari depan ke belakang
         pPositions.sort((a, b) -> isHorizontal ? Integer.compare(a[1], b[1]) : Integer.compare(a[0], b[0]));
-        int[] front = pPositions.get(0);
-        int[] back = pPositions.get(pPositions.size() - 1);
 
-        // Check if one of the ends is adjacent to the exit position
         if (isHorizontal) {
-            // Left side
-            if (exitRow == front[0] && exitCol == front[1] - 1) return true;
-            // Right side
-            if (exitRow == back[0] && exitCol == back[1] + 1) return true;
-        } else {
-            // Top side
-            if (exitRow == front[0] - 1 && exitCol == front[1]) return true;
-            // Bottom side
-            if (exitRow == back[0] + 1 && exitCol == back[1]) return true;
-        }
+            int row = pPositions.get(0)[0];
+            int leftMost = pPositions.get(0)[1];
+            int rightMost = pPositions.get(pPositions.size() - 1)[1];
 
-        return false;
-    }
-
-    private boolean isPlayerAdjacent(int x, int y) {
-        int[][] dirs = { {-1,0}, {1,0}, {0,-1}, {0,1} };
-        for (int[] dir : dirs) {
-            int nx = x + dir[0];
-            int ny = y + dir[1];
-            if (nx >= 0 && ny >= 0 && nx < rows && ny < cols) {
-                if (grid[nx][ny] == 'P') {
-                    return true;
+            // Exit di kanan
+            if (exitRow == row && exitCol == rightMost + 1) {
+                for (int c = rightMost + 1; c < cols; c++) {
+                    if (grid[row][c] != '.') return false;
                 }
+                return true;
+            }
+
+            // Exit di kiri
+            if (exitRow == row && exitCol == leftMost - 1) {
+                for (int c = leftMost - 1; c >= 0; c--) {
+                    if (grid[row][c] != '.') return false;
+                }
+                return true;
+            }
+
+        } else if (isVertical) {
+            int col = pPositions.get(0)[1];
+            int topMost = pPositions.get(0)[0];
+            int bottomMost = pPositions.get(pPositions.size() - 1)[0];
+
+            // Exit di bawah
+            if (exitCol == col && exitRow == bottomMost + 1) {
+                for (int r = bottomMost + 1; r < rows; r++) {
+                    if (grid[r][col] != '.') return false;
+                }
+                return true;
+            }
+
+            // Exit di atas
+            if (exitCol == col && exitRow == topMost - 1) {
+                for (int r = topMost - 1; r >= 0; r--) {
+                    if (grid[r][col] != '.') return false;
+                }
+                return true;
             }
         }
+
         return false;
     }
 
@@ -113,7 +132,7 @@ public class Board {
         }
 
         for (char v : vehicles) {
-            java.util.List<int[]> positions = new java.util.ArrayList<>();
+            List<int[]> positions = new ArrayList<>();
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
                     if (grid[i][j] == v) {
@@ -121,6 +140,8 @@ public class Board {
                     }
                 }
             }
+
+            if (positions.isEmpty()) continue;
 
             boolean horizontal = true;
             int firstRow = positions.get(0)[0];
@@ -130,33 +151,174 @@ public class Board {
                     break;
                 }
             }
-            final boolean isHorizontal = horizontal;
 
-            positions.sort((a, b) -> isHorizontal ? Integer.compare(a[1], b[1]) : Integer.compare(a[0], b[0]));
+            neighbors.addAll(getAllMovesForVehicle(v, horizontal));
+        }
 
-            int negRow = positions.get(0)[0];
-            int negCol = positions.get(0)[1];
-            int newNegRow = horizontal ? negRow : negRow - 1;
-            int newNegCol = horizontal ? negCol - 1 : negCol;
-
-            if (isValidMove(v, newNegRow, newNegCol, horizontal, true)) {
-                Board newBoard = moveVehicle(v, horizontal, true);
-                if (newBoard != null) neighbors.add(newBoard);
+        // Tambahan: Jika primary piece P bisa langsung keluar (goal state), buat Board baru tanpa P
+        if (isGoal()) {
+            char[][] newGrid = new char[rows][cols];
+            for (int i = 0; i < rows; i++) {
+                newGrid[i] = Arrays.copyOf(grid[i], cols);
             }
 
-            int size = positions.size();
-            int posRow = positions.get(size - 1)[0];
-            int posCol = positions.get(size - 1)[1];
-            int newPosRow = horizontal ? posRow : posRow + 1;
-            int newPosCol = horizontal ? posCol + 1 : posCol;
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    if (newGrid[i][j] == 'P') {
+                        newGrid[i][j] = '.';
+                    }
+                }
+            }
 
-            if (isValidMove(v, newPosRow, newPosCol, horizontal, false)) {
-                Board newBoard = moveVehicle(v, horizontal, false);
-                if (newBoard != null) neighbors.add(newBoard);
+            if (canExitDirectly()) {
+                Board exitBoard = new Board(copyGridWithPRemoved(), rows, cols, exitRow, exitCol);
+                exitBoard.parent = this;
+                exitBoard.move = "Primary piece P exits through K";
+                neighbors.add(exitBoard);
             }
         }
 
         return neighbors;
+    }
+
+    private boolean isClearPath(char vehicle, boolean horizontal, boolean negativeDirection) {
+        List<int[]> positions = new ArrayList<>();
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (grid[i][j] == vehicle) {
+                    positions.add(new int[]{i, j});
+                }
+            }
+        }
+
+        if (positions.isEmpty()) return false;
+
+        positions.sort((a, b) -> horizontal ? Integer.compare(a[1], b[1]) : Integer.compare(a[0], b[0]));
+
+        int dRow = horizontal ? 0 : (negativeDirection ? -1 : 1);
+        int dCol = horizontal ? (negativeDirection ? -1 : 1) : 0;
+
+        int[] edge = negativeDirection ? positions.get(0) : positions.get(positions.size() - 1);
+        int nextRow = edge[0] + dRow;
+        int nextCol = edge[1] + dCol;
+
+        while (nextRow >= 0 && nextRow < rows && nextCol >= 0 && nextCol < cols) {
+            if (grid[nextRow][nextCol] != '.') return true; // tidak boleh bergerak lebih jauh
+            nextRow += dRow;
+            nextCol += dCol;
+        }
+
+        return true;
+    }
+
+    public boolean canExitDirectly() {
+        List<int[]> positions = new ArrayList<>();
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (grid[i][j] == 'P') {
+                    positions.add(new int[]{i, j});
+                }
+            }
+        }
+
+        if (positions.isEmpty()) return false;
+
+        positions.sort(Comparator.comparingInt(p -> p[0])); // sort by row
+        int topRow = positions.get(0)[0];
+        int bottomRow = positions.get(positions.size() - 1)[0];
+        int col = positions.get(0)[1];
+
+        positions.sort(Comparator.comparingInt(p -> p[1])); // sort by col
+        int leftCol = positions.get(0)[1];
+        int rightCol = positions.get(positions.size() - 1)[1];
+        int row = positions.get(0)[0];
+
+        // === Horizontal Exit ===
+        if (exitRow == row) {
+            // Exit to right
+            if (exitCol > rightCol) {
+                for (int j = rightCol + 1; j < exitCol; j++) {
+                    if (grid[row][j] != '.') return false;
+                }
+                return true;
+            }
+            // Exit to left
+            if (exitCol < leftCol) {
+                for (int j = exitCol + 1; j < leftCol; j++) {
+                    if (grid[row][j] != '.') return false;
+                }
+                return true;
+            }
+        }
+
+        // === Vertical Exit ===
+        if (exitCol == col) {
+            // Exit to bottom
+            if (exitRow > bottomRow) {
+                for (int i = bottomRow + 1; i < exitRow; i++) {
+                    if (grid[i][col] != '.') return false;
+                }
+                return true;
+            }
+            // Exit to top
+            if (exitRow < topRow) {
+                for (int i = exitRow + 1; i < topRow; i++) {
+                    if (grid[i][col] != '.') return false;
+                }
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public char[][] copyGridWithPRemoved() {
+        char[][] newGrid = new char[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            newGrid[i] = Arrays.copyOf(grid[i], cols);
+            for (int j = 0; j < cols; j++) {
+                if (newGrid[i][j] == 'P') newGrid[i][j] = '.';
+            }
+        }
+        return newGrid;
+    }
+
+    public Board moveVehicleUntilBlocked(char vehicle, boolean horizontal, boolean negativeDirection) {
+        Board current = this;
+        while (true) {
+            if (!current.canMoveOneStep(vehicle, horizontal, negativeDirection)) break;
+            Board next = current.moveVehicle(vehicle, horizontal, negativeDirection);
+            if (next == null) break;
+            current = next;
+        }
+        return current == this ? null : current;
+    }
+
+    private boolean canMoveOneStep(char vehicle, boolean horizontal, boolean negativeDirection) {
+        List<int[]> positions = new ArrayList<>();
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (grid[i][j] == vehicle) {
+                    positions.add(new int[]{i, j});
+                }
+            }
+        }
+
+        if (positions.isEmpty()) return false;
+
+        positions.sort((a, b) -> horizontal ? Integer.compare(a[1], b[1]) : Integer.compare(a[0], b[0]));
+
+        int dRow = horizontal ? 0 : (negativeDirection ? -1 : 1);
+        int dCol = horizontal ? (negativeDirection ? -1 : 1) : 0;
+
+        int[] edge = negativeDirection ? positions.get(0) : positions.get(positions.size() - 1);
+        int newRow = edge[0] + dRow;
+        int newCol = edge[1] + dCol;
+
+        if (newRow < 0 || newRow >= rows || newCol < 0 || newCol >= cols) return false;
+
+        // 🚫 Cek apakah cell target kosong
+        return grid[newRow][newCol] == '.';
     }
 
     private boolean isValidMove(char vehicle, int newRow, int newCol, boolean horizontal, boolean isNegativeDirection) {
@@ -173,6 +335,20 @@ public class Board {
             char target = grid[newRow][newCol];
             return target == '.' || (vehicle == 'K' && target == 'K');
         }
+    }
+
+    private List<Board> getAllMovesForVehicle(char vehicle, boolean horizontal) {
+        List<Board> neighbors = new ArrayList<>();
+
+        // Arah negatif dan positif (kiri-kanan atau atas-bawah)
+        for (boolean negative : new boolean[]{true, false}) {
+            Board moved = moveVehicleUntilBlocked(vehicle, horizontal, negative);
+            if (moved != null) {
+                neighbors.add(moved);
+            }
+        }
+
+        return neighbors;
     }
 
     private Board moveVehicle(char vehicle, boolean horizontal, boolean negativeDirection) {
@@ -232,6 +408,8 @@ public class Board {
     public String toStringWithExit() {
         StringBuilder sb = new StringBuilder();
 
+        boolean pExited = isGoal();
+
         if (exitRow == -1 && exitCol >= 0 && exitCol < cols) {
             for (int j = 0; j < cols; j++) {
                 sb.append(j == exitCol ? 'K' : '.');
@@ -243,8 +421,8 @@ public class Board {
             if (i == exitRow && exitCol == -1) sb.append('K');
             for (int j = 0; j < cols; j++) {
                 char c = grid[i][j];
-                if (c == 'P') {
-                    sb.append(isGoal() ? '.' : 'P');
+                if (c == 'P' && pExited) {
+                    sb.append('.');
                 } else {
                     sb.append(c);
                 }

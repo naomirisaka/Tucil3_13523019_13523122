@@ -249,7 +249,17 @@ public class GUIApp extends Application {
                 int delay = Integer.parseInt(delayInput.getText());
                 animationTimeline = new Timeline(new KeyFrame(Duration.millis(delay), ev -> {
                     if (currentStep < solution.size()) {
-                        displayStep(currentStep++);
+                        displayStep(currentStep);
+
+                        Board current = solution.get(currentStep);
+                        if (current.move != null && current.move.equals("Primary piece P exits through K")) {
+                            // Langsung lompat ke langkah terakhir (goal)
+                            currentStep = solution.size() - 1;
+                            displayStep(currentStep);
+                            animationTimeline.stop();
+                        } else {
+                            currentStep++;
+                        }
                     } else {
                         animationTimeline.stop();
                     }
@@ -264,7 +274,15 @@ public class GUIApp extends Application {
         });
 
         nextButton.setOnAction(e -> {
-            if (currentStep < solution.size() - 1) displayStep(++currentStep);
+            if (currentStep < solution.size() - 1) {
+                Board current = solution.get(currentStep);
+                if (current.move != null && current.move.equals("Primary piece P exits through K")) {
+                    currentStep = solution.size() - 1;
+                } else {
+                    currentStep++;
+                }
+                displayStep(currentStep);
+            }
         });
 
         finalButton.setOnAction(e -> {
@@ -440,15 +458,18 @@ public class GUIApp extends Application {
         if (step > 0) {
             String move = current.move;
             if (move != null) {
-                String[] parts = move.split(" ");
-                if (parts.length == 3) {
-                    char piece = parts[1].charAt(0);
-                    String direction = parts[2];
+                if (move.equals("Primary piece P exits through K")) {
+                    sb.append("Primary piece P exited the board through the exit!\n");
+                    movementText = "Primary piece P exited the board!";
+                } else {
+                    String[] parts = move.split(" ");
+                    if (parts.length == 3) {
+                        char piece = parts[1].charAt(0);
+                        String direction = parts[2];
 
-                    sb.append("Block ").append(piece).append(" moved ").append(direction).append("\n");
-
-                    // Set ke label
-                    movementText = "Block " + piece + " moved " + direction;
+                        sb.append("Block ").append(piece).append(" moved ").append(direction).append("\n");
+                        movementText = "Block " + piece + " moved " + direction;
+                    }
                 }
             }
         } else {

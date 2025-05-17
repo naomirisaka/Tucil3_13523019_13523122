@@ -2,6 +2,8 @@ package util;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import model.Board;
@@ -12,6 +14,8 @@ public class InputParser {
         Scanner scanner = new Scanner(file);
 
         int rows = 0, cols = 0;
+
+        // 1. Baca ukuran
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine().trim();
             if (!line.isEmpty()) {
@@ -24,6 +28,7 @@ public class InputParser {
             }
         }
 
+        // 2. Baca jumlah kendaraan non-primer
         int nonPrimaryPiecesCount = 0;
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine().trim();
@@ -33,54 +38,83 @@ public class InputParser {
             }
         }
 
-        char[][] grid = new char[rows][cols];
-        int exitRow = -1;
-        int exitCol = -1;
-
-        int currentRow = 0;
-        while (scanner.hasNextLine() && currentRow < rows) {
+        // 3. Ambil semua baris setelahnya
+        List<String> rawLines = new ArrayList<>();
+        while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
-            if (line == null) break;
-            line = line.trim();
-            if (line.isEmpty()) continue;
+            if (!line.trim().isEmpty()) {
+                rawLines.add(line);
+            }
+        }
+
+        scanner.close();
+
+        // 4. Inisialisasi exit
+        int exitRow = -1, exitCol = -1;
+
+        // 5. Cek apakah ada baris 'K' di atas grid (harus panjangnya == cols)
+        if (rawLines.size() > rows && rawLines.get(0).length() == cols) {
+            String topLine = rawLines.get(0);
+            for (int j = 0; j < cols; j++) {
+                if (topLine.charAt(j) == 'K') {
+                    exitRow = -1;
+                    exitCol = j;
+                    rawLines.remove(0); // Hapus baris ini karena bukan bagian dari grid
+                    break;
+                }
+            }
+        }
+
+        // 6. Cek apakah ada baris 'K' di bawah grid
+        if (rawLines.size() > rows && rawLines.get(rawLines.size() - 1).length() == cols) {
+            String bottomLine = rawLines.get(rawLines.size() - 1);
+            for (int j = 0; j < cols; j++) {
+                if (bottomLine.charAt(j) == 'K') {
+                    exitRow = rows;
+                    exitCol = j;
+                    rawLines.remove(rawLines.size() - 1); // Bukan bagian dari grid
+                    break;
+                }
+            }
+        }
+
+        // 7. Sekarang rawLines harus berisi tepat `rows` baris grid
+        if (rawLines.size() != rows) {
+            throw new IllegalArgumentException("Jumlah baris konfigurasi tidak sesuai ukuran papan.");
+        }
+
+        // 8. Parse grid dan cari K di dalam/kanan/kiri grid
+        char[][] grid = new char[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            String line = rawLines.get(i);
+
+            // K di kiri atau kanan
+            if (line.length() > cols) {
+                if (line.charAt(0) == 'K') {
+                    exitRow = i;
+                    exitCol = -1;
+                } else if (line.charAt(cols) == 'K') {
+                    exitRow = i;
+                    exitCol = cols;
+                }
+            }
 
             for (int j = 0; j < cols; j++) {
                 if (j < line.length()) {
                     char c = line.charAt(j);
                     if (c == 'K') {
-                        // Jika K ada di dalam grid, anggap titik biasa, dan simpan posisi exit di grid
-                        exitRow = currentRow;
+                        exitRow = i;
                         exitCol = j;
-                        grid[currentRow][j] = '.'; // K di grid diganti titik
+                        grid[i][j] = '.';
                     } else {
-                        grid[currentRow][j] = c;
+                        grid[i][j] = c;
                     }
                 } else {
-                    grid[currentRow][j] = '.';
+                    grid[i][j] = '.';
                 }
             }
-
-            // Jika line lebih panjang dari cols, cek posisi K di luar grid (misal di kanan)
-            if (line.length() > cols) {
-                for (int j = cols; j < line.length(); j++) {
-                    if (line.charAt(j) == 'K') {
-                        exitRow = currentRow;
-                        exitCol = j;
-                        break;
-                    }
-                }
-            }
-
-            currentRow++;
         }
 
-        scanner.close();
-
-        if (currentRow != rows) {
-            throw new IllegalArgumentException("Jumlah baris konfigurasi tidak sesuai ukuran papan.");
-        }
-
-        // buat board dengan exit position yang mungkin di luar grid (exitCol bisa == cols)
         return new Board(grid, rows, cols, exitRow, exitCol);
     }
 }

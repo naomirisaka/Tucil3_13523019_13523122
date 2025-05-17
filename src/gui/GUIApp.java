@@ -1,8 +1,12 @@
 package gui;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import algo.AStarSolver;
 import algo.GreedyBFSSolver;
@@ -12,16 +16,14 @@ import algo.UCSSolver;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -29,18 +31,27 @@ import model.Board;
 import util.InputParser;
 
 public class GUIApp extends Application {
-    private TextArea outputArea = new TextArea();
-    private int currentStep = 0;
     private List<Board> solution;
+    private int currentStep = 0;
     private Timeline animationTimeline;
     private Solver solver;
+    private final Map<Character, Color> pieceColors = new HashMap<>();
+
+    private GridPane boardGrid = new GridPane();
+    private Label stepLabel = new Label("Step 0 / 0");
+    private TextArea outputArea = new TextArea();
+    private VBox rightPanel = new VBox(10);
+    private Label nodeVisitedLabel = new Label();  
+    private Label execTimeLabel = new Label();
 
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Rush Hour Puzzle Solver");
 
+        initializeColorPalette();
+
         Label fileLabel = new Label("Select input configuration file:");
-        Button fileButton = new Button("Browse ... ");
+        Button fileButton = new Button("Browse...");
         Label selectedFileLabel = new Label("No file selected.");
         FileChooser fileChooser = new FileChooser();
 
@@ -49,203 +60,361 @@ public class GUIApp extends Application {
         algoComboBox.getItems().addAll("A*", "UCS", "GBFS", "IDS");
         algoComboBox.setValue("A*");
 
-        Label depthLabel = new Label("IDS Max Depth:");
-        depthLabel.setVisible(false);
-        TextField depthInput = new TextField("20");
-        depthInput.setMaxWidth(100);
-        depthInput.setVisible(false);
-
-        Label heuristicLabel = new Label("Choose the heuristic:");
+        Label heuristicLabel = new Label("Heuristic:");
         ComboBox<String> heuristicComboBox = new ComboBox<>();
         heuristicComboBox.getItems().addAll("Blocking Heuristic", "Mobility Heuristic", "Distance-to-Exit Heuristic");
         heuristicComboBox.setValue("Blocking Heuristic");
 
-        Label outputTypeLabel = new Label("Choose output mode:");
+        Label depthLabel = new Label("IDS Max Depth:");
+        TextField depthInput = new TextField("20");
+        depthLabel.setVisible(false);
+        depthInput.setVisible(false);
+
+        Label outputTypeLabel = new Label("Output:");
         ComboBox<String> outputTypeComboBox = new ComboBox<>();
         outputTypeComboBox.getItems().addAll("Pagination", "Animation");
         outputTypeComboBox.setValue("Pagination");
 
         Label delayLabel = new Label("Animation delay (ms):");
-        delayLabel.setVisible(false);
         TextField delayInput = new TextField("500");
-        delayInput.setMaxWidth(100);
+        delayLabel.setVisible(false);
         delayInput.setVisible(false);
 
         Button solveButton = new Button("Solve");
+        Button exportButton = new Button("Export to TXT");
 
-        // Pagination controls
-        Button prevButton = new Button("Previous Step");
-        Button nextButton = new Button("Next Step");
-        Button finalButton = new Button("Final Step");
-        Label stepLabel = new Label("Step 0 / 0");
+        Button prevButton = new Button("Previous");
+        Button nextButton = new Button("Next");
+        Button finalButton = new Button("Final");
+
         prevButton.setVisible(false);
         nextButton.setVisible(false);
         finalButton.setVisible(false);
         stepLabel.setVisible(false);
+        exportButton.setVisible(false);
 
-        algoComboBox.setOnAction(event -> {
-            boolean isIDS = algoComboBox.getValue().equals("IDS");
-            heuristicComboBox.setDisable(isIDS);
-            depthLabel.setVisible(isIDS);
-            depthInput.setVisible(isIDS);
-        });
+        HBox fileBox = new HBox(10, fileLabel, fileButton, selectedFileLabel);
+        VBox inputPanel = new VBox(10, fileBox, algoLabel, algoComboBox,
+                heuristicLabel, heuristicComboBox,
+                depthLabel, depthInput,
+                outputTypeLabel, outputTypeComboBox,
+                delayLabel, delayInput,
+                solveButton, exportButton);
+        inputPanel.setPadding(new Insets(10));
 
-        outputTypeComboBox.setOnAction(event -> {
-            boolean isAnimation = outputTypeComboBox.getValue().equals("Animation");
-            delayLabel.setVisible(isAnimation);
-            delayInput.setVisible(isAnimation);
-        });
-
-        HBox root = new HBox(20);
-        root.setPadding(new Insets(20));
-
-        VBox inputPanel = new VBox(10);
-        inputPanel.getChildren().addAll(
-            fileLabel, fileButton, selectedFileLabel,
-            algoLabel, algoComboBox,
-            depthLabel, depthInput,
-            heuristicLabel, heuristicComboBox,
-            outputTypeLabel, outputTypeComboBox,
-            delayLabel, delayInput,
-            solveButton
-        );
-
+        outputArea.setPrefWidth(300);
         outputArea.setEditable(false);
         outputArea.setStyle("-fx-font-family: monospace;");
-        outputArea.setPrefHeight(600);
-        outputArea.setPrefWidth(400);
 
-        VBox outputPanel = new VBox(10);
-        Label outputLabel = new Label("Solver Output:");
-        HBox paginationControls = new HBox(10);
-        paginationControls.getChildren().addAll(prevButton, stepLabel, nextButton, finalButton);
-        outputPanel.getChildren().addAll(outputLabel, outputArea, paginationControls);
+        HBox controls = new HBox(10, prevButton, stepLabel, nextButton, finalButton);
+        controls.setAlignment(Pos.CENTER);
 
-        root.getChildren().addAll(inputPanel, outputPanel);
+        // ToggleButton toggleLogButton = new ToggleButton("Show Logs");
+        // toggleLogButton.setOnAction(ev -> {
+        //     if (toggleLogButton.isSelected()) {
+        //         toggleLogButton.setText("Hide Logs");
+        //         if (!rightPanel.getChildren().contains(outputArea)) {
+        //             rightPanel.getChildren().add(outputArea);
+        //         }
+        //     } else {
+        //         toggleLogButton.setText("Show Logs");
+        //         rightPanel.getChildren().remove(outputArea);
+        //     }
+        // });
 
-        Scene scene = new Scene(root, 900, 650);
+        rightPanel.getChildren().addAll(
+            new Label("Board:"),
+            boardGrid,
+            controls,
+            nodeVisitedLabel,
+            execTimeLabel
+        ); 
+        // toggleLogButton
+        rightPanel.setPadding(new Insets(10));
+
+        HBox root = new HBox(20, inputPanel, rightPanel);
+        root.setPadding(new Insets(10));
+        Scene scene = new Scene(root, 900, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
 
         final Board[] board = new Board[1];
 
-        fileButton.setOnAction((ActionEvent e) -> {
+        fileButton.setOnAction(e -> {
             File file = fileChooser.showOpenDialog(primaryStage);
             if (file != null) {
                 selectedFileLabel.setText(file.getName());
                 try {
                     board[0] = InputParser.parse(file);
                     outputArea.setText("File loaded successfully.\n");
-                    outputArea.appendText(board[0].toString());
+                    drawBoard(board[0]);
                 } catch (FileNotFoundException ex) {
-                    outputArea.setText("Failed to read the file: " + ex.getMessage() + "\n");
+                    outputArea.setText("Failed to read the file: " + ex.getMessage());
                 }
             }
         });
 
+        algoComboBox.setOnAction(e -> {
+            boolean isIDS = algoComboBox.getValue().equals("IDS");
+            heuristicComboBox.setDisable(isIDS);
+            depthLabel.setVisible(isIDS);
+            depthInput.setVisible(isIDS);
+        });
+
+        outputTypeComboBox.setOnAction(e -> {
+            boolean isAnimation = outputTypeComboBox.getValue().equals("Animation");
+            delayLabel.setVisible(isAnimation);
+            delayInput.setVisible(isAnimation);
+        });
+
         solveButton.setOnAction(e -> {
             if (board[0] == null) {
-                outputArea.setText("Please select an input file first.\n");
+                outputArea.setText("Please load a puzzle file.");
                 return;
             }
 
-            String selectedAlgorithm = algoComboBox.getValue();
-            String selectedHeuristic = heuristicComboBox.getValue();
-
-            if (selectedAlgorithm.equals("A*")) {
-                solver = new AStarSolver(selectedHeuristic);
-            } else if (selectedAlgorithm.equals("UCS")) {
-                solver = new UCSSolver();
-            } else if (selectedAlgorithm.equals("GBFS")) {
-                solver = new GreedyBFSSolver(selectedHeuristic);
-            } else if (selectedAlgorithm.equals("IDS")) {
-                int maxDepth;
-                try {
-                    maxDepth = Integer.parseInt(depthInput.getText());
-                } catch (NumberFormatException ex) {
-                    outputArea.setText("Invalid max depth for IDS.\n");
+            switch (algoComboBox.getValue()) {
+                case "A*":
+                    solver = new AStarSolver(heuristicComboBox.getValue());
+                    break;
+                case "UCS":
+                    solver = new UCSSolver();
+                    break;
+                case "GBFS":
+                    solver = new GreedyBFSSolver(heuristicComboBox.getValue());
+                    break;
+                case "IDS":
+                    try {
+                        int maxDepth = Integer.parseInt(depthInput.getText());
+                        solver = new IDSSolver(maxDepth);
+                    } catch (NumberFormatException ex) {
+                        outputArea.setText("Invalid IDS max depth.");
+                        return;
+                    }
+                    break;
+                default:
+                    outputArea.setText("Unknown algorithm.");
                     return;
-                }
-                solver = new IDSSolver(maxDepth);
-            } else {
-                outputArea.setText("Unknown algorithm selected.\n");
-                return;
             }
 
             solution = solver.solve(board[0]);
             if (solution.isEmpty()) {
-                outputArea.setText("No solution found.\n");
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("No Solution");
+                alert.setHeaderText(null);
+                alert.setContentText("No solution was found for this puzzle.");
+                alert.showAndWait();
+                nodeVisitedLabel.setText("");
+                execTimeLabel.setText("");
+                stepLabel.setVisible(false);
+                prevButton.setVisible(false);
+                nextButton.setVisible(false);
+                finalButton.setVisible(false);
+                exportButton.setVisible(false);
                 return;
             }
 
             currentStep = 0;
-            String mode = outputTypeComboBox.getValue();
-            outputArea.clear();
+            stepLabel.setVisible(true);
+            prevButton.setVisible(true);
+            nextButton.setVisible(true);
+            finalButton.setVisible(true);
+            exportButton.setVisible(true);
 
+            String mode = outputTypeComboBox.getValue();
             if (mode.equals("Pagination")) {
-                prevButton.setVisible(true);
-                nextButton.setVisible(true);
-                finalButton.setVisible(true);
-                stepLabel.setVisible(true);
-                displayStep(currentStep, stepLabel);
-            } else if (mode.equals("Animation")) {
+                displayStep(currentStep);
+            } else {
                 int delay = Integer.parseInt(delayInput.getText());
-                animationTimeline = new Timeline(
-                    new KeyFrame(Duration.millis(delay), ev -> {
-                        if (currentStep < solution.size()) {
-                            displayStep(currentStep, stepLabel);
-                            currentStep++;
-                        } else {
-                            animationTimeline.stop();
-                        }
-                    })
-                );
+                animationTimeline = new Timeline(new KeyFrame(Duration.millis(delay), ev -> {
+                    if (currentStep < solution.size()) {
+                        displayStep(currentStep++);
+                    } else {
+                        animationTimeline.stop();
+                    }
+                }));
                 animationTimeline.setCycleCount(Timeline.INDEFINITE);
                 animationTimeline.play();
             }
         });
 
         prevButton.setOnAction(e -> {
-            if (currentStep > 0) {
-                currentStep--;
-                displayStep(currentStep, stepLabel);
-            }
+            if (currentStep > 0) displayStep(--currentStep);
         });
 
         nextButton.setOnAction(e -> {
-            if (currentStep < solution.size() - 1) {
-                currentStep++;
-                displayStep(currentStep, stepLabel);
-            }
+            if (currentStep < solution.size() - 1) displayStep(++currentStep);
         });
 
         finalButton.setOnAction(e -> {
             currentStep = solution.size() - 1;
-            displayStep(currentStep, stepLabel);
+            displayStep(currentStep);
+        });
+
+        exportButton.setOnAction(e -> {
+            FileChooser chooser = new FileChooser();
+            chooser.setTitle("Export Solution");
+            chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
+            File file = chooser.showSaveDialog(primaryStage);
+            if (file != null) {
+                try (PrintWriter writer = new PrintWriter(new FileWriter(file))) {
+                    for (int i = 0; i < solution.size(); i++) {
+                        writer.println("Step " + i + ":");
+                        writer.println(solution.get(i));
+                    }
+                    writer.println("Nodes Visited: " + solver.getVisitedNodeCount());
+                    writer.println("Execution Time: " + solver.getExecutionTime() + " ms");
+                    outputArea.appendText("\nExported to " + file.getName());
+                } catch (Exception ex) {
+                    outputArea.appendText("\nFailed to export: " + ex.getMessage());
+                }
+            }
         });
     }
 
-    private void displayStep(int step, Label stepLabel) {
-        outputArea.clear();
-        outputArea.appendText("Step " + step + ":\n");
-        outputArea.appendText(solution.get(step).toString());
-        stepLabel.setText("Step " + (step + 1) + " / " + solution.size());
+    private void initializeColorPalette() {
+        List<Color> palette = List.of(
+            Color.web("#e6194b"), // red (for P)
+            Color.web("#3cb44b"), // green (for K)
+            Color.web("#ffe119"), // yellow
+            Color.web("#4363d8"), // blue
+            Color.web("#f58231"), // orange
+            Color.web("#911eb4"), // purple
+            Color.web("#46f0f0"), // cyan
+            Color.web("#f032e6"), // magenta
+            Color.web("#bcf60c"), // lime
+            Color.web("#fabebe"), // pink
+            Color.web("#008080"), // teal
+            Color.web("#e6beff"), // lavender
+            Color.web("#9a6324"), // brown
+            Color.web("#fffac8"), // beige
+            Color.web("#800000"), // maroon
+            Color.web("#aaffc3"), // mint
+            Color.web("#808000"), // olive
+            Color.web("#ffd8b1"), // coral
+            Color.web("#000075"), // navy
+            Color.web("#808080")  // gray
+        );
 
-        if (step == solution.size() - 1 && solver != null) {
-            outputArea.appendText("\nNodes Visited: " + solver.getVisitedNodeCount() + "\n");
-            outputArea.appendText("Execution Time: " + solver.getExecutionTime() + " ms\n");
+        int paletteIndex = 0;
+        for (char c = 'A'; c <= 'Z'; c++) {
+            if (c != 'P' && c != 'K') {
+                pieceColors.put(c, palette.get(paletteIndex % palette.size()));
+                paletteIndex++;
+            }
         }
+        pieceColors.put('P', Color.RED);
+        pieceColors.put('K', Color.GREEN);
+    }
+
+    // *** YOUR drawBoard METHOD KEPT EXACTLY AS YOU GAVE IT ***
+    private void drawBoard(Board board) {
+        boardGrid.getChildren().clear();
+        boardGrid.setGridLinesVisible(true);
+        char[][] grid = board.getGrid();
+        int rows = board.getRows(), cols = board.getCols();
+
+        boolean shiftRight = board.getExitCol() == -1;
+        boolean shiftDown = board.getExitRow() == -1;
+
+        boardGrid.getChildren().clear();
+        boardGrid.getColumnConstraints().clear();
+        boardGrid.getRowConstraints().clear();
+
+        for (int j = 0; j < cols + (shiftRight ? 1 : 0); j++) {
+            ColumnConstraints col = new ColumnConstraints(50);
+            boardGrid.getColumnConstraints().add(col);
+        }
+
+        for (int i = 0; i < rows + (shiftDown ? 1 : 0); i++) {
+            RowConstraints row = new RowConstraints(50);
+            boardGrid.getRowConstraints().add(row);
+        }
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                char ch = grid[i][j];
+                StackPane cell = new StackPane();
+                cell.setPrefSize(50, 50);
+                cell.setStyle("-fx-border-color: black;");
+                if (ch != '.') {
+                    Color color = pieceColors.getOrDefault(ch, Color.GREY);
+                    cell.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
+                    Text label = new Text(String.valueOf(ch));
+                    label.setFont(Font.font(20));
+                    label.setFill(Color.BLACK);
+                    cell.getChildren().add(label);
+                }
+                boardGrid.add(cell, j + (shiftRight ? 1 : 0), i + (shiftDown ? 1 : 0));
+            }
+        }
+
+        int exitRow = board.getExitRow();
+        int exitCol = board.getExitCol();
+
+        if (exitRow >= -1 && exitRow <= rows && exitCol >= -1 && exitCol <= cols) {
+            StackPane exitCell = new StackPane();
+            exitCell.setPrefSize(50, 50);
+            exitCell.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
+
+            BorderWidths borderWidths;
+
+            if (exitRow == -1) {
+                borderWidths = new BorderWidths(1, 1, 0, 1);
+            } else if (exitRow == rows) {
+                borderWidths = new BorderWidths(0, 1, 1, 1);
+            } else if (exitCol == -1) {
+                borderWidths = new BorderWidths(1, 0, 1, 1);
+            } else if (exitCol == cols) {
+                borderWidths = new BorderWidths(1, 1, 1, 0);
+            } else {
+                borderWidths = new BorderWidths(0);
+            }
+
+            exitCell.setBorder(new Border(new BorderStroke(
+                Color.BLACK,
+                BorderStrokeStyle.SOLID,
+                CornerRadii.EMPTY,
+                borderWidths
+            )));
+
+            Text label = new Text("K");
+            label.setFont(Font.font(20));
+            label.setFill(Color.BLACK);
+            exitCell.getChildren().add(label);
+
+            int gridRow = exitRow + (shiftDown ? 1 : 0);
+            int gridCol = exitCol + (shiftRight ? 1 : 0);
+
+            if (exitCol == cols) {
+                if (boardGrid.getColumnConstraints().size() <= cols + (shiftRight ? 1 : 0)) {
+                    boardGrid.getColumnConstraints().add(new ColumnConstraints(50));
+                }
+            } else if (exitCol == -1) {
+                boardGrid.getColumnConstraints().add(0, new ColumnConstraints(50));
+            }
+
+            if (exitRow == rows) {
+                if (boardGrid.getRowConstraints().size() <= rows + (shiftDown ? 1 : 0)) {
+                    boardGrid.getRowConstraints().add(new RowConstraints(50));
+                }
+            } else if (exitRow == -1) {
+                boardGrid.getRowConstraints().add(0, new RowConstraints(50));
+            }
+
+            boardGrid.add(exitCell, gridCol, gridRow);
+        }
+    }
+
+    private void displayStep(int step) {
+        drawBoard(solution.get(step));
+        outputArea.setText("Step " + step + ":\n" + solution.get(step));
+        stepLabel.setText("Step " + step + " / " + (solution.size() - 1));
+        nodeVisitedLabel.setText("Nodes Visited: " + solver.getVisitedNodeCount());
+        execTimeLabel.setText("Execution Time: " + solver.getExecutionTime() + " ms");
     }
 
     public static void main(String[] args) {
         launch(args);
-    }
-
-    public TextArea getOutputArea() {
-        return outputArea;
-    }
-
-    public void setOutputArea(TextArea outputArea) {
-        this.outputArea = outputArea;
     }
 }

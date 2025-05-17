@@ -44,6 +44,9 @@ public class Board {
 
     public int getExitRow() { return exitRow; }
     public int getExitCol() { return exitCol; }
+    public char[][] getGrid() { return grid; }
+    public int getRows() { return rows; }
+    public int getCols() { return cols; }
 
     // Cek apakah posisi sudah mencapai goal (P di samping K)
     public boolean isGoal() {

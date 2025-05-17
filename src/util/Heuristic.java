@@ -1,33 +1,72 @@
 package util;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import model.Board;
 
 public class Heuristic {
-    // First Heuristic
+
+    // First Heuristic: Blocking Cars Count
     public static int blockingCarsCount(Board board) {
-        int row = 2; // baris utama
-        int count = 0;
-        boolean started = false;
-        for (int j = 0; j < board.cols; j++) {
-            char c = board.grid[row][j];
-            if (c == 'P') started = true;
-            else if (started && c != '.' && c != 'K') count++;
+        // Cari posisi 'P'
+        int pRow = -1, pCol = -1;
+        outer:
+        for (int i = 0; i < board.rows; i++) {
+            for (int j = 0; j < board.cols; j++) {
+                if (board.grid[i][j] == 'P') {
+                    pRow = i;
+                    pCol = j;
+                    break outer;
+                }
+            }
         }
+
+        // Cari orientasi 'P'
+        boolean isHorizontal = (pCol + 1 < board.cols && board.grid[pRow][pCol + 1] == 'P');
+
+        // Cari posisi 'K' (exit)
+        int exitRow = board.getExitRow();
+        int exitCol = board.getExitCol();
+
+        int count = 0;
+
+        if (isHorizontal) {
+            // Bergerak horizontal ke arah exit
+            int dir = Integer.compare(exitCol, pCol); // +1 atau -1
+            int j = pCol;
+            while ((j += dir) >= 0 && j < board.cols) {
+                char c = board.grid[pRow][j];
+                if (c != '.' && c != 'K' && c != 'P') count++;
+            }
+        } else {
+            // Bergerak vertikal ke arah exit
+            int dir = Integer.compare(exitRow, pRow);
+            int i = pRow;
+            while ((i += dir) >= 0 && i < board.rows) {
+                char c = board.grid[i][pCol];
+                if (c != '.' && c != 'K' && c != 'P') count++;
+            }
+        }
+
         return count;
     }
 
-    // Second Heuristic
+    // Second Heuristic: Blocking Cars with Movability Penalty
     public static int blockingCarsWithMovability(Board board) {
-        int row = 2;
-        int pEndCol = -1;
-        for (int j = 0; j < board.cols; j++) {
-            if (board.grid[row][j] == 'P') pEndCol = j;
-        }
+        int[] pRowCol = findFrontOfP(board);
+        if (pRowCol == null) return Integer.MAX_VALUE;
+        int row = pRowCol[0];
+        int col = pRowCol[1];
 
+        int exitCol = board.getExitCol();
         int score = 0;
-        for (int j = pEndCol + 1; j < board.cols; j++) {
+        Set<Character> seen = new HashSet<>();
+
+        for (int j = col + 1; j < board.getCols() && j <= exitCol; j++) {
             char block = board.grid[row][j];
-            if (block != '.' && block != 'K') {
+            if (block != '.' && block != 'K' && block != 'P' && !seen.contains(block)) {
+                seen.add(block);
                 score += 1;
                 if (!canMoveVertically(board, block)) {
                     score += 2;
@@ -38,12 +77,57 @@ public class Heuristic {
         return score;
     }
 
+    // Third Heuristic: Distance to Exit (Horizontal or Vertical)
+    public static int distanceToExit(Board board) {
+        int[] pHead = findFrontOfP(board);
+        if (pHead == null) return Integer.MAX_VALUE;
+        int pRow = pHead[0];
+        int pCol = pHead[1];
+
+        int exitRow = board.getExitRow();
+        int exitCol = board.getExitCol();
+        if (exitRow < 0 || exitCol < 0) return Integer.MAX_VALUE;
+
+        // Tentukan orientasi P
+        boolean isHorizontal = false;
+        if (pCol + 1 < board.cols && board.grid[pRow][pCol + 1] == 'P') {
+            isHorizontal = true;
+        }
+
+        if (isHorizontal) {
+            // Bergerak horizontal
+            if (pRow != exitRow) return Integer.MAX_VALUE; // bukan arah keluar
+            return Math.abs(exitCol - pCol);
+        } else {
+            // Bergerak vertikal
+            if (pCol != exitCol) return Integer.MAX_VALUE; // bukan arah keluar
+            return Math.abs(exitRow - pRow);
+        }
+    }
+
+    // Helper: Find front-right most position of P
+    private static int[] findFrontOfP(Board board) {
+        int lastCol = -1;
+        int pRow = -1;
+        for (int i = 0; i < board.getRows(); i++) {
+            for (int j = 0; j < board.getCols(); j++) {
+                if (board.grid[i][j] == 'P') {
+                    if (j > lastCol) {
+                        lastCol = j;
+                        pRow = i;
+                    }
+                }
+            }
+        }
+        return (lastCol != -1) ? new int[]{pRow, lastCol} : null;
+    }
+
     private static boolean canMoveVertically(Board board, char vehicle) {
-        for (int i = 0; i < board.rows; i++) {
-            for (int j = 0; j < board.cols; j++) {
+        for (int i = 0; i < board.getRows(); i++) {
+            for (int j = 0; j < board.getCols(); j++) {
                 if (board.grid[i][j] == vehicle) {
                     boolean up = i > 0 && board.grid[i - 1][j] == '.';
-                    boolean down = i < board.rows - 1 && board.grid[i + 1][j] == '.';
+                    boolean down = i < board.getRows() - 1 && board.grid[i + 1][j] == '.';
                     return up || down;
                 }
             }
@@ -51,22 +135,7 @@ public class Heuristic {
         return false;
     }
 
-    // Third Heuristic
-    public static int distanceToExit(Board board) {
-        for (int i = 0; i < board.rows; i++) {
-            for (int j = 0; j < board.cols; j++) {
-                if (board.grid[i][j] == 'P') {
-                    for (int k = j + 1; k < board.cols; k++) {
-                        if (board.grid[i][k] == 'K') {
-                            return k - j;
-                        }
-                    }
-                }
-            }
-        }
-        return Integer.MAX_VALUE;
-    }
-
+    // Dispatcher
     public static int evaluate(Board board, String name) {
         return switch (name) {
             case "Blocking Heuristic" -> blockingCarsCount(board);

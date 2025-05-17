@@ -48,41 +48,43 @@ public class Board {
     public int getRows() { return rows; }
     public int getCols() { return cols; }
 
-    // Cek apakah posisi sudah mencapai goal (P di samping K)
+    // Check if the board is in goal state: primary piece 'P' exits through 'K'
     public boolean isGoal() {
-        // Cek 'K' di dalam grid
+        java.util.List<int[]> pPositions = new java.util.ArrayList<>();
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                if (grid[i][j] == 'K' && isPlayerAdjacent(i, j)) {
-                    return true;
+                if (grid[i][j] == 'P') {
+                    pPositions.add(new int[]{i, j});
                 }
             }
         }
 
-        // Cek 'K' di luar grid (exitRow, exitCol)
-        if (exitRow == -1 || exitCol == -1) return false;
+        if (pPositions.isEmpty()) return false;
 
-        // Exit di sebelah kanan grid
-        if (exitCol == cols && exitRow >= 0 && exitRow < rows) {
-            if (grid[exitRow][cols - 1] == 'P') return true;
-        }
-        // Exit di sebelah kiri grid
-        else if (exitCol == -1 && exitRow >= 0 && exitRow < rows) {
-            if (grid[exitRow][0] == 'P') return true;
-        }
-        // Exit di bawah grid
-        if (exitRow == rows && exitCol >= 0 && exitCol < cols) {
-            if (grid[rows - 1][exitCol] == 'P') return true;
-        }
-        // Exit di atas grid
-        else if (exitRow == -1 && exitCol >= 0 && exitCol < cols) {
-            if (grid[0][exitCol] == 'P') return true;
+        // Determine orientation: horizontal or vertical
+        boolean isHorizontal = pPositions.stream().allMatch(p -> p[0] == pPositions.get(0)[0]);
+
+        // Find front and back of 'P'
+        pPositions.sort((a, b) -> isHorizontal ? Integer.compare(a[1], b[1]) : Integer.compare(a[0], b[0]));
+        int[] front = pPositions.get(0);
+        int[] back = pPositions.get(pPositions.size() - 1);
+
+        // Check if one of the ends is adjacent to the exit position
+        if (isHorizontal) {
+            // Left side
+            if (exitRow == front[0] && exitCol == front[1] - 1) return true;
+            // Right side
+            if (exitRow == back[0] && exitCol == back[1] + 1) return true;
+        } else {
+            // Top side
+            if (exitRow == front[0] - 1 && exitCol == front[1]) return true;
+            // Bottom side
+            if (exitRow == back[0] + 1 && exitCol == back[1]) return true;
         }
 
         return false;
     }
 
-    // Cek apakah posisi tetangga (atas, bawah, kiri, kanan) adalah P
     private boolean isPlayerAdjacent(int x, int y) {
         int[][] dirs = { {-1,0}, {1,0}, {0,-1}, {0,1} };
         for (int[] dir : dirs) {
@@ -100,7 +102,6 @@ public class Board {
     public java.util.List<Board> getNeighbors() {
         java.util.List<Board> neighbors = new java.util.ArrayList<>();
 
-        // Temukan semua kendaraan unik
         java.util.Set<Character> vehicles = new java.util.HashSet<>();
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
@@ -112,7 +113,6 @@ public class Board {
         }
 
         for (char v : vehicles) {
-            // Cari semua posisi kendaraan v
             java.util.List<int[]> positions = new java.util.ArrayList<>();
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
@@ -122,8 +122,6 @@ public class Board {
                 }
             }
 
-            // Tentukan orientasi kendaraan: horizontal atau vertikal
-            // Kalau semua baris sama -> horizontal, kalau semua kolom sama -> vertikal
             boolean horizontal = true;
             int firstRow = positions.get(0)[0];
             for (int[] pos : positions) {
@@ -132,16 +130,10 @@ public class Board {
                     break;
                 }
             }
-            // boolean vertical = !horizontal;
             final boolean isHorizontal = horizontal;
 
-            // Urut posisi berdasarkan orientasi supaya gampang cek gerakan
             positions.sort((a, b) -> isHorizontal ? Integer.compare(a[1], b[1]) : Integer.compare(a[0], b[0]));
 
-            // Coba geser kendaraan 1 langkah ke arah negatif dan positif
-            // Cek batas dan apakah posisi baru kosong ('.') atau K jika kendaraan K
-
-            // Arah negatif (kiri/atas)
             int negRow = positions.get(0)[0];
             int negCol = positions.get(0)[1];
             int newNegRow = horizontal ? negRow : negRow - 1;
@@ -149,10 +141,9 @@ public class Board {
 
             if (isValidMove(v, newNegRow, newNegCol, horizontal, true)) {
                 Board newBoard = moveVehicle(v, horizontal, true);
-                neighbors.add(newBoard);
+                if (newBoard != null) neighbors.add(newBoard);
             }
 
-            // Arah positif (kanan/bawah)
             int size = positions.size();
             int posRow = positions.get(size - 1)[0];
             int posCol = positions.get(size - 1)[1];
@@ -161,55 +152,35 @@ public class Board {
 
             if (isValidMove(v, newPosRow, newPosCol, horizontal, false)) {
                 Board newBoard = moveVehicle(v, horizontal, false);
-                neighbors.add(newBoard);
+                if (newBoard != null) neighbors.add(newBoard);
             }
         }
 
         return neighbors;
     }
 
-    // Cek apakah gerakan valid: posisi baru harus di dalam batas dan kosong '.' atau (K jika kendaraan K)
     private boolean isValidMove(char vehicle, int newRow, int newCol, boolean horizontal, boolean isNegativeDirection) {
-        // Cek posisi baru valid
         if (horizontal) {
-            // Gerak horizontal: baris tetap, kolom berubah
-            if (newCol < 0) {
-                // Kalau kendaraan K boleh keluar grid di sebelah kiri
-                
-                return vehicle == 'K' && exitRow == newRow && exitCol == -1;
-            }
-            if (newCol >= cols) {
-                // Kalau kendaraan K keluar sebelah kanan
-                
-                return vehicle == 'K' && exitRow == newRow && exitCol == cols;
-            }
+            if (newCol < 0) return vehicle == 'K' && exitRow == newRow && exitCol == -1;
+            if (newCol >= cols) return vehicle == 'K' && exitRow == newRow && exitCol == cols;
             if (newRow < 0 || newRow >= rows) return false;
-
             char target = grid[newRow][newCol];
             return target == '.' || (vehicle == 'K' && target == 'K');
         } else {
-            // Gerak vertikal: kolom tetap, baris berubah
-            if (newRow < 0) {
-                return vehicle == 'K' && exitRow == -1 && exitCol == newCol;
-            }
-            if (newRow >= rows) {
-                return vehicle == 'K' && exitRow == rows && exitCol == newCol;
-            }
+            if (newRow < 0) return vehicle == 'K' && exitRow == -1 && exitCol == newCol;
+            if (newRow >= rows) return vehicle == 'K' && exitRow == rows && exitCol == newCol;
             if (newCol < 0 || newCol >= cols) return false;
-
             char target = grid[newRow][newCol];
             return target == '.' || (vehicle == 'K' && target == 'K');
         }
     }
 
-    // Fungsi untuk menghasilkan board baru setelah memindahkan kendaraan 1 langkah ke kiri/atas (negatif) atau kanan/bawah (positif)
     private Board moveVehicle(char vehicle, boolean horizontal, boolean negativeDirection) {
         char[][] newGrid = new char[rows][cols];
         for (int i = 0; i < rows; i++) {
             newGrid[i] = Arrays.copyOf(grid[i], cols);
         }
 
-        // Hapus kendaraan di posisi lama
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 if (newGrid[i][j] == vehicle) {
@@ -218,8 +189,6 @@ public class Board {
             }
         }
 
-        // Tambahkan kendaraan di posisi baru
-        // Cari posisi lama kendaraan dulu
         java.util.List<int[]> positions = new java.util.ArrayList<>();
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
@@ -241,10 +210,9 @@ public class Board {
             int r = pos[0] + shiftRow;
             int c = pos[1] + shiftCol;
 
-            // Kalau posisi baru keluar grid dan kendaraan adalah K, skip pasang di grid (karena di luar)
             if (r < 0 || r >= rows || c < 0 || c >= cols) {
                 if (vehicle == 'K') continue;
-                else return null; // Invalid move, jangan buat board baru
+                else return null;
             }
 
             newGrid[r][c] = vehicle;
@@ -256,8 +224,6 @@ public class Board {
         return newBoard;
     }
 
-
-    // ToString biasa untuk GUI/debugging
     @Override
     public String toString() {
         return toStringWithExit();
@@ -266,7 +232,6 @@ public class Board {
     public String toStringWithExit() {
         StringBuilder sb = new StringBuilder();
 
-        // Jika exit di atas grid (baris -1), tampilkan baris 'K' di atas
         if (exitRow == -1 && exitCol >= 0 && exitCol < cols) {
             for (int j = 0; j < cols; j++) {
                 sb.append(j == exitCol ? 'K' : '.');
@@ -275,25 +240,15 @@ public class Board {
         }
 
         for (int i = 0; i < rows; i++) {
-            // Jika exit di sebelah kiri di baris ini, tampilkan 'K' dulu
-            if (i == exitRow && exitCol == -1) {
-                sb.append('K');
-            }
-
+            if (i == exitRow && exitCol == -1) sb.append('K');
             for (int j = 0; j < cols; j++) {
                 char c = grid[i][j];
-                sb.append(c == 'P' ? '.' : c); // Ganti 'P' jadi '.'
+                sb.append(c == 'P' ? '.' : c);
             }
-
-            // Jika exit di sebelah kanan di baris ini, tampilkan 'K' setelah grid
-            if (i == exitRow && exitCol == cols) {
-                sb.append('K');
-            }
-
+            if (i == exitRow && exitCol == cols) sb.append('K');
             sb.append('\n');
         }
 
-        // Jika exit di bawah grid (baris == rows), tampilkan baris 'K' di bawah
         if (exitRow == rows && exitCol >= 0 && exitCol < cols) {
             for (int j = 0; j < cols; j++) {
                 sb.append(j == exitCol ? 'K' : '.');
@@ -316,12 +271,10 @@ public class Board {
         return Arrays.deepHashCode(grid);
     }
 
-    // Parsing file sesuai format input
     public static Board parse(File file) throws FileNotFoundException {
         Scanner scanner = new Scanner(file);
 
         int rows = 0, cols = 0;
-        // Baca dimensi
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine().trim();
             if (!line.isEmpty()) {
@@ -334,7 +287,6 @@ public class Board {
             }
         }
 
-        // Baca jumlah non-primary pieces (N), belum dipakai di sini tapi bisa disimpan
         int nonPrimaryPiecesCount = 0;
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine().trim();
@@ -354,7 +306,6 @@ public class Board {
             line = line.trim();
             if (line.isEmpty()) continue;
 
-            // isi grid, padding '.' jika kurang dari cols
             for (int j = 0; j < cols; j++) {
                 if (j < line.length()) {
                     grid[currentRow][j] = line.charAt(j);
@@ -363,7 +314,6 @@ public class Board {
                 }
             }
 
-            // Cek apakah ada K di luar grid (lebih dari cols)
             if (line.length() > cols) {
                 for (int j = cols; j < line.length(); j++) {
                     if (line.charAt(j) == 'K') {
@@ -383,8 +333,49 @@ public class Board {
             throw new IllegalArgumentException("Jumlah baris konfigurasi tidak sesuai ukuran papan.");
         }
 
-        Board board = new Board(grid, rows, cols, exitRow, exitCol);
+        if ((exitRow == 0 || exitRow == rows - 1) && (exitCol == 0 || exitCol == cols - 1)) {
+            throw new IllegalArgumentException("Pintu keluar 'K' tidak boleh berada di sudut luar papan.");
+        }
+        if (exitRow >= 0 && exitRow < rows && exitCol >= 0 && exitCol < cols) {
+            throw new IllegalArgumentException("Pintu keluar 'K' tidak boleh berada di dalam grid.");
+        }
 
-        return board;
+        java.util.List<int[]> pPositions = new java.util.ArrayList<>();
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (grid[i][j] == 'P') {
+                    pPositions.add(new int[]{i, j});
+                }
+            }
+        }
+
+        if (pPositions.isEmpty()) {
+            throw new IllegalArgumentException("Primary piece 'P' tidak ditemukan.");
+        }
+
+        boolean sameRow = pPositions.stream().allMatch(p -> p[0] == pPositions.get(0)[0]);
+        boolean sameCol = pPositions.stream().allMatch(p -> p[1] == pPositions.get(0)[1]);
+
+        if (!sameRow && !sameCol) {
+            throw new IllegalArgumentException("Semua posisi 'P' harus berada di satu baris atau satu kolom.");
+        }
+
+        if (exitRow != -1 && exitCol != -1) {
+            boolean valid = false;
+            if (exitCol == -1 || exitCol == cols) {
+                for (int[] p : pPositions) {
+                    if (p[0] == exitRow) valid = true;
+                }
+            } else if (exitRow == -1 || exitRow == rows) {
+                for (int[] p : pPositions) {
+                    if (p[1] == exitCol) valid = true;
+                }
+            }
+            if (!valid) {
+                throw new IllegalArgumentException("Primary piece 'P' harus berada satu baris atau kolom dengan posisi keluar 'K'.");
+            }
+        }
+
+        return new Board(grid, rows, cols, exitRow, exitCol);
     }
 }

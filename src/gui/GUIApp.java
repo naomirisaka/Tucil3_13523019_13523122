@@ -328,7 +328,6 @@ public class GUIApp extends Application {
         pieceColors.put('K', Color.GREEN);
     }
 
-    // *** YOUR drawBoard METHOD KEPT EXACTLY AS YOU GAVE IT ***
     private void drawBoard(Board board) {
         boardGrid.getChildren().clear();
         boardGrid.setGridLinesVisible(true);

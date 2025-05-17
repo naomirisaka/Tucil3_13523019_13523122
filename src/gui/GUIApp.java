@@ -50,6 +50,12 @@ public class GUIApp extends Application {
 
         initializeColorPalette();
 
+        Font titleFont = Font.loadFont(getClass().getResourceAsStream("/fonts/StayPlayful.ttf"), 32);
+        Label title = new Label("Rush Hour Puzzle Solver");
+        title.setFont(titleFont);
+        HBox titleBox = new HBox(title);
+        titleBox.setAlignment(Pos.CENTER);
+
         Label fileLabel = new Label("Select input configuration file:");
         Button fileButton = new Button("Browse...");
         Label selectedFileLabel = new Label("No file selected.");
@@ -90,10 +96,9 @@ public class GUIApp extends Application {
         prevButton.setVisible(false);
         nextButton.setVisible(false);
         finalButton.setVisible(false);
-        stepLabel.setVisible(false);
-        exportButton.setVisible(false);
+        stepLabel.setVisible(false); 
 
-        HBox fileBox = new HBox(10, fileLabel, fileButton, selectedFileLabel);
+        HBox fileBox = new HBox(10,fileLabel, fileButton, selectedFileLabel);
         VBox inputPanel = new VBox(10, fileBox, algoLabel, algoComboBox,
                 heuristicLabel, heuristicComboBox,
                 depthLabel, depthInput,
@@ -132,8 +137,11 @@ public class GUIApp extends Application {
         // toggleLogButton
         rightPanel.setPadding(new Insets(10));
 
-        HBox root = new HBox(20, inputPanel, rightPanel);
+        HBox mainPanels = new HBox(20, inputPanel, rightPanel);
+
+        VBox root = new VBox(10, titleBox, mainPanels);
         root.setPadding(new Insets(10));
+
         Scene scene = new Scene(root, 900, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -259,7 +267,11 @@ public class GUIApp extends Application {
             if (file != null) {
                 try (PrintWriter writer = new PrintWriter(new FileWriter(file))) {
                     for (int i = 0; i < solution.size(); i++) {
-                        writer.println("Step " + i + ":");
+                        if (i == 0) {
+                            writer.println("Initial Board:");
+                        } else {
+                            writer.println("Step " + i + ":"); // display here gerak huruf apa and arahnya ke mana
+                        }
                         writer.println(solution.get(i));
                     }
                     writer.println("Nodes Visited: " + solver.getVisitedNodeCount());
@@ -307,7 +319,6 @@ public class GUIApp extends Application {
         pieceColors.put('K', Color.GREEN);
     }
 
-    // *** YOUR drawBoard METHOD KEPT EXACTLY AS YOU GAVE IT ***
     private void drawBoard(Board board) {
         boardGrid.getChildren().clear();
         boardGrid.setGridLinesVisible(true);

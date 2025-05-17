@@ -8,37 +8,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import algo.AStarSolver;
-import algo.GreedyBFSSolver;
-import algo.IDSSolver;
-import algo.Solver;
-import algo.UCSSolver;
+import algo.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -62,6 +40,7 @@ public class GUIApp extends Application {
     private final Label nodeVisitedLabel;  
     private final Label execTimeLabel = new Label();
     private final Label movementBlock = new Label();
+    private final Label statusLabel = new Label();
 
     public GUIApp() {
         this.nodeVisitedLabel = new Label();
@@ -73,9 +52,16 @@ public class GUIApp extends Application {
 
         initializeColorPalette();
 
+        Font titleFont = Font.loadFont(getClass().getResourceAsStream("/fonts/StayPlayful.ttf"), 32);
+        Label title = new Label("Rush Hour Puzzle Solver");
+        title.setFont(titleFont);
+        HBox titleBox = new HBox(title);
+        titleBox.setAlignment(Pos.CENTER);
+
         Label fileLabel = new Label("Select input configuration file:");
         Button fileButton = new Button("Browse...");
         Label selectedFileLabel = new Label("No file selected.");
+        HBox inputFileBox = new HBox(10, fileButton, selectedFileLabel); 
         FileChooser fileChooser = new FileChooser();
 
         Label algoLabel = new Label("Choose the algorithm:");
@@ -104,7 +90,7 @@ public class GUIApp extends Application {
         delayInput.setVisible(false);
 
         Button solveButton = new Button("Solve");
-        Button exportButton = new Button("Export to TXT");
+        Button exportButton = new Button("Save solution");
 
         Button prevButton = new Button("Previous");
         Button nextButton = new Button("Next");
@@ -118,14 +104,14 @@ public class GUIApp extends Application {
 
         VBox inputPanel = new VBox(10);
         inputPanel.getChildren().addAll(
-            fileLabel, fileButton, selectedFileLabel,
-            algoLabel, algoComboBox,
+            fileLabel, inputFileBox,algoLabel, algoComboBox,
             depthLabel, depthInput,
             heuristicLabel, heuristicComboBox,
             outputTypeLabel, outputTypeComboBox,
             delayLabel, delayInput,
-            solveButton
+            solveButton, exportButton
         );
+        inputPanel.setPadding(new Insets(10));
 
         outputArea.setPrefWidth(300);
         outputArea.setEditable(false);
@@ -134,18 +120,18 @@ public class GUIApp extends Application {
         HBox controls = new HBox(10, prevButton, stepLabel, nextButton, finalButton);
         controls.setAlignment(Pos.CENTER);
 
-        ToggleButton toggleLogButton = new ToggleButton("Show Logs");
-        toggleLogButton.setOnAction(ev -> {
-            if (toggleLogButton.isSelected()) {
-                toggleLogButton.setText("Hide Logs");
-                if (!rightPanel.getChildren().contains(outputArea)) {
-                    rightPanel.getChildren().add(outputArea);
-                }
-            } else {
-                toggleLogButton.setText("Show Logs");
-                rightPanel.getChildren().remove(outputArea);
-            }
-        });
+        // ToggleButton toggleLogButton = new ToggleButton("Show Logs");
+        // toggleLogButton.setOnAction(ev -> {
+        //     if (toggleLogButton.isSelected()) {
+        //         toggleLogButton.setText("Hide Logs");
+        //         if (!rightPanel.getChildren().contains(outputArea)) {
+        //             rightPanel.getChildren().add(outputArea);
+        //         }
+        //     } else {
+        //         toggleLogButton.setText("Show Logs");
+        //         rightPanel.getChildren().remove(outputArea);
+        //     }
+        // });
 
         rightPanel.getChildren().addAll(
             new Label("Board:"),
@@ -154,12 +140,16 @@ public class GUIApp extends Application {
             movementBlock,
             nodeVisitedLabel,
             execTimeLabel,
-            toggleLogButton
+            statusLabel
         ); 
+        // toggleLogButton
         rightPanel.setPadding(new Insets(10));
 
-        HBox root = new HBox(20, inputPanel, rightPanel);
+        HBox mainPanels = new HBox(20, inputPanel, rightPanel);
+
+        VBox root = new VBox(10, titleBox, mainPanels);
         root.setPadding(new Insets(10));
+
         Scene scene = new Scene(root, 900, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -176,6 +166,7 @@ public class GUIApp extends Application {
                     drawBoard(board[0]);
                 } catch (FileNotFoundException ex) {
                     outputArea.setText("Failed to read the file: " + ex.getMessage());
+                    statusLabel.setText("Failed to read the file: " + ex.getMessage());
                 }
             }
         });
@@ -209,6 +200,7 @@ public class GUIApp extends Application {
                         solver = new IDSSolver(maxDepth);
                     } catch (NumberFormatException ex) {
                         outputArea.setText("Invalid IDS max depth.");
+                        statusLabel.setText("Invalid IDS max depth.");
                         return;
                     }
                 }
@@ -298,11 +290,30 @@ public class GUIApp extends Application {
             if (file != null) {
                 try (PrintWriter writer = new PrintWriter(new FileWriter(file))) {
                     for (int i = 0; i < solution.size(); i++) {
-                        writer.println("Step " + i + ":");
-                        writer.println(solution.get(i));
+                        Board current = solution.get(i);
+                        if (i == 0) {
+                            writer.println("Initial state");
+                            writer.println("Step " + i + ":");
+                        } else {
+                            writer.println("Step " + i + ":");
+                            String move = current.move;
+                            if (move != null) {
+                                String[] parts = move.split(" ");
+                                if (parts.length == 3) {
+                                    char piece = parts[1].charAt(0);
+                                    String direction = parts[2];
+                                    writer.println("Block " + piece + " moved " + direction);
+                                }
+                            }
+                        }
+
+                        writer.println(current.toString());
+                        writer.println(); 
                     }
+
                     writer.println("Nodes Visited: " + solver.getVisitedNodeCount());
                     writer.println("Execution Time: " + solver.getExecutionTime() + " ms");
+
                     outputArea.appendText("\nExported to " + file.getName());
                 } catch (Exception ex) {
                     outputArea.appendText("\nFailed to export: " + ex.getMessage());
@@ -376,12 +387,14 @@ public class GUIApp extends Application {
                 cell.setPrefSize(50, 50);
                 cell.setStyle("-fx-border-color: black;");
                 if (ch != '.') {
-                    Color color = pieceColors.getOrDefault(ch, Color.GREY);
-                    cell.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
-                    Text label = new Text(String.valueOf(ch));
-                    label.setFont(Font.font(20));
-                    label.setFill(Color.BLACK);
-                    cell.getChildren().add(label);
+                    if (ch != 'P' || !board.isGoal()) {
+                        Color color = pieceColors.getOrDefault(ch, Color.GREY);
+                        cell.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
+                        Text label = new Text(String.valueOf(ch));
+                        label.setFont(Font.font(20));
+                        label.setFill(Color.BLACK);
+                        cell.getChildren().add(label);
+                    }
                 }
                 boardGrid.add(cell, j + (shiftRight ? 1 : 0), i + (shiftDown ? 1 : 0));
             }

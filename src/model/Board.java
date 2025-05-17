@@ -190,16 +190,10 @@ public class Board {
         } else {
             // Gerak vertikal: kolom tetap, baris berubah
             if (newRow < 0) {
-                if (vehicle == 'K' && exitRow == -1 && exitCol == newCol) {
-                    return true;
-                }
-                return false;
+                return vehicle == 'K' && exitRow == -1 && exitCol == newCol;
             }
             if (newRow >= rows) {
-                if (vehicle == 'K' && exitRow == rows && exitCol == newCol) {
-                    return true;
-                }
-                return false;
+                return vehicle == 'K' && exitRow == rows && exitCol == newCol;
             }
             if (newCol < 0 || newCol >= cols) return false;
 
@@ -269,30 +263,33 @@ public class Board {
         return toStringWithExit();
     }
 
-    // ToString khusus yang menampilkan 'K' di luar grid (exit position)
     public String toStringWithExit() {
         StringBuilder sb = new StringBuilder();
-
-        for (int i = 0; i < rows; i++) {
-            // Jika exit di sebelah kiri di baris ini, tampilkan 'K' dulu
-            if (i == exitRow && exitCol == -1) {
-                sb.append('K');
-            }
-            for (int j = 0; j < cols; j++) {
-                sb.append(grid[i][j]);
-            }
-            // Jika exit di sebelah kanan di baris ini, tampilkan 'K' setelah grid
-            if (i == exitRow && exitCol == cols) {
-                sb.append('K');
-            }
-            sb.append('\n');
-        }
 
         // Jika exit di atas grid (baris -1), tampilkan baris 'K' di atas
         if (exitRow == -1 && exitCol >= 0 && exitCol < cols) {
             for (int j = 0; j < cols; j++) {
                 sb.append(j == exitCol ? 'K' : '.');
             }
+            sb.append('\n');
+        }
+
+        for (int i = 0; i < rows; i++) {
+            // Jika exit di sebelah kiri di baris ini, tampilkan 'K' dulu
+            if (i == exitRow && exitCol == -1) {
+                sb.append('K');
+            }
+
+            for (int j = 0; j < cols; j++) {
+                char c = grid[i][j];
+                sb.append(c == 'P' ? '.' : c); // Ganti 'P' jadi '.'
+            }
+
+            // Jika exit di sebelah kanan di baris ini, tampilkan 'K' setelah grid
+            if (i == exitRow && exitCol == cols) {
+                sb.append('K');
+            }
+
             sb.append('\n');
         }
 

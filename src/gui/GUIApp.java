@@ -60,6 +60,7 @@ public class GUIApp extends Application {
         Label fileLabel = new Label("Select input configuration file:");
         Button fileButton = new Button("Browse...");
         Label selectedFileLabel = new Label("No file selected.");
+        HBox inputFileBox = new HBox(10, fileButton, selectedFileLabel); 
         FileChooser fileChooser = new FileChooser();
 
         Label algoLabel = new Label("Choose the algorithm:");
@@ -100,10 +101,9 @@ public class GUIApp extends Application {
         stepLabel.setVisible(false);
         exportButton.setVisible(false);
 
-        HBox fileBox = new HBox(10, fileLabel, fileButton, selectedFileLabel);
         VBox inputPanel = new VBox(10);
         inputPanel.getChildren().addAll(
-            fileBox,algoLabel, algoComboBox,
+            fileLabel, inputFileBox,algoLabel, algoComboBox,
             depthLabel, depthInput,
             heuristicLabel, heuristicComboBox,
             outputTypeLabel, outputTypeComboBox,
@@ -346,12 +346,14 @@ public class GUIApp extends Application {
                 cell.setPrefSize(50, 50);
                 cell.setStyle("-fx-border-color: black;");
                 if (ch != '.') {
-                    Color color = pieceColors.getOrDefault(ch, Color.GREY);
-                    cell.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
-                    Text label = new Text(String.valueOf(ch));
-                    label.setFont(Font.font(20));
-                    label.setFill(Color.BLACK);
-                    cell.getChildren().add(label);
+                    if (ch != 'P' || !board.isGoal()) {
+                        Color color = pieceColors.getOrDefault(ch, Color.GREY);
+                        cell.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
+                        Text label = new Text(String.valueOf(ch));
+                        label.setFont(Font.font(20));
+                        label.setFill(Color.BLACK);
+                        cell.getChildren().add(label);
+                    }
                 }
                 boardGrid.add(cell, j + (shiftRight ? 1 : 0), i + (shiftDown ? 1 : 0));
             }

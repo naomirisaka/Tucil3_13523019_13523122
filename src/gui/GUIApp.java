@@ -143,8 +143,11 @@ public class GUIApp extends Application {
         ); 
         rightPanel.setPadding(new Insets(10));
 
-        HBox root = new HBox(20, inputPanel, rightPanel);
+        HBox mainPanels = new HBox(20, inputPanel, rightPanel);
+
+        VBox root = new VBox(10, titleBox, mainPanels);
         root.setPadding(new Insets(10));
+
         Scene scene = new Scene(root, 900, 600);
         primaryStage.setScene(scene);
         primaryStage.show();

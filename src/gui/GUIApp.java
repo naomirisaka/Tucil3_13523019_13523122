@@ -40,6 +40,7 @@ public class GUIApp extends Application {
     private final Label nodeVisitedLabel;  
     private final Label execTimeLabel = new Label();
     private final Label movementBlock = new Label();
+    private final Label statusLabel = new Label();
 
     public GUIApp() {
         this.nodeVisitedLabel = new Label();
@@ -89,7 +90,7 @@ public class GUIApp extends Application {
         delayInput.setVisible(false);
 
         Button solveButton = new Button("Solve");
-        Button exportButton = new Button("Export to TXT");
+        Button exportButton = new Button("Save solution");
 
         Button prevButton = new Button("Previous");
         Button nextButton = new Button("Next");
@@ -108,7 +109,7 @@ public class GUIApp extends Application {
             heuristicLabel, heuristicComboBox,
             outputTypeLabel, outputTypeComboBox,
             delayLabel, delayInput,
-            solveButton
+            solveButton, exportButton
         );
         inputPanel.setPadding(new Insets(10));
 
@@ -119,18 +120,18 @@ public class GUIApp extends Application {
         HBox controls = new HBox(10, prevButton, stepLabel, nextButton, finalButton);
         controls.setAlignment(Pos.CENTER);
 
-        ToggleButton toggleLogButton = new ToggleButton("Show Logs");
-        toggleLogButton.setOnAction(ev -> {
-            if (toggleLogButton.isSelected()) {
-                toggleLogButton.setText("Hide Logs");
-                if (!rightPanel.getChildren().contains(outputArea)) {
-                    rightPanel.getChildren().add(outputArea);
-                }
-            } else {
-                toggleLogButton.setText("Show Logs");
-                rightPanel.getChildren().remove(outputArea);
-            }
-        });
+        // ToggleButton toggleLogButton = new ToggleButton("Show Logs");
+        // toggleLogButton.setOnAction(ev -> {
+        //     if (toggleLogButton.isSelected()) {
+        //         toggleLogButton.setText("Hide Logs");
+        //         if (!rightPanel.getChildren().contains(outputArea)) {
+        //             rightPanel.getChildren().add(outputArea);
+        //         }
+        //     } else {
+        //         toggleLogButton.setText("Show Logs");
+        //         rightPanel.getChildren().remove(outputArea);
+        //     }
+        // });
 
         rightPanel.getChildren().addAll(
             new Label("Board:"),
@@ -139,8 +140,9 @@ public class GUIApp extends Application {
             movementBlock,
             nodeVisitedLabel,
             execTimeLabel,
-            toggleLogButton
+            statusLabel
         ); 
+        // toggleLogButton
         rightPanel.setPadding(new Insets(10));
 
         HBox mainPanels = new HBox(20, inputPanel, rightPanel);
@@ -164,6 +166,7 @@ public class GUIApp extends Application {
                     drawBoard(board[0]);
                 } catch (FileNotFoundException ex) {
                     outputArea.setText("Failed to read the file: " + ex.getMessage());
+                    statusLabel.setText("Failed to read the file: " + ex.getMessage());
                 }
             }
         });
@@ -197,6 +200,7 @@ public class GUIApp extends Application {
                         solver = new IDSSolver(maxDepth);
                     } catch (NumberFormatException ex) {
                         outputArea.setText("Invalid IDS max depth.");
+                        statusLabel.setText("Invalid IDS max depth.");
                         return;
                     }
                 }
@@ -268,11 +272,30 @@ public class GUIApp extends Application {
             if (file != null) {
                 try (PrintWriter writer = new PrintWriter(new FileWriter(file))) {
                     for (int i = 0; i < solution.size(); i++) {
-                        writer.println("Step " + i + ":");
-                        writer.println(solution.get(i));
+                        Board current = solution.get(i);
+                        if (i == 0) {
+                            writer.println("Initial state");
+                            writer.println("Step " + i + ":");
+                        } else {
+                            writer.println("Step " + i + ":");
+                            String move = current.move;
+                            if (move != null) {
+                                String[] parts = move.split(" ");
+                                if (parts.length == 3) {
+                                    char piece = parts[1].charAt(0);
+                                    String direction = parts[2];
+                                    writer.println("Block " + piece + " moved " + direction);
+                                }
+                            }
+                        }
+
+                        writer.println(current.toString());
+                        writer.println(); 
                     }
+
                     writer.println("Nodes Visited: " + solver.getVisitedNodeCount());
                     writer.println("Execution Time: " + solver.getExecutionTime() + " ms");
+
                     outputArea.appendText("\nExported to " + file.getName());
                 } catch (Exception ex) {
                     outputArea.appendText("\nFailed to export: " + ex.getMessage());

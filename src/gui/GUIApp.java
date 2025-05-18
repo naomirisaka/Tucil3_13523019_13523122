@@ -63,6 +63,7 @@ public class GUIApp extends Application {
         Label selectedFileLabel = new Label("No file selected.");
         HBox inputFileBox = new HBox(10, fileButton, selectedFileLabel); 
         FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
 
         Label algoLabel = new Label("Choose the algorithm:");
         ComboBox<String> algoComboBox = new ComboBox<>();
@@ -90,7 +91,7 @@ public class GUIApp extends Application {
         delayInput.setVisible(false);
 
         Button solveButton = new Button("Solve");
-        Button exportButton = new Button("Save solution");
+        Button exportButton = new Button("Save Solution");
 
         Button prevButton = new Button("Previous");
         Button nextButton = new Button("Next");
@@ -160,13 +161,31 @@ public class GUIApp extends Application {
             File file = fileChooser.showOpenDialog(primaryStage);
             if (file != null) {
                 selectedFileLabel.setText(file.getName());
+                stepLabel.setVisible(false);
+                prevButton.setVisible(false);
+                nextButton.setVisible(false);
+                finalButton.setVisible(false);
+                movementBlock.setVisible(false);
+                exportButton.setVisible(false);
+                nodeVisitedLabel.setVisible(false);
+                execTimeLabel.setVisible(false);
                 try {
                     board[0] = InputParser.parse(file);
                     outputArea.setText("File loaded successfully.\n");
+                    statusLabel.setText("");
                     drawBoard(board[0]);
                 } catch (FileNotFoundException ex) {
+                    boardGrid.getChildren().clear();
+                    statusLabel.setVisible(true);
                     outputArea.setText("Failed to read the file: " + ex.getMessage());
                     statusLabel.setText("Failed to read the file: " + ex.getMessage());
+                    solveButton.setDisable(true);
+                } catch (IllegalArgumentException ex) {
+                    boardGrid.getChildren().clear();
+                    statusLabel.setVisible(true);
+                    outputArea.setText("Error: " + ex.getMessage());
+                    statusLabel.setText("Error: " + ex.getMessage());
+                    solveButton.setDisable(true);
                 }
             }
         });
@@ -220,10 +239,12 @@ public class GUIApp extends Application {
                 nodeVisitedLabel.setText("");
                 execTimeLabel.setText("");
                 stepLabel.setVisible(false);
+                movementBlock.setVisible(false);
                 prevButton.setVisible(false);
                 nextButton.setVisible(false);
                 finalButton.setVisible(false);
                 exportButton.setVisible(false);
+                statusLabel.setVisible(false);
                 return;
             }
 
@@ -233,6 +254,10 @@ public class GUIApp extends Application {
             nextButton.setVisible(true);
             finalButton.setVisible(true);
             exportButton.setVisible(true);
+            movementBlock.setVisible(true);
+            nodeVisitedLabel.setVisible(true);
+            execTimeLabel.setVisible(true);
+            statusLabel.setVisible(true);
 
             String mode = outputTypeComboBox.getValue();
             if (mode.equals("Pagination")) {
@@ -286,8 +311,14 @@ public class GUIApp extends Application {
             FileChooser chooser = new FileChooser();
             chooser.setTitle("Export Solution");
             chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
+            chooser.setInitialFileName("solution.txt"); 
+
             File file = chooser.showSaveDialog(primaryStage);
             if (file != null) {
+                if (!file.getName().toLowerCase().endsWith(".txt")) {
+                    file = new File(file.getParentFile(), file.getName() + ".txt");
+                }
+
                 try (PrintWriter writer = new PrintWriter(new FileWriter(file))) {
                     for (int i = 0; i < solution.size(); i++) {
                         Board current = solution.get(i);
@@ -308,15 +339,17 @@ public class GUIApp extends Application {
                         }
 
                         writer.println(current.toString());
-                        writer.println(); 
+                        writer.println();
                     }
 
                     writer.println("Nodes Visited: " + solver.getVisitedNodeCount());
                     writer.println("Execution Time: " + solver.getExecutionTime() + " ms");
 
                     outputArea.appendText("\nExported to " + file.getName());
+                    statusLabel.setText("Exported to " + file.getName());
                 } catch (Exception ex) {
                     outputArea.appendText("\nFailed to export: " + ex.getMessage());
+                    statusLabel.setText("Failed to export: " + ex.getMessage());
                 }
             }
         });

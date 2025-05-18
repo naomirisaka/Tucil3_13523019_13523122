@@ -10,13 +10,16 @@ import java.util.Set;
 
 import model.Board;
 
+// fails to parse input file w K on top/bottom properly
 public class InputParser {
 
     public static Board parse(File file) throws FileNotFoundException {
         Scanner scanner = new Scanner(file);
 
         int rows = 0, cols = 0;
+        int pieceAmt = 0;
 
+        // Baca baris konfigurasi ukuran papan
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine().trim();
             if (!line.isEmpty()) {
@@ -31,80 +34,138 @@ public class InputParser {
 
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine().trim();
-            if (!line.isEmpty()) break;
+            if (!line.isEmpty()) {
+                String[] parts = line.split("\\s+");
+                if (parts.length == 1) {
+                    pieceAmt = Integer.parseInt(parts[0]);
+                    break;
+                }
+            }
         }
 
         List<String> rawLines = new ArrayList<>();
+
         while (scanner.hasNextLine()) {
-            String line = scanner.nextLine().trim();
-            if (!line.isEmpty() && !line.matches("\\.*")) {
+            String line = scanner.nextLine().stripTrailing().trim();
+            if (!line.isEmpty()) {
                 rawLines.add(line);
             }
         }
-        scanner.close();
 
         int exitRow = -1, exitCol = -1;
-
-        if (rawLines.size() > rows && rawLines.get(0).length() >= cols) {
-            String top = rawLines.get(0);
-            for (int j = 0; j < cols; j++) {
-                if (top.charAt(j) == 'K') {
-                    exitRow = -1;
-                    exitCol = j;
-                    rawLines.remove(0);
-                    break;
-                }
+        if (!rawLines.isEmpty()) {
+            String top = rawLines.get(0).trim();
+            if (top.equals("K")) {
+                exitRow = -1;
+                exitCol = -1;
+                rawLines.remove(0);
             }
         }
 
-        if (rawLines.size() > rows && rawLines.get(rawLines.size() - 1).length() >= cols) {
+        if (!rawLines.isEmpty()) {
+            String bottom = rawLines.get(rawLines.size() - 1).trim();
+            if (bottom.equals("K")) {
+                exitRow = rows;
+                exitCol = -1;
+                rawLines.remove(rawLines.size() - 1);
+            }
+        }
+
+        if (!rawLines.isEmpty() && rawLines.get(0).length() >= cols) {
+            String top = rawLines.get(0);
+            boolean foundK = false;
+            for (int j = 0; j < cols; j++) {
+                if (top.charAt(j) == 'K') {
+                    if (!((j == 0 && top.length() > cols) || (j == top.length() - 1 && top.length() > cols))) {
+                        exitRow = -1;
+                        exitCol = j;
+                        rawLines.remove(0);
+                        foundK = true;
+                        break;
+                    }
+                }
+            }
+            if (foundK && rawLines.size() < rows) {
+                throw new IllegalArgumentException("Jumlah baris isi papan kurang dari konfigurasi setelah hapus baris K atas.");
+            }
+        }
+
+        if (!rawLines.isEmpty() && rawLines.get(rawLines.size() - 1).length() >= cols) {
             String bottom = rawLines.get(rawLines.size() - 1);
+            boolean foundK = false;
             for (int j = 0; j < cols; j++) {
                 if (bottom.charAt(j) == 'K') {
-                    exitRow = rows;
-                    exitCol = j;
-                    rawLines.remove(rawLines.size() - 1);
-                    break;
+                    if (!((j == 0 && bottom.length() > cols) || (j == bottom.length() - 1 && bottom.length() > cols))) {
+                        exitRow = rows;
+                        exitCol = j;
+                        rawLines.remove(rawLines.size() - 1);
+                        foundK = true;
+                        break;
+                    }
                 }
+            }
+            if (foundK && rawLines.size() < rows) {
+                throw new IllegalArgumentException("Jumlah baris isi papan kurang dari konfigurasi setelah hapus baris K bawah.");
             }
         }
 
         if (rawLines.size() != rows) {
-            throw new IllegalArgumentException("Jumlah baris tidak sesuai dengan ukuran papan.");
+            throw new IllegalArgumentException("Jumlah baris isi papan (" + rawLines.size() + ") tidak sesuai dengan konfigurasi rows = " + rows);
+        }
+
+        for (int i = 0; i < rows; i++) {
+            String line = rawLines.get(i);
+
+            if (line.length() < cols) {
+                throw new IllegalArgumentException("Baris ke-" + i + " memiliki panjang kurang dari " + cols);
+            }
+
+            if (line.length() > cols) {
+                if (line.charAt(0) == 'K') {
+                    exitRow = i;
+                    exitCol = -1; // K di pinggir kiri
+                    line = line.substring(1);
+                } else if (line.charAt(line.length() - 1) == 'K') {
+                    exitRow = i;
+                    exitCol = cols; // K di pinggir kanan
+                    line = line.substring(0, line.length() - 1);
+                } else {
+                    throw new IllegalArgumentException("Baris ke-" + i + " memiliki panjang lebih dari " + cols + " tanpa 'K' di pinggir.");
+                }
+
+                if (line.length() != cols) {
+                    throw new IllegalArgumentException("Setelah potong, baris ke-" + i + " panjangnya tidak sesuai cols.");
+                }
+                rawLines.set(i, line);
+            }
+
+            for (int j = 0; j < cols; j++) {
+                if (line.charAt(j) == 'K') {
+                    throw new IllegalArgumentException("Karakter 'K' hanya boleh di pinggir papan (baris " + i + ", kolom " + j + ").");
+                }
+            }
         }
 
         char[][] grid = new char[rows][cols];
         for (int i = 0; i < rows; i++) {
             String line = rawLines.get(i);
-            if (line.length() > cols) {
-                if (line.charAt(0) == 'K') {
-                    exitRow = i;
-                    exitCol = -1;
-                    line = line.substring(1); // Remove K from left
-                } else if (line.charAt(line.length() - 1) == 'K') {
-                    exitRow = i;
-                    exitCol = cols;
-                    line = line.substring(0, line.length() - 1); // Remove K from right
-                }
-            }
-
             for (int j = 0; j < cols; j++) {
-                if (j < line.length()) {
-                    char c = line.charAt(j);
-                    if (c == 'K') {
-                        exitRow = i;
-                        exitCol = j;
-                        grid[i][j] = '.'; // Kosongkan jika 'K'
-                    } else {
-                        grid[i][j] = c;
-                    }
+                char c = line.charAt(j);
+                if (c == 'K') {
+                    exitRow = i;
+                    exitCol = j;
+                    grid[i][j] = '.';
                 } else {
-                    grid[i][j] = '.'; // default jika kolom kurang
+                    grid[i][j] = c;
                 }
             }
         }
 
         validateGrid(grid);
+
+        if (exitRow == -1 && exitCol == -1) {
+            throw new IllegalArgumentException("Posisi pintu keluar 'K' tidak ditemukan atau tidak valid.");
+        }
 
         return new Board(grid, rows, cols, exitRow, exitCol);
     }
@@ -112,11 +173,26 @@ public class InputParser {
     private static void validateGrid(char[][] grid) {
         int rows = grid.length;
         int cols = grid[0].length;
+
         Set<Character> visited = new HashSet<>();
+        Set<Character> usedChars = new HashSet<>();
+        
+        boolean foundP = false;  
+
+        for (int i = 0; i < rows; i++) {
+            if (grid[i].length != cols) {
+                throw new IllegalArgumentException("Baris ke-" + i + " memiliki panjang " + grid[i].length + ", seharusnya " + cols + ".");
+            }
+        }
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 char c = grid[i][j];
+
+                if (c != '.' && !Character.isUpperCase(c)) {
+                    throw new IllegalArgumentException("Grid hanya boleh berisi huruf kapital dan '.' (karakter '" + c + "' tidak valid di baris " + i + ", kolom " + j + ").");
+                }
+
                 if (c == '.' || visited.contains(c)) continue;
 
                 visited.add(c);
@@ -131,6 +207,15 @@ public class InputParser {
                     }
                 }
 
+                if (usedChars.contains(c)) {
+                    throw new IllegalArgumentException("Karakter '" + c + "' digunakan oleh lebih dari satu kendaraan.");
+                }
+                usedChars.add(c);
+
+                if (positions.size() < 2 || positions.size() > 3) {
+                    throw new IllegalArgumentException("Kendaraan '" + c + "' berukuran " + positions.size() + " sel. Panjang kendaraan harus 2 atau 3 sel.");
+                }
+
                 boolean sameRow = true, sameCol = true;
                 int baseRow = positions.get(0)[0];
                 int baseCol = positions.get(0)[1];
@@ -138,11 +223,21 @@ public class InputParser {
                     if (pos[0] != baseRow) sameRow = false;
                     if (pos[1] != baseCol) sameCol = false;
                 }
-
                 if (!sameRow && !sameCol) {
                     throw new IllegalArgumentException("Kendaraan '" + c + "' tidak lurus (mungkin diagonal).");
                 }
+
+                if (c == 'P') {
+                    if (foundP) {
+                        throw new IllegalArgumentException("Harus ada tepat satu kendaraan 'P'. Ditemukan lebih dari satu.");
+                    }
+                    foundP = true;
+                }
             }
+        }
+
+        if (!foundP) {
+            throw new IllegalArgumentException("Harus ada tepat satu kendaraan 'P'. Tidak ditemukan.");
         }
     }
 }

@@ -1,0 +1,8 @@
+6 6
+9
+K..BPP.
+ AAB...
+ ..BCD.
+ GHJCD.
+ GHJ...
+ LLJMM.

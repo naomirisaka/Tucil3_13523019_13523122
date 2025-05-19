@@ -1,12 +1,9 @@
 package model;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Scanner;
 
 public class Board {
     public char[][] grid;
@@ -181,36 +178,6 @@ public class Board {
         return neighbors;
     }
 
-    private boolean isClearPath(char vehicle, boolean horizontal, boolean negativeDirection) {
-        List<int[]> positions = new ArrayList<>();
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (grid[i][j] == vehicle) {
-                    positions.add(new int[]{i, j});
-                }
-            }
-        }
-
-        if (positions.isEmpty()) return false;
-
-        positions.sort((a, b) -> horizontal ? Integer.compare(a[1], b[1]) : Integer.compare(a[0], b[0]));
-
-        int dRow = horizontal ? 0 : (negativeDirection ? -1 : 1);
-        int dCol = horizontal ? (negativeDirection ? -1 : 1) : 0;
-
-        int[] edge = negativeDirection ? positions.get(0) : positions.get(positions.size() - 1);
-        int nextRow = edge[0] + dRow;
-        int nextCol = edge[1] + dCol;
-
-        while (nextRow >= 0 && nextRow < rows && nextCol >= 0 && nextCol < cols) {
-            if (grid[nextRow][nextCol] != '.') return true; // tidak boleh bergerak lebih jauh
-            nextRow += dRow;
-            nextCol += dCol;
-        }
-
-        return true;
-    }
-
     public boolean canExitDirectly() {
         List<int[]> positions = new ArrayList<>();
         for (int i = 0; i < rows; i++) {
@@ -317,24 +284,8 @@ public class Board {
 
         if (newRow < 0 || newRow >= rows || newCol < 0 || newCol >= cols) return false;
 
-        // 🚫 Cek apakah cell target kosong
+        // Cek apakah cell target kosong
         return grid[newRow][newCol] == '.';
-    }
-
-    private boolean isValidMove(char vehicle, int newRow, int newCol, boolean horizontal, boolean isNegativeDirection) {
-        if (horizontal) {
-            if (newCol < 0) return vehicle == 'K' && exitRow == newRow && exitCol == -1;
-            if (newCol >= cols) return vehicle == 'K' && exitRow == newRow && exitCol == cols;
-            if (newRow < 0 || newRow >= rows) return false;
-            char target = grid[newRow][newCol];
-            return target == '.' || (vehicle == 'K' && target == 'K');
-        } else {
-            if (newRow < 0) return vehicle == 'K' && exitRow == -1 && exitCol == newCol;
-            if (newRow >= rows) return vehicle == 'K' && exitRow == rows && exitCol == newCol;
-            if (newCol < 0 || newCol >= cols) return false;
-            char target = grid[newRow][newCol];
-            return target == '.' || (vehicle == 'K' && target == 'K');
-        }
     }
 
     private List<Board> getAllMovesForVehicle(char vehicle, boolean horizontal) {
@@ -451,113 +402,5 @@ public class Board {
     @Override
     public int hashCode() {
         return Arrays.deepHashCode(grid);
-    }
-
-    public static Board parse(File file) throws FileNotFoundException {
-        Scanner scanner = new Scanner(file);
-
-        int rows = 0, cols = 0;
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine().trim();
-            if (!line.isEmpty()) {
-                String[] parts = line.split("\\s+");
-                if (parts.length == 2) {
-                    rows = Integer.parseInt(parts[0]);
-                    cols = Integer.parseInt(parts[1]);
-                    break;
-                }
-            }
-        }
-
-        int nonPrimaryPiecesCount = 0;
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine().trim();
-            if (!line.isEmpty()) {
-                nonPrimaryPiecesCount = Integer.parseInt(line);
-                break;
-            }
-        }
-
-        char[][] grid = new char[rows][cols];
-        int exitRow = -1, exitCol = -1;
-
-        int currentRow = 0;
-        while (scanner.hasNextLine() && currentRow < rows) {
-            String line = scanner.nextLine();
-            if (line == null) break;
-            line = line.trim();
-            if (line.isEmpty()) continue;
-
-            for (int j = 0; j < cols; j++) {
-                if (j < line.length()) {
-                    grid[currentRow][j] = line.charAt(j);
-                } else {
-                    grid[currentRow][j] = '.';
-                }
-            }
-
-            if (line.length() > cols) {
-                for (int j = cols; j < line.length(); j++) {
-                    if (line.charAt(j) == 'K') {
-                        exitRow = currentRow;
-                        exitCol = j;
-                        break;
-                    }
-                }
-            }
-
-            currentRow++;
-        }
-
-        scanner.close();
-
-        if (currentRow != rows) {
-            throw new IllegalArgumentException("Jumlah baris konfigurasi tidak sesuai ukuran papan.");
-        }
-
-        if ((exitRow == 0 || exitRow == rows - 1) && (exitCol == 0 || exitCol == cols - 1)) {
-            throw new IllegalArgumentException("Pintu keluar 'K' tidak boleh berada di sudut luar papan.");
-        }
-        if (exitRow >= 0 && exitRow < rows && exitCol >= 0 && exitCol < cols) {
-            throw new IllegalArgumentException("Pintu keluar 'K' tidak boleh berada di dalam grid.");
-        }
-
-        java.util.List<int[]> pPositions = new java.util.ArrayList<>();
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (grid[i][j] == 'P') {
-                    pPositions.add(new int[]{i, j});
-                }
-            }
-        }
-
-        if (pPositions.isEmpty()) {
-            throw new IllegalArgumentException("Primary piece 'P' tidak ditemukan.");
-        }
-
-        boolean sameRow = pPositions.stream().allMatch(p -> p[0] == pPositions.get(0)[0]);
-        boolean sameCol = pPositions.stream().allMatch(p -> p[1] == pPositions.get(0)[1]);
-
-        if (!sameRow && !sameCol) {
-            throw new IllegalArgumentException("Semua posisi 'P' harus berada di satu baris atau satu kolom.");
-        }
-
-        if (exitRow != -1 && exitCol != -1) {
-            boolean valid = false;
-            if (exitCol == -1 || exitCol == cols) {
-                for (int[] p : pPositions) {
-                    if (p[0] == exitRow) valid = true;
-                }
-            } else if (exitRow == -1 || exitRow == rows) {
-                for (int[] p : pPositions) {
-                    if (p[1] == exitCol) valid = true;
-                }
-            }
-            if (!valid) {
-                throw new IllegalArgumentException("Primary piece 'P' harus berada satu baris atau kolom dengan posisi keluar 'K'.");
-            }
-        }
-
-        return new Board(grid, rows, cols, exitRow, exitCol);
     }
 }

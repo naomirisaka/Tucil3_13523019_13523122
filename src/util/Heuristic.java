@@ -1,14 +1,16 @@
 package util;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import model.Board;
 
 public class Heuristic {
 
-    // First Heuristic: Blocking Cars Count
-    public static int blockingCarsCount(Board board) {
+    // First Heuristic: Blocking Pieces Count
+    public static int blockingPiecesCount(Board board) {
         // Cari posisi 'P'
         int pRow = -1, pCol = -1;
         outer:
@@ -52,8 +54,8 @@ public class Heuristic {
         return count;
     }
 
-    // Second Heuristic: Blocking Cars with Movability Penalty
-    public static int blockingCarsWithMovability(Board board) {
+    // Second Heuristic: Blocking Pieces with Movability Penalty
+    public static int blockingPiecesWithMovability(Board board) {
         int[] pRowCol = findFrontOfP(board);
         if (pRowCol == null) return Integer.MAX_VALUE;
         int row = pRowCol[0];
@@ -63,18 +65,71 @@ public class Heuristic {
         int score = 0;
         Set<Character> seen = new HashSet<>();
 
+        boolean isPrimaryHorizontal = isPrimaryPieceHorizontal(board);
+
         for (int j = col + 1; j < board.getCols() && j <= exitCol; j++) {
             char block = board.grid[row][j];
             if (block != '.' && block != 'K' && block != 'P' && !seen.contains(block)) {
                 seen.add(block);
                 score += 1;
-                if (!canMoveVertically(board, block)) {
-                    score += 2;
+
+                if (isPrimaryHorizontal) {
+                    if (!canMoveVertically(board, block)) {
+                        score += 2;
+                    }
+                } else {
+                    if (!canMoveHorizontally(board, block)) {
+                        score += 2;
+                    }
                 }
             }
         }
 
         return score;
+    }
+
+    private static boolean canMoveVertically(Board board, char vehicle) {
+        for (int i = 0; i < board.getRows(); i++) {
+            for (int j = 0; j < board.getCols(); j++) {
+                if (board.grid[i][j] == vehicle) {
+                    boolean up = i > 0 && board.grid[i - 1][j] == '.';
+                    boolean down = i < board.getRows() - 1 && board.grid[i + 1][j] == '.';
+                    return up || down;
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean canMoveHorizontally(Board board, char vehicle) {
+        for (int i = 0; i < board.getRows(); i++) {
+            for (int j = 0; j < board.getCols(); j++) {
+                if (board.grid[i][j] == vehicle) {
+                    boolean left = j > 0 && board.grid[i][j - 1] == '.';
+                    boolean right = j < board.getCols() - 1 && board.grid[i][j + 1] == '.';
+                    return left || right;
+                }
+            }
+        }
+        return false;
+    }
+
+    // Determine if primary piece P is horizontal
+    private static boolean isPrimaryPieceHorizontal(Board board) {
+        List<int[]> positions = new ArrayList<>();
+        for (int i = 0; i < board.getRows(); i++) {
+            for (int j = 0; j < board.getCols(); j++) {
+                if (board.grid[i][j] == 'P') {
+                    positions.add(new int[]{i, j});
+                }
+            }
+        }
+        if (positions.size() < 2) return false; // fallback
+        int firstRow = positions.get(0)[0];
+        for (int[] pos : positions) {
+            if (pos[0] != firstRow) return false;
+        }
+        return true;
     }
 
     // Third Heuristic: Distance to Exit (Horizontal or Vertical)
@@ -122,26 +177,13 @@ public class Heuristic {
         return (lastCol != -1) ? new int[]{pRow, lastCol} : null;
     }
 
-    private static boolean canMoveVertically(Board board, char vehicle) {
-        for (int i = 0; i < board.getRows(); i++) {
-            for (int j = 0; j < board.getCols(); j++) {
-                if (board.grid[i][j] == vehicle) {
-                    boolean up = i > 0 && board.grid[i - 1][j] == '.';
-                    boolean down = i < board.getRows() - 1 && board.grid[i + 1][j] == '.';
-                    return up || down;
-                }
-            }
-        }
-        return false;
-    }
-
     // Dispatcher
     public static int evaluate(Board board, String name) {
         return switch (name) {
-            case "Blocking Heuristic" -> blockingCarsCount(board);
-            case "Mobility Heuristic" -> blockingCarsWithMovability(board);
-            case "Distance-to-Exit Heuristic" -> distanceToExit(board);
-            default -> blockingCarsCount(board);
+            case "Blocking Pieces" -> blockingPiecesCount(board);
+            case "Blocking Pieces With Movability" -> blockingPiecesWithMovability(board);
+            case "Distance-to-Exit" -> distanceToExit(board);
+            default -> blockingPiecesCount(board);
         };
     }
 }

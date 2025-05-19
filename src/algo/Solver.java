@@ -23,4 +23,11 @@ public interface Solver {
      * @return waktu dalam ms
      */
     long getExecutionTime();
+
+    /**
+     * Mengembalikan jumlah langkah yang diperlukan untuk menyelesaikan puzzle
+     * @return jumlah langkah
+     */
+    List<Board> reconstructPath(Board goal);
+
 }

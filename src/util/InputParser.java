@@ -15,9 +15,9 @@ public class InputParser {
 
     public static Board parse(File file) throws FileNotFoundException {
         Scanner scanner = new Scanner(file);
-
         int rows = 0, cols = 0;
         int pieceAmt = 0;
+        int kCount = 0;          // <-- hitung semua kemunculan 'K'
 
         // Baca baris konfigurasi ukuran papan
         while (scanner.hasNextLine()) {
@@ -43,6 +43,13 @@ public class InputParser {
             }
         }
 
+        // Nilai A, B, dan N harus > 0
+        if (rows <= 0 || cols <= 0 || pieceAmt <= 0) {
+            throw new IllegalArgumentException(
+                "A, B, and N must be greater than 0 (A=" + rows +
+                ", B=" + cols + ", N=" + pieceAmt + ")");
+        }
+
         List<String> rawLines = new ArrayList<>();
 
         while (scanner.hasNextLine()) {
@@ -56,18 +63,26 @@ public class InputParser {
         if (!rawLines.isEmpty()) {
             String top = rawLines.get(0);
             if (top.trim().equals("K")) {
+                kCount++;
                 exitRow = -1;
                 exitCol = top.length() - 1;
                 rawLines.remove(0);
+                if (exitCol > cols - 1 || exitCol <= 0) {
+                    throw new IllegalArgumentException("The position of 'K' is invalid.");
+                }
             }
-        }
+        }   
 
         if (!rawLines.isEmpty()) {
             String bottom = rawLines.get(rawLines.size() - 1);
             if (bottom.trim().equals("K")) {
+                kCount++;
                 exitRow = rows;
                 exitCol = bottom.length() - 1;
                 rawLines.remove(rawLines.size() - 1);
+                if (exitCol > cols - 1 || exitCol <= 0) {
+                    throw new IllegalArgumentException("The position of 'K' is invalid.");
+                }                    
             }
         }
 
@@ -79,6 +94,7 @@ public class InputParser {
                     if (!((j == 0 && top.length() > cols) || (j == top.length() - 1 && top.length() > cols))) {
                         exitRow = j;
                         exitCol = -1; // K di pinggir kiri
+                        kCount++;
                         rawLines.remove(0);
                         foundK = true;
                         break;
@@ -86,7 +102,7 @@ public class InputParser {
                 }
             }
             if (foundK && rawLines.size() < rows) {
-                throw new IllegalArgumentException("Jumlah baris isi papan kurang dari konfigurasi setelah hapus baris K atas.");
+                throw new IllegalArgumentException("Number of board rows is less than configuration after removing top K row.");
             }
         }
 
@@ -105,12 +121,12 @@ public class InputParser {
                 }
             }
             if (foundK && rawLines.size() < rows) {
-                throw new IllegalArgumentException("Jumlah baris isi papan kurang dari konfigurasi setelah hapus baris K bawah.");
+                throw new IllegalArgumentException("Number of board rows is less than configuration after removing bottom K row.");
             }
         }
 
         if (rawLines.size() != rows) {
-            throw new IllegalArgumentException("Jumlah baris isi papan (" + rawLines.size() + ") tidak sesuai dengan konfigurasi rows = " + rows);
+            throw new IllegalArgumentException("Number of board rows (" + rawLines.size() + ") does not match the configured rows = " + rows);
         }
 
         for (int i = 0; i < rows; i++) {
@@ -122,31 +138,33 @@ public class InputParser {
             String line = rawLines.get(i);
 
             if (line.length() < cols) {
-                throw new IllegalArgumentException("Baris ke-" + i + " memiliki panjang kurang dari " + cols);
+                throw new IllegalArgumentException("Row " + i + " has length less than " + cols);
             }
 
             if (line.length() > cols) {
                 if (line.charAt(0) == 'K') {
+                    kCount++;
                     exitRow = i;
                     exitCol = -1; // K di pinggir kiri
                     line = line.substring(1);
                 } else if (line.charAt(line.length() - 1) == 'K') {
+                    kCount++;
                     exitRow = i;
                     exitCol = cols; // K di pinggir kanan
                     line = line.substring(0, line.length() - 1);
                 } else {
-                    throw new IllegalArgumentException("Baris ke-" + i + " memiliki panjang lebih dari " + cols + " tanpa 'K' di pinggir.");
+                    throw new IllegalArgumentException("Row " + i + " has length more than " + cols + " without 'K' on the edge.");
                 }
 
                 if (line.length() != cols) {
-                    throw new IllegalArgumentException("Setelah potong, baris ke-" + i + " panjangnya tidak sesuai cols.");
+                    throw new IllegalArgumentException("After trimming, row " + i + " length does not match the specified column count.");
                 }
                 rawLines.set(i, line);
             }
 
             for (int j = 0; j < cols; j++) {
                 if (line.charAt(j) == 'K') {
-                    throw new IllegalArgumentException("Karakter 'K' hanya boleh di pinggir papan (baris " + i + ", kolom " + j + ").");
+                    throw new IllegalArgumentException("Character 'K' must only appear at the edge of the board (row " + i + ", column " + j + ").");
                 }
             }
         }
@@ -159,7 +177,7 @@ public class InputParser {
                 if (c == 'K') {
                     exitRow = i;
                     exitCol = j;
-                    grid[i][j] = '.';
+                    grid[i][j] = '.';   // treat as empty
                 } else {
                     grid[i][j] = c;
                 }
@@ -168,10 +186,30 @@ public class InputParser {
 
         validateGrid(grid);
 
-        if (exitRow == -1 && exitCol == -1) {
-            throw new IllegalArgumentException("Posisi pintu keluar 'K' tidak ditemukan atau tidak valid.");
+        // Validasi jumlah kendaraan based on N (tanpa P & K)
+        Set<Character> pieces = new HashSet<>();
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                char c = grid[i][j];
+                if (c != '.' && c != 'P') {   // abaikan P dan titik
+                    pieces.add(c);
+                }
+            }
+        }
+        if (pieces.size() != pieceAmt) {
+            throw new IllegalArgumentException(
+                "Number of different vehicles (" + pieces.size() +
+                ") does not match N = " + pieceAmt);
         }
 
+        if (kCount != 1) {
+            throw new IllegalArgumentException(
+                "There must be exactly one 'K' character. Found " + kCount + ".");
+        }
+
+        if (exitRow == -1 && exitCol == -1) {
+            throw new IllegalArgumentException("Exit position 'K' not found or invalid.");
+        }
         return new Board(grid, rows, cols, exitRow, exitCol);
     }
 
@@ -186,7 +224,7 @@ public class InputParser {
 
         for (int i = 0; i < rows; i++) {
             if (grid[i].length != cols) {
-                throw new IllegalArgumentException("Baris ke-" + i + " memiliki panjang " + grid[i].length + ", seharusnya " + cols + ".");
+                throw new IllegalArgumentException("Row " + i + " has length " + grid[i].length + ", expected " + cols + ".");
             }
         }
 
@@ -195,7 +233,7 @@ public class InputParser {
                 char c = grid[i][j];
 
                 if (c != '.' && !Character.isUpperCase(c)) {
-                    throw new IllegalArgumentException("Grid hanya boleh berisi huruf kapital dan '.' (karakter '" + c + "' tidak valid di baris " + i + ", kolom " + j + ").");
+                    throw new IllegalArgumentException("Grid may only contain uppercase letters and '.' (invalid character '" + c + "' at row " + i + ", column " + j + ").");
                 }
 
                 if (c == '.' || visited.contains(c)) continue;
@@ -213,12 +251,12 @@ public class InputParser {
                 }
 
                 if (usedChars.contains(c)) {
-                    throw new IllegalArgumentException("Karakter '" + c + "' digunakan oleh lebih dari satu kendaraan.");
+                    throw new IllegalArgumentException("Character '" + c + "' is used by more than one vehicle.");
                 }
                 usedChars.add(c);
 
                 if (positions.size() < 2 || positions.size() > 3) {
-                    throw new IllegalArgumentException("Kendaraan '" + c + "' berukuran " + positions.size() + " sel. Panjang kendaraan harus 2 atau 3 sel.");
+                    throw new IllegalArgumentException("Vehicle '" + c + "' has size " + positions.size() + " cells. Vehicle length must be 2 or 3 cells.");
                 }
 
                 boolean sameRow = true, sameCol = true;
@@ -229,12 +267,27 @@ public class InputParser {
                     if (pos[1] != baseCol) sameCol = false;
                 }
                 if (!sameRow && !sameCol) {
-                    throw new IllegalArgumentException("Kendaraan '" + c + "' tidak lurus (mungkin diagonal).");
+                    throw new IllegalArgumentException("Vehicle '" + c + "' is not aligned straight (possibly diagonal).");
+                }
+
+                // setelah pengecekan sameRow / sameCol:
+                if (sameRow) {
+                    int min = positions.stream().mapToInt(p -> p[1]).min().getAsInt();
+                    int max = positions.stream().mapToInt(p -> p[1]).max().getAsInt();
+                    if (max - min + 1 != positions.size()) {
+                        throw new IllegalArgumentException("Vehicle '" + c + "' is not contiguous (has a gap).");
+                    }
+                } else { // sameCol
+                    int min = positions.stream().mapToInt(p -> p[0]).min().getAsInt();
+                    int max = positions.stream().mapToInt(p -> p[0]).max().getAsInt();
+                    if (max - min + 1 != positions.size()) {
+                        throw new IllegalArgumentException("Vehicle '" + c + "' is not contiguous (has a gap).");
+                    }
                 }
 
                 if (c == 'P') {
                     if (foundP) {
-                        throw new IllegalArgumentException("Harus ada tepat satu kendaraan 'P'. Ditemukan lebih dari satu.");
+                        throw new IllegalArgumentException("There must be exactly one primary piece. None found.");
                     }
                     foundP = true;
                 }
@@ -242,7 +295,7 @@ public class InputParser {
         }
 
         if (!foundP) {
-            throw new IllegalArgumentException("Harus ada tepat satu kendaraan 'P'. Tidak ditemukan.");
+            throw new IllegalArgumentException("There must be exactly one primary piece. None was found.");
         }
     }
 }

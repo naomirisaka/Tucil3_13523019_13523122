@@ -94,7 +94,7 @@ public class GUIApp extends Application {
 
         Label heuristicLabel = new Label("Heuristic:");
         ComboBox<String> heuristicComboBox = new ComboBox<>();
-        heuristicComboBox.getItems().addAll("Blocking Pieces", "Blocking Pieces With Movability", "Distance-to-Exit");
+        heuristicComboBox.getItems().addAll("Blocking Pieces Count", "Blocking Pieces With Movability", "Distance-to-Exit");
         heuristicComboBox.setValue("Blocking Heuristic");
 
         Label depthLabel = new Label("IDS Max Depth:");

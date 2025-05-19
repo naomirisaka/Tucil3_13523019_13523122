@@ -1,12 +1,9 @@
 package model;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Scanner;
 
 public class Board {
     public char[][] grid;
@@ -19,16 +16,40 @@ public class Board {
     private int exitCol = -1;
 
     // Constructor lengkap
-    public Board(char[][] grid, int rows, int cols, int exitRow, int exitCol) {
-        this.rows = rows;
-        this.cols = cols;
-        this.grid = new char[rows][cols];
-        for (int i = 0; i < rows; i++) {
-            this.grid[i] = Arrays.copyOf(grid[i], cols);
-        }
-        this.exitRow = exitRow;
-        this.exitCol = exitCol;
+    // public Board(char[][] grid, int rows, int cols, int exitRow, int exitCol) {
+    //     this.rows = rows;
+    //     this.cols = cols;
+    //     this.grid = new char[rows][cols];
+    //     for (int i = 0; i < rows; i++) {
+    //         this.grid[i] = Arrays.copyOf(grid[i], cols);
+    //     }
+    //     this.exitRow = exitRow;
+    //     this.exitCol = exitCol;
+    // }
+public Board(char[][] grid, int rows, int cols, int exitRow, int exitCol) {
+    this.rows = rows;
+    this.cols = cols;
+    this.grid = new char[rows][cols];
+    for (int i = 0; i < rows; i++) {
+        this.grid[i] = Arrays.copyOf(grid[i], cols);
     }
+    this.exitRow = exitRow;
+    this.exitCol = exitCol;
+
+    // Print debug di terminal
+    System.out.println(">>> Konstruktor Board dipanggil:");
+    System.out.println("Exit position: (" + exitRow + ", " + exitCol + ")");
+    System.out.println("Ukuran papan: " + rows + "x" + cols);
+    System.out.println("Grid:");
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            System.out.print(this.grid[i][j]);
+        }
+        System.out.println();
+    }
+    System.out.println("=======================");
+}
+
 
     // Constructor tanpa exit (default exit pos = -1)
     public Board(char[][] grid) {
@@ -407,111 +428,111 @@ public class Board {
         return Arrays.deepHashCode(grid);
     }
 
-    public static Board parse(File file) throws FileNotFoundException {
-        Scanner scanner = new Scanner(file);
+    // public static Board parse(File file) throws FileNotFoundException {
+    //     Scanner scanner = new Scanner(file);
 
-        int rows = 0, cols = 0;
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine().trim();
-            if (!line.isEmpty()) {
-                String[] parts = line.split("\\s+");
-                if (parts.length == 2) {
-                    rows = Integer.parseInt(parts[0]);
-                    cols = Integer.parseInt(parts[1]);
-                    break;
-                }
-            }
-        }
+    //     int rows = 0, cols = 0;
+    //     while (scanner.hasNextLine()) {
+    //         String line = scanner.nextLine().trim();
+    //         if (!line.isEmpty()) {
+    //             String[] parts = line.split("\\s+");
+    //             if (parts.length == 2) {
+    //                 rows = Integer.parseInt(parts[0]);
+    //                 cols = Integer.parseInt(parts[1]);
+    //                 break;
+    //             }
+    //         }
+    //     }
 
-        int nonPrimaryPiecesCount = 0;
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine().trim();
-            if (!line.isEmpty()) {
-                nonPrimaryPiecesCount = Integer.parseInt(line);
-                break;
-            }
-        }
+    //     int nonPrimaryPiecesCount = 0;
+    //     while (scanner.hasNextLine()) {
+    //         String line = scanner.nextLine().trim();
+    //         if (!line.isEmpty()) {
+    //             nonPrimaryPiecesCount = Integer.parseInt(line);
+    //             break;
+    //         }
+    //     }
 
-        char[][] grid = new char[rows][cols];
-        int exitRow = -1, exitCol = -1;
+    //     char[][] grid = new char[rows][cols];
+    //     int exitRow = -1, exitCol = -1;
 
-        int currentRow = 0;
-        while (scanner.hasNextLine() && currentRow < rows) {
-            String line = scanner.nextLine();
-            if (line == null) break;
-            line = line.trim();
-            if (line.isEmpty()) continue;
+    //     int currentRow = 0;
+    //     while (scanner.hasNextLine() && currentRow < rows) {
+    //         String line = scanner.nextLine();
+    //         if (line == null) break;
+    //         line = line.trim();
+    //         if (line.isEmpty()) continue;
 
-            for (int j = 0; j < cols; j++) {
-                if (j < line.length()) {
-                    grid[currentRow][j] = line.charAt(j);
-                } else {
-                    grid[currentRow][j] = '.';
-                }
-            }
+    //         for (int j = 0; j < cols; j++) {
+    //             if (j < line.length()) {
+    //                 grid[currentRow][j] = line.charAt(j);
+    //             } else {
+    //                 grid[currentRow][j] = '.';
+    //             }
+    //         }
 
-            if (line.length() > cols) {
-                for (int j = cols; j < line.length(); j++) {
-                    if (line.charAt(j) == 'K') {
-                        exitRow = currentRow;
-                        exitCol = j;
-                        break;
-                    }
-                }
-            }
+    //         if (line.length() > cols) {
+    //             for (int j = cols; j < line.length(); j++) {
+    //                 if (line.charAt(j) == 'K') {
+    //                     exitRow = currentRow;
+    //                     exitCol = j;
+    //                     break;
+    //                 }
+    //             }
+    //         }
 
-            currentRow++;
-        }
+    //         currentRow++;
+    //     }
 
-        scanner.close();
+    //     scanner.close();
 
-        if (currentRow != rows) {
-            throw new IllegalArgumentException("Jumlah baris konfigurasi tidak sesuai ukuran papan.");
-        }
+    //     if (currentRow != rows) {
+    //         throw new IllegalArgumentException("Jumlah baris konfigurasi tidak sesuai ukuran papan.");
+    //     }
 
-        if ((exitRow == 0 || exitRow == rows - 1) && (exitCol == 0 || exitCol == cols - 1)) {
-            throw new IllegalArgumentException("Pintu keluar 'K' tidak boleh berada di sudut luar papan.");
-        }
-        if (exitRow >= 0 && exitRow < rows && exitCol >= 0 && exitCol < cols) {
-            throw new IllegalArgumentException("Pintu keluar 'K' tidak boleh berada di dalam grid.");
-        }
+    //     if ((exitRow == 0 || exitRow == rows - 1) && (exitCol == 0 || exitCol == cols - 1)) {
+    //         throw new IllegalArgumentException("Pintu keluar 'K' tidak boleh berada di sudut luar papan.");
+    //     }
+    //     if (exitRow >= 0 && exitRow < rows && exitCol >= 0 && exitCol < cols) {
+    //         throw new IllegalArgumentException("Pintu keluar 'K' tidak boleh berada di dalam grid.");
+    //     }
 
-        java.util.List<int[]> pPositions = new java.util.ArrayList<>();
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (grid[i][j] == 'P') {
-                    pPositions.add(new int[]{i, j});
-                }
-            }
-        }
+    //     java.util.List<int[]> pPositions = new java.util.ArrayList<>();
+    //     for (int i = 0; i < rows; i++) {
+    //         for (int j = 0; j < cols; j++) {
+    //             if (grid[i][j] == 'P') {
+    //                 pPositions.add(new int[]{i, j});
+    //             }
+    //         }
+    //     }
 
-        if (pPositions.isEmpty()) {
-            throw new IllegalArgumentException("Primary piece 'P' tidak ditemukan.");
-        }
+    //     if (pPositions.isEmpty()) {
+    //         throw new IllegalArgumentException("Primary piece 'P' tidak ditemukan.");
+    //     }
 
-        boolean sameRow = pPositions.stream().allMatch(p -> p[0] == pPositions.get(0)[0]);
-        boolean sameCol = pPositions.stream().allMatch(p -> p[1] == pPositions.get(0)[1]);
+    //     boolean sameRow = pPositions.stream().allMatch(p -> p[0] == pPositions.get(0)[0]);
+    //     boolean sameCol = pPositions.stream().allMatch(p -> p[1] == pPositions.get(0)[1]);
 
-        if (!sameRow && !sameCol) {
-            throw new IllegalArgumentException("Semua posisi 'P' harus berada di satu baris atau satu kolom.");
-        }
+    //     if (!sameRow && !sameCol) {
+    //         throw new IllegalArgumentException("Semua posisi 'P' harus berada di satu baris atau satu kolom.");
+    //     }
 
-        if (exitRow != -1 && exitCol != -1) {
-            boolean valid = false;
-            if (exitCol == -1 || exitCol == cols) {
-                for (int[] p : pPositions) {
-                    if (p[0] == exitRow) valid = true;
-                }
-            } else if (exitRow == -1 || exitRow == rows) {
-                for (int[] p : pPositions) {
-                    if (p[1] == exitCol) valid = true;
-                }
-            }
-            if (!valid) {
-                throw new IllegalArgumentException("Primary piece 'P' harus berada satu baris atau kolom dengan posisi keluar 'K'.");
-            }
-        }
+    //     if (exitRow != -1 && exitCol != -1) {
+    //         boolean valid = false;
+    //         if (exitCol == -1 || exitCol == cols) {
+    //             for (int[] p : pPositions) {
+    //                 if (p[0] == exitRow) valid = true;
+    //             }
+    //         } else if (exitRow == -1 || exitRow == rows) {
+    //             for (int[] p : pPositions) {
+    //                 if (p[1] == exitCol) valid = true;
+    //             }
+    //         }
+    //         if (!valid) {
+    //             throw new IllegalArgumentException("Primary piece 'P' harus berada satu baris atau kolom dengan posisi keluar 'K'.");
+    //         }
+    //     }
 
-        return new Board(grid, rows, cols, exitRow, exitCol);
-    }
+    //     return new Board(grid, rows, cols, exitRow, exitCol);
+    // }
 }

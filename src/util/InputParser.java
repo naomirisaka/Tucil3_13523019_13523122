@@ -15,7 +15,7 @@ public class InputParser {
 
         int rows = 0, cols = 0;
 
-        // 1. Baca ukuran papan
+        /* 1. Baca ukuran papan */
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine().trim();
             if (!line.isEmpty()) {
@@ -28,7 +28,7 @@ public class InputParser {
             }
         }
 
-        // 2. Baca jumlah kendaraan non-primer
+        /* 2. Baca jumlah kendaraan non‑primer */
         int nonPrimaryPiecesCount = 0;
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine().trim();
@@ -38,102 +38,101 @@ public class InputParser {
             }
         }
 
-        // 3. Baca semua baris konfigurasi, TANPA trim
+        /* 3. Ambil semua baris konfigurasi TANPA trim */
         List<String> rawLines = new ArrayList<>();
         while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            if (!line.trim().isEmpty()) {
-                rawLines.add(line); // biarkan spasi dan 'K' tetap
+            String line = scanner.nextLine();          // spasi dipertahankan
+            if (!line.replace(" ", "").isEmpty()) {    // abaikan baris kosong murni
+                rawLines.add(line);
             }
         }
-
         scanner.close();
 
-        int exitRow = -1, exitCol = -1;
+        /* --- DETEKSI EXIT --- */
+        int exitRow = -2;          // sentinel: belum ditemukan
+        int exitCol = -2;
 
-        // 4. Cek 'K' di atas
-        if (rawLines.size() > rows) {
-            String topLine = rawLines.get(0);
-            if (topLine.length() == cols) {
-                for (int j = 0; j < cols; j++) {
-                    if (topLine.charAt(j) == 'K') {
-                        exitRow = -1;
-                        exitCol = j;
-                        break;
-                    }
-                }
-            }
+        // Cek 'K' di atas grid
+        if (rawLines.size() > rows && rawLines.get(0).indexOf('K') != -1) {
+            exitRow = -1;
+            exitCol = rawLines.get(0).indexOf('K');
         }
 
-        // 5. Cek 'K' di bawah
-        if (exitRow == -1 && rawLines.size() > rows) {
-            String bottomLine = rawLines.get(rawLines.size() - 1);
-            if (bottomLine.length() == cols) {
-                for (int j = 0; j < cols; j++) {
-                    if (bottomLine.charAt(j) == 'K') {
-                        exitRow = rows;
-                        exitCol = j;
-                        break;
-                    }
-                }
-            }
+        // Cek 'K' di bawah grid
+        if (exitRow == -2 && rawLines.size() > rows &&
+            rawLines.get(rawLines.size() - 1).indexOf('K') != -1) {
+
+            exitRow = rows;
+            exitCol = rawLines.get(rawLines.size() - 1).indexOf('K');
         }
 
-        // 6. Validasi jumlah baris grid
-        List<String> gridLines = rawLines.subList(rawLines.size() - rows, rawLines.size());
-        if (gridLines.size() != rows) {
-            throw new IllegalArgumentException("Jumlah baris konfigurasi tidak sesuai ukuran papan.");
-        }
+        /* Grid lines = baris terakhir sebanyak rows */
+        List<String> gridLines = new ArrayList<>(
+                rawLines.subList(rawLines.size() - rows, rawLines.size())
+        );
 
-        // 7. Parsing isi grid dan deteksi K di kiri/kanan
-        char[][] grid = new char[rows][cols];
-        for (int i = 0; i < rows; i++) {
-            String line = gridLines.get(i);
-
-            // Deteksi 'K' di kolom kiri
-            if (line.length() > 0 && line.charAt(0) == 'K') {
+        // Cari 'K' di sisi kiri / kanan grid
+        for (int i = 0; i < rows && exitRow == -2; i++) {
+            String ln = gridLines.get(i);
+            if (ln.length() > 0 && ln.charAt(0) == 'K') {        // kiri
                 exitRow = i;
                 exitCol = -1;
-            }
-
-            // Deteksi 'K' di kolom kanan
-            if (line.length() > cols && line.charAt(cols) == 'K') {
+            } else if (ln.length() > cols && ln.charAt(cols) == 'K') { // kanan
                 exitRow = i;
                 exitCol = cols;
             }
+        }
 
-            // Isi grid dari line
+        if (exitRow == -2) {   // masih sentinel
+            throw new IllegalArgumentException("K (exit) tidak ditemukan.");
+        }
+
+        /* ---------- NORMALISASI BARIS GRID ---------- */
+        for (int i = 0; i < rows; i++) {
+            String ln = gridLines.get(i);
+
+            if (exitCol == -1) {                 // exit di kolom kiri
+                // Buang kolom 0 (bisa 'K' di baris exit, atau spasi di baris lain)
+                if (ln.length() > 0) ln = ln.substring(1);
+            } else if (exitCol == cols) {        // exit di kolom kanan
+                // Buang kolom (cols)  (bisa 'K' atau spasi)
+                if (ln.length() > cols) ln = ln.substring(0, cols);
+            }
+
+            // Pastikan panjang tepat cols, tambal dengan '.' bila kurang
+            if (ln.length() < cols) {
+                ln = ln + ".".repeat(cols - ln.length());
+            }
+            gridLines.set(i, ln);
+        }
+
+        /* ---------- KONVERSI KE ARRAY CHAR ---------- */
+        char[][] grid = new char[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            String ln = gridLines.get(i);
             for (int j = 0; j < cols; j++) {
-                if (j < line.length()) {
-                    grid[i][j] = line.charAt(j) == 'K' ? '.' : line.charAt(j);
-                } else {
-                    grid[i][j] = '.';
-                }
+                char c = ln.charAt(j);
+                grid[i][j] = (c == 'K' || c == ' ') ? '.' : c;   // seharusnya sudah tak ada K lagi
             }
         }
 
-        // 8. Print hasil parsing ke terminal
+        /* ---------- DEBUG PRINT ---------- */
         System.out.println("=== Hasil Parsing ===");
-        System.out.println("Ukuran papan: " + rows + "x" + cols);
+        System.out.printf("Ukuran papan: %dx%d%n", rows, cols);
         System.out.println("Jumlah kendaraan non-primer: " + nonPrimaryPiecesCount);
-        if (exitRow == -1) {
+        if (exitRow == -1)
             System.out.println("Exit: baris di atas, kolom " + exitCol);
-        } else if (exitRow == rows) {
+        else if (exitRow == rows)
             System.out.println("Exit: baris di bawah, kolom " + exitCol);
-        } else if (exitCol == -1) {
+        else if (exitCol == -1)
             System.out.println("Exit: kolom kiri, baris " + exitRow);
-        } else if (exitCol == cols) {
+        else if (exitCol == cols)
             System.out.println("Exit: kolom kanan, baris " + exitRow);
-        } else if (exitRow != -1 && exitCol != -1) {
-            System.out.println("Exit: di dalam grid, baris " + exitRow + ", kolom " + exitCol);
-        } else {
-            System.out.println("Exit: tidak ditemukan");
-        }
+        else
+            System.out.printf("Exit: di dalam grid, baris %d, kolom %d%n", exitRow, exitCol);
 
         System.out.println("Grid:");
-        for (int i = 0; i < rows; i++) {
-            System.out.println(gridLines.get(i));
-        }
+        gridLines.forEach(System.out::println);
         System.out.println("=====================");
 
         return new Board(grid, rows, cols, exitRow, exitCol);

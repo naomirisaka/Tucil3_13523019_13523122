@@ -479,49 +479,95 @@ public class GUIApp extends Application {
         }
     }
 
-    private void displayStep(int step) {
-        Board current = solution.get(step);
-        drawBoard(current);
+private void displayStep(int step) {
+    Board current = solution.get(step);
+    drawBoard(current);
 
-        StringBuilder sb = new StringBuilder();
-        sb.append("Step ").append(step).append(":\n");
+    StringBuilder sb = new StringBuilder();
+    StringBuilder boardText = new StringBuilder();
 
-        // Default label text
-        String movementText = "Initial state";
+    sb.append("Step ").append(step).append(":\n");
 
-        // Tampilkan info gerakan jika bukan board awal
-        if (step > 0) {
-            String move = current.move;
-            if (move != null) {
-                if (move.equals("Primary piece P exits through K")) {
-                    sb.append("Primary piece P exited the board through the exit!\n");
-                    movementText = "Primary piece P exited the board!";
-                } else {
-                    String[] parts = move.split(" ");
-                    if (parts.length == 3) {
-                        char piece = parts[1].charAt(0);
-                        String direction = parts[2];
+    String movementText = "Initial state";
+    boolean isGoal = current.isGoal();
 
-                        sb.append("Block ").append(piece).append(" moved ").append(direction).append("\n");
-                        movementText = "Block " + piece + " moved " + direction;
-                    }
+    if (step > 0) {
+        String move = current.move;
+        if (move != null) {
+            if (move.equals("Primary piece P exits through K")) {
+                sb.append("Primary piece P exited the board through the exit!\n");
+                movementText = "Primary piece P exited the board!";
+                isGoal = true;
+            } else {
+                String[] parts = move.split(" ");
+                if (parts.length == 3) {
+                    char piece = parts[1].charAt(0);
+                    String direction = parts[2];
+                    sb.append("Block ").append(piece).append(" moved ").append(direction).append("\n");
+                    movementText = "Block " + piece + " moved " + direction;
                 }
             }
-        } else {
-            sb.append("Initial state\n");
         }
-
-        sb.append(current.toString());
-
-        outputArea.setText(sb.toString());
-        movementBlock.setText(movementText);
-        stepLabel.setText("Step " + step + " / " + (solution.size() - 1));
-        nodeVisitedLabel.setText("Nodes Visited: " + solver.getVisitedNodeCount());
-        execTimeLabel.setText("Execution Time: " + solver.getExecutionTime() + " ms");
+    } else {
+        sb.append("Initial state\n");
     }
 
+    int exitRow = current.getExitRow();
+    int exitCol = current.getExitCol();
+    char[][] grid = current.getGrid();
+    int rows = current.getRows();
+    int cols = current.getCols();
 
-    public static void main(String[] args) {
+    // ATAS
+    if (exitRow == -1) {
+        for (int j = 0; j < cols; j++) {
+            boardText.append(j == exitCol ? "K" : " ");
+        }
+        boardText.append("\n");
+    }
+
+    for (int i = 0; i < rows; i++) {
+        // KIRI
+        if (exitCol == -1 && i == exitRow) {
+            boardText.append("K");
+        } else if (exitCol == -1) {
+            boardText.append(" ");
+        }
+
+        for (int j = 0; j < cols; j++) {
+            char c = grid[i][j];
+            if (isGoal && c == 'P') {
+                boardText.append('.');
+            } else {
+                boardText.append(c);
+            }
+        }
+
+        // KANAN
+        if (exitCol == cols && i == exitRow) {
+            boardText.append("K");
+        }
+
+        boardText.append("\n");
+    }
+
+    // BAWAH
+    if (exitRow == rows) {
+        for (int j = 0; j < cols; j++) {
+            boardText.append(j == exitCol ? "K" : " ");
+        }
+        boardText.append("\n");
+    }
+
+    sb.append(boardText.toString());
+
+    outputArea.setText(sb.toString());
+    movementBlock.setText(movementText);
+    stepLabel.setText("Step " + step + " / " + (solution.size() - 1));
+    nodeVisitedLabel.setText("Nodes Visited: " + solver.getVisitedNodeCount());
+    execTimeLabel.setText("Execution Time: " + solver.getExecutionTime() + " ms");
+}
+   public static void main(String[] args) {
         launch(args);
     }
 

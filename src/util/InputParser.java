@@ -46,7 +46,7 @@ public class InputParser {
         List<String> rawLines = new ArrayList<>();
 
         while (scanner.hasNextLine()) {
-            String line = scanner.nextLine().stripTrailing().trim();
+            String line = scanner.nextLine().stripTrailing();
             if (!line.isEmpty()) {
                 rawLines.add(line);
             }
@@ -54,19 +54,19 @@ public class InputParser {
 
         int exitRow = -1, exitCol = -1;
         if (!rawLines.isEmpty()) {
-            String top = rawLines.get(0).trim();
-            if (top.equals("K")) {
+            String top = rawLines.get(0);
+            if (top.trim().equals("K")) {
                 exitRow = -1;
-                exitCol = -1;
+                exitCol = top.length() - 1;
                 rawLines.remove(0);
             }
         }
 
         if (!rawLines.isEmpty()) {
-            String bottom = rawLines.get(rawLines.size() - 1).trim();
-            if (bottom.equals("K")) {
+            String bottom = rawLines.get(rawLines.size() - 1);
+            if (bottom.trim().equals("K")) {
                 exitRow = rows;
-                exitCol = -1;
+                exitCol = bottom.length() - 1;
                 rawLines.remove(rawLines.size() - 1);
             }
         }
@@ -77,8 +77,8 @@ public class InputParser {
             for (int j = 0; j < cols; j++) {
                 if (top.charAt(j) == 'K') {
                     if (!((j == 0 && top.length() > cols) || (j == top.length() - 1 && top.length() > cols))) {
-                        exitRow = -1;
-                        exitCol = j;
+                        exitRow = j;
+                        exitCol = -1; // K di pinggir kiri
                         rawLines.remove(0);
                         foundK = true;
                         break;
@@ -111,6 +111,11 @@ public class InputParser {
 
         if (rawLines.size() != rows) {
             throw new IllegalArgumentException("Jumlah baris isi papan (" + rawLines.size() + ") tidak sesuai dengan konfigurasi rows = " + rows);
+        }
+
+        for (int i = 0; i < rows; i++) {
+            String line = rawLines.get(i);
+            rawLines.set(i, line.trim());
         }
 
         for (int i = 0; i < rows; i++) {

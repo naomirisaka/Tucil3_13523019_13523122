@@ -174,6 +174,7 @@ public class GUIApp extends Application {
                     outputArea.setText("File loaded successfully.\n");
                     statusLabel.setText("");
                     drawBoard(board[0]);
+                    solveButton.setDisable(false);
                 } catch (FileNotFoundException ex) {
                     boardGrid.getChildren().clear();
                     statusLabel.setVisible(true);

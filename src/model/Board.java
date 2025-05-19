@@ -181,36 +181,6 @@ public class Board {
         return neighbors;
     }
 
-    private boolean isClearPath(char vehicle, boolean horizontal, boolean negativeDirection) {
-        List<int[]> positions = new ArrayList<>();
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (grid[i][j] == vehicle) {
-                    positions.add(new int[]{i, j});
-                }
-            }
-        }
-
-        if (positions.isEmpty()) return false;
-
-        positions.sort((a, b) -> horizontal ? Integer.compare(a[1], b[1]) : Integer.compare(a[0], b[0]));
-
-        int dRow = horizontal ? 0 : (negativeDirection ? -1 : 1);
-        int dCol = horizontal ? (negativeDirection ? -1 : 1) : 0;
-
-        int[] edge = negativeDirection ? positions.get(0) : positions.get(positions.size() - 1);
-        int nextRow = edge[0] + dRow;
-        int nextCol = edge[1] + dCol;
-
-        while (nextRow >= 0 && nextRow < rows && nextCol >= 0 && nextCol < cols) {
-            if (grid[nextRow][nextCol] != '.') return true; // tidak boleh bergerak lebih jauh
-            nextRow += dRow;
-            nextCol += dCol;
-        }
-
-        return true;
-    }
-
     public boolean canExitDirectly() {
         List<int[]> positions = new ArrayList<>();
         for (int i = 0; i < rows; i++) {
@@ -319,22 +289,6 @@ public class Board {
 
         // 🚫 Cek apakah cell target kosong
         return grid[newRow][newCol] == '.';
-    }
-
-    private boolean isValidMove(char vehicle, int newRow, int newCol, boolean horizontal, boolean isNegativeDirection) {
-        if (horizontal) {
-            if (newCol < 0) return vehicle == 'K' && exitRow == newRow && exitCol == -1;
-            if (newCol >= cols) return vehicle == 'K' && exitRow == newRow && exitCol == cols;
-            if (newRow < 0 || newRow >= rows) return false;
-            char target = grid[newRow][newCol];
-            return target == '.' || (vehicle == 'K' && target == 'K');
-        } else {
-            if (newRow < 0) return vehicle == 'K' && exitRow == -1 && exitCol == newCol;
-            if (newRow >= rows) return vehicle == 'K' && exitRow == rows && exitCol == newCol;
-            if (newCol < 0 || newCol >= cols) return false;
-            char target = grid[newRow][newCol];
-            return target == '.' || (vehicle == 'K' && target == 'K');
-        }
     }
 
     private List<Board> getAllMovesForVehicle(char vehicle, boolean horizontal) {

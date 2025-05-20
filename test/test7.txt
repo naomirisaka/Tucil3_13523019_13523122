@@ -1,0 +1,12 @@
+10 9
+20
+.........
+.VTOOQQ..
+.VT.ABBCD
+..T.AE.CD
+..UPPEFGHK
+..UIIIFGH
+..UJ..LLH
+...JMM.NN
+...RRRSSS
+.........

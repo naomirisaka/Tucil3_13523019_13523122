@@ -1,0 +1,11 @@
+model\Board.class
+algo\AStarSolver.class
+algo\GreedyBFSSolver.class
+algo\IDSSolver.class
+util\Heuristic.class
+gui\GUIApp.class
+algo\UCSSolver.class
+util\InputParser.class
+algo\AStarSolver$Node.class
+algo\Solver.class
+algo\UCSSolver$Node.class

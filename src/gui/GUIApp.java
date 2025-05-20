@@ -274,6 +274,7 @@ public class GUIApp extends Application {
             nodeVisitedLabel.setVisible(true);
             execTimeLabel.setVisible(true);
             statusLabel.setVisible(true);
+            statusLabel.setText("");
 
             String mode = outputTypeComboBox.getValue();
             if (mode.equals("Pagination")) {

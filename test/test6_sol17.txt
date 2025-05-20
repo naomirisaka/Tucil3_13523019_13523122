@@ -1,0 +1,1072 @@
+Initial state
+Step 0:
+A..N.E
+ABBN.E
+A.PPF.K
+QQQ.FH
+..J.FH
+IIJLL.
+
+
+Step 1:
+Block P moved left
+A..N.E
+ABBN.E
+APP.F.K
+QQQ.FH
+..J.FH
+IIJLL.
+
+
+Step 2:
+Block Q moved right
+A..N.E
+ABBN.E
+APP.F.K
+.QQQFH
+..J.FH
+IIJLL.
+
+
+Step 3:
+Block P moved right
+A..N.E
+ABBN.E
+A.PPF.K
+.QQQFH
+..J.FH
+IIJLL.
+
+
+Step 4:
+Block A moved down
+...N.E
+.BBN.E
+A.PPF.K
+AQQQFH
+A.J.FH
+IIJLL.
+
+
+Step 5:
+Block P moved left
+...N.E
+.BBN.E
+APP.F.K
+AQQQFH
+A.J.FH
+IIJLL.
+
+
+Step 6:
+Block B moved left
+...N.E
+BB.N.E
+APP.F.K
+AQQQFH
+A.J.FH
+IIJLL.
+
+
+Step 7:
+Block P moved right
+...N.E
+BB.N.E
+A.PPF.K
+AQQQFH
+A.J.FH
+IIJLL.
+
+
+Step 8:
+Block E moved down
+...N..
+BB.N.E
+A.PPFEK
+AQQQFH
+A.J.FH
+IIJLL.
+
+
+Step 9:
+Block P moved left
+...N..
+BB.N.E
+APP.FEK
+AQQQFH
+A.J.FH
+IIJLL.
+
+
+Step 10:
+Block B moved right
+...N..
+.BBN.E
+APP.FEK
+AQQQFH
+A.J.FH
+IIJLL.
+
+
+Step 11:
+Block P moved right
+...N..
+.BBN.E
+A.PPFEK
+AQQQFH
+A.J.FH
+IIJLL.
+
+
+Step 12:
+Block A moved up
+A..N..
+ABBN.E
+A.PPFEK
+.QQQFH
+..J.FH
+IIJLL.
+
+
+Step 13:
+Block P moved left
+A..N..
+ABBN.E
+APP.FEK
+.QQQFH
+..J.FH
+IIJLL.
+
+
+Step 14:
+Block Q moved left
+A..N..
+ABBN.E
+APP.FEK
+QQQ.FH
+..J.FH
+IIJLL.
+
+
+Step 15:
+Block P moved right
+A..N..
+ABBN.E
+A.PPFEK
+QQQ.FH
+..J.FH
+IIJLL.
+
+
+Step 16:
+Block F moved up
+A..NF.
+ABBNFE
+A.PPFEK
+QQQ..H
+..J..H
+IIJLL.
+
+
+Step 17:
+Block P moved left
+A..NF.
+ABBNFE
+APP.FEK
+QQQ..H
+..J..H
+IIJLL.
+
+
+Step 18:
+Block Q moved right
+A..NF.
+ABBNFE
+APP.FEK
+..QQQH
+..J..H
+IIJLL.
+
+
+Step 19:
+Block P moved right
+A..NF.
+ABBNFE
+A.PPFEK
+..QQQH
+..J..H
+IIJLL.
+
+
+Step 20:
+Block A moved down
+...NF.
+.BBNFE
+A.PPFEK
+A.QQQH
+A.J..H
+IIJLL.
+
+
+Step 21:
+Block P moved left
+...NF.
+.BBNFE
+APP.FEK
+A.QQQH
+A.J..H
+IIJLL.
+
+
+Step 22:
+Block Q moved left
+...NF.
+.BBNFE
+APP.FEK
+AQQQ.H
+A.J..H
+IIJLL.
+
+
+Step 23:
+Block P moved right
+...NF.
+.BBNFE
+A.PPFEK
+AQQQ.H
+A.J..H
+IIJLL.
+
+
+Step 24:
+Block A moved up
+A..NF.
+ABBNFE
+A.PPFEK
+.QQQ.H
+..J..H
+IIJLL.
+
+
+Step 25:
+Block P moved left
+A..NF.
+ABBNFE
+APP.FEK
+.QQQ.H
+..J..H
+IIJLL.
+
+
+Step 26:
+Block E moved up
+A..NFE
+ABBNFE
+APP.F.K
+.QQQ.H
+..J..H
+IIJLL.
+
+
+Step 27:
+Block P moved right
+A..NFE
+ABBNFE
+A.PPF.K
+.QQQ.H
+..J..H
+IIJLL.
+
+
+Step 28:
+Block A moved down
+...NFE
+.BBNFE
+A.PPF.K
+AQQQ.H
+A.J..H
+IIJLL.
+
+
+Step 29:
+Block P moved left
+...NFE
+.BBNFE
+APP.F.K
+AQQQ.H
+A.J..H
+IIJLL.
+
+
+Step 30:
+Block Q moved right
+...NFE
+.BBNFE
+APP.F.K
+A.QQQH
+A.J..H
+IIJLL.
+
+
+Step 31:
+Block P moved right
+...NFE
+.BBNFE
+A.PPF.K
+A.QQQH
+A.J..H
+IIJLL.
+
+
+Step 32:
+Block A moved up
+A..NFE
+ABBNFE
+A.PPF.K
+..QQQH
+..J..H
+IIJLL.
+
+
+Step 33:
+Block P moved left
+A..NFE
+ABBNFE
+APP.F.K
+..QQQH
+..J..H
+IIJLL.
+
+
+Step 34:
+Block Q moved left
+A..NFE
+ABBNFE
+APP.F.K
+QQQ..H
+..J..H
+IIJLL.
+
+
+Step 35:
+Block P moved right
+A..NFE
+ABBNFE
+A.PPF.K
+QQQ..H
+..J..H
+IIJLL.
+
+
+Step 36:
+Block H moved up
+A..NFE
+ABBNFE
+A.PPFHK
+QQQ..H
+..J...
+IIJLL.
+
+
+Step 37:
+Block P moved left
+A..NFE
+ABBNFE
+APP.FHK
+QQQ..H
+..J...
+IIJLL.
+
+
+Step 38:
+Block Q moved right
+A..NFE
+ABBNFE
+APP.FHK
+..QQQH
+..J...
+IIJLL.
+
+
+Step 39:
+Block P moved right
+A..NFE
+ABBNFE
+A.PPFHK
+..QQQH
+..J...
+IIJLL.
+
+
+Step 40:
+Block A moved down
+...NFE
+.BBNFE
+A.PPFHK
+A.QQQH
+A.J...
+IIJLL.
+
+
+Step 41:
+Block P moved left
+...NFE
+.BBNFE
+APP.FHK
+A.QQQH
+A.J...
+IIJLL.
+
+
+Step 42:
+Block Q moved left
+...NFE
+.BBNFE
+APP.FHK
+AQQQ.H
+A.J...
+IIJLL.
+
+
+Step 43:
+Block P moved right
+...NFE
+.BBNFE
+A.PPFHK
+AQQQ.H
+A.J...
+IIJLL.
+
+
+Step 44:
+Block A moved up
+A..NFE
+ABBNFE
+A.PPFHK
+.QQQ.H
+..J...
+IIJLL.
+
+
+Step 45:
+Block P moved left
+A..NFE
+ABBNFE
+APP.FHK
+.QQQ.H
+..J...
+IIJLL.
+
+
+Step 46:
+Block F moved down
+A..N.E
+ABBN.E
+APP.FHK
+.QQQFH
+..J.F.
+IIJLL.
+
+
+Step 47:
+Block P moved right
+A..N.E
+ABBN.E
+A.PPFHK
+.QQQFH
+..J.F.
+IIJLL.
+
+
+Step 48:
+Block A moved down
+...N.E
+.BBN.E
+A.PPFHK
+AQQQFH
+A.J.F.
+IIJLL.
+
+
+Step 49:
+Block P moved left
+...N.E
+.BBN.E
+APP.FHK
+AQQQFH
+A.J.F.
+IIJLL.
+
+
+Step 50:
+Block B moved left
+...N.E
+BB.N.E
+APP.FHK
+AQQQFH
+A.J.F.
+IIJLL.
+
+
+Step 51:
+Block P moved right
+...N.E
+BB.N.E
+A.PPFHK
+AQQQFH
+A.J.F.
+IIJLL.
+
+
+Step 52:
+Block F moved up
+...NFE
+BB.NFE
+A.PPFHK
+AQQQ.H
+A.J...
+IIJLL.
+
+
+Step 53:
+Block P moved left
+...NFE
+BB.NFE
+APP.FHK
+AQQQ.H
+A.J...
+IIJLL.
+
+
+Step 54:
+Block Q moved right
+...NFE
+BB.NFE
+APP.FHK
+A.QQQH
+A.J...
+IIJLL.
+
+
+Step 55:
+Block P moved right
+...NFE
+BB.NFE
+A.PPFHK
+A.QQQH
+A.J...
+IIJLL.
+
+
+Step 56:
+Block H moved down
+...NFE
+BB.NFE
+A.PPF.K
+A.QQQ.
+A.J..H
+IIJLLH
+
+
+Step 57:
+Block P moved left
+...NFE
+BB.NFE
+APP.F.K
+A.QQQ.
+A.J..H
+IIJLLH
+
+
+Step 58:
+Block Q moved left
+...NFE
+BB.NFE
+APP.F.K
+AQQQ..
+A.J..H
+IIJLLH
+
+
+Step 59:
+Block P moved right
+...NFE
+BB.NFE
+A.PPF.K
+AQQQ..
+A.J..H
+IIJLLH
+
+
+Step 60:
+Block Q moved right
+...NFE
+BB.NFE
+A.PPF.K
+A..QQQ
+A.J..H
+IIJLLH
+
+
+Step 61:
+Block P moved left
+...NFE
+BB.NFE
+APP.F.K
+A..QQQ
+A.J..H
+IIJLLH
+
+
+Step 62:
+Block B moved right
+...NFE
+.BBNFE
+APP.F.K
+A..QQQ
+A.J..H
+IIJLLH
+
+
+Step 63:
+Block P moved right
+...NFE
+.BBNFE
+A.PPF.K
+A..QQQ
+A.J..H
+IIJLLH
+
+
+Step 64:
+Block A moved up
+A..NFE
+ABBNFE
+A.PPF.K
+...QQQ
+..J..H
+IIJLLH
+
+
+Step 65:
+Block J moved up
+A..NFE
+ABBNFE
+A.PPF.K
+..JQQQ
+..J..H
+II.LLH
+
+
+Step 66:
+Block I moved right
+A..NFE
+ABBNFE
+A.PPF.K
+..JQQQ
+..J..H
+.IILLH
+
+
+Step 67:
+Block E moved down
+A..NF.
+ABBNFE
+A.PPFEK
+..JQQQ
+..J..H
+.IILLH
+
+
+Step 68:
+Block A moved down
+...NF.
+.BBNFE
+..PPFEK
+A.JQQQ
+A.J..H
+AIILLH
+
+
+Step 69:
+Block P moved left
+...NF.
+.BBNFE
+PP..FEK
+A.JQQQ
+A.J..H
+AIILLH
+
+
+Step 70:
+Block J moved up
+...NF.
+.BBNFE
+PPJ.FEK
+A.JQQQ
+A....H
+AIILLH
+
+
+Step 71:
+Block B moved left
+...NF.
+BB.NFE
+PPJ.FEK
+A.JQQQ
+A....H
+AIILLH
+
+
+Step 72:
+Block J moved up
+..JNF.
+BBJNFE
+PP..FEK
+A..QQQ
+A....H
+AIILLH
+
+
+Step 73:
+Block P moved right
+..JNF.
+BBJNFE
+..PPFEK
+A..QQQ
+A....H
+AIILLH
+
+
+Step 74:
+Block A moved up
+..JNF.
+BBJNFE
+A.PPFEK
+A..QQQ
+A....H
+.IILLH
+
+
+Step 75:
+Block P moved left
+..JNF.
+BBJNFE
+APP.FEK
+A..QQQ
+A....H
+.IILLH
+
+
+Step 76:
+Block A moved down
+..JNF.
+BBJNFE
+.PP.FEK
+A..QQQ
+A....H
+AIILLH
+
+
+Step 77:
+Block Q moved left
+..JNF.
+BBJNFE
+.PP.FEK
+AQQQ..
+A....H
+AIILLH
+
+
+Step 78:
+Block P moved left
+..JNF.
+BBJNFE
+PP..FEK
+AQQQ..
+A....H
+AIILLH
+
+
+Step 79:
+Block P moved right
+..JNF.
+BBJNFE
+..PPFEK
+AQQQ..
+A....H
+AIILLH
+
+
+Step 80:
+Block A moved up
+..JNF.
+BBJNFE
+A.PPFEK
+AQQQ..
+A....H
+.IILLH
+
+
+Step 81:
+Block P moved left
+..JNF.
+BBJNFE
+APP.FEK
+AQQQ..
+A....H
+.IILLH
+
+
+Step 82:
+Block E moved up
+..JNFE
+BBJNFE
+APP.F.K
+AQQQ..
+A....H
+.IILLH
+
+
+Step 83:
+Block P moved right
+..JNFE
+BBJNFE
+A.PPF.K
+AQQQ..
+A....H
+.IILLH
+
+
+Step 84:
+Block A moved down
+..JNFE
+BBJNFE
+..PPF.K
+AQQQ..
+A....H
+AIILLH
+
+
+Step 85:
+Block P moved left
+..JNFE
+BBJNFE
+PP..F.K
+AQQQ..
+A....H
+AIILLH
+
+
+Step 86:
+Block E moved down
+..JNF.
+BBJNF.
+PP..FEK
+AQQQ.E
+A....H
+AIILLH
+
+
+Step 87:
+Block P moved right
+..JNF.
+BBJNF.
+..PPFEK
+AQQQ.E
+A....H
+AIILLH
+
+
+Step 88:
+Block A moved up
+..JNF.
+BBJNF.
+A.PPFEK
+AQQQ.E
+A....H
+.IILLH
+
+
+Step 89:
+Block P moved left
+..JNF.
+BBJNF.
+APP.FEK
+AQQQ.E
+A....H
+.IILLH
+
+
+Step 90:
+Block A moved down
+..JNF.
+BBJNF.
+.PP.FEK
+AQQQ.E
+A....H
+AIILLH
+
+
+Step 91:
+Block Q moved right
+..JNF.
+BBJNF.
+.PP.FEK
+A.QQQE
+A....H
+AIILLH
+
+
+Step 92:
+Block P moved left
+..JNF.
+BBJNF.
+PP..FEK
+A.QQQE
+A....H
+AIILLH
+
+
+Step 93:
+Block P moved right
+..JNF.
+BBJNF.
+..PPFEK
+A.QQQE
+A....H
+AIILLH
+
+
+Step 94:
+Block A moved up
+..JNF.
+BBJNF.
+A.PPFEK
+A.QQQE
+A....H
+.IILLH
+
+
+Step 95:
+Block P moved left
+..JNF.
+BBJNF.
+APP.FEK
+A.QQQE
+A....H
+.IILLH
+
+
+Step 96:
+Block E moved up
+..JNFE
+BBJNFE
+APP.F.K
+A.QQQ.
+A....H
+.IILLH
+
+
+Step 97:
+Block P moved right
+..JNFE
+BBJNFE
+A.PPF.K
+A.QQQ.
+A....H
+.IILLH
+
+
+Step 98:
+Block A moved down
+..JNFE
+BBJNFE
+..PPF.K
+A.QQQ.
+A....H
+AIILLH
+
+
+Step 99:
+Block Q moved right
+..JNFE
+BBJNFE
+..PPF.K
+A..QQQ
+A....H
+AIILLH
+
+
+Step 100:
+Block A moved up
+..JNFE
+BBJNFE
+A.PPF.K
+A..QQQ
+A....H
+.IILLH
+
+
+Step 101:
+Block I moved left
+..JNFE
+BBJNFE
+A.PPF.K
+A..QQQ
+A....H
+II.LLH
+
+
+Step 102:
+Block Q moved left
+..JNFE
+BBJNFE
+A.PPF.K
+AQQQ..
+A....H
+II.LLH
+
+
+Step 103:
+Block L moved left
+..JNFE
+BBJNFE
+A.PPF.K
+AQQQ..
+A....H
+IILL.H
+
+
+Step 104:
+Block F moved down
+..JN.E
+BBJN.E
+A.PP..K
+AQQQF.
+A...FH
+IILLFH
+
+
+Step 105:
+Block P moved left
+..JN.E
+BBJN.E
+APP...K
+AQQQF.
+A...FH
+IILLFH
+
+
+Step 106:
+Block P moved right
+..JN.E
+BBJN.E
+A.....K
+AQQQF.
+A...FH
+IILLFH
+
+
+Nodes Visited: 147982
+Execution Time: 2261 ms

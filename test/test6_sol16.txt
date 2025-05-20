@@ -1,0 +1,272 @@
+Initial state
+Step 0:
+A..N.E
+ABBN.E
+A.PPF.K
+QQQ.FH
+..J.FH
+IIJLL.
+
+
+Step 1:
+Block P moved left
+A..N.E
+ABBN.E
+APP.F.K
+QQQ.FH
+..J.FH
+IIJLL.
+
+
+Step 2:
+Block N moved down
+A....E
+ABB..E
+APP.F.K
+QQQNFH
+..JNFH
+IIJLL.
+
+
+Step 3:
+Block F moved up
+A...FE
+ABB.FE
+APP.F.K
+QQQN.H
+..JN.H
+IIJLL.
+
+
+Step 4:
+Block N moved up
+A..NFE
+ABBNFE
+APP.F.K
+QQQ..H
+..J..H
+IIJLL.
+
+
+Step 5:
+Block H moved down
+A..NFE
+ABBNFE
+APP.F.K
+QQQ...
+..J..H
+IIJLLH
+
+
+Step 6:
+Block Q moved right
+A..NFE
+ABBNFE
+APP.F.K
+...QQQ
+..J..H
+IIJLLH
+
+
+Step 7:
+Block J moved up
+A..NFE
+ABBNFE
+APP.F.K
+..JQQQ
+..J..H
+II.LLH
+
+
+Step 8:
+Block P moved right
+A..NFE
+ABBNFE
+A.PPF.K
+..JQQQ
+..J..H
+II.LLH
+
+
+Step 9:
+Block L moved left
+A..NFE
+ABBNFE
+A.PPF.K
+..JQQQ
+..J..H
+IILL.H
+
+
+Step 10:
+Block P moved left
+A..NFE
+ABBNFE
+APP.F.K
+..JQQQ
+..J..H
+IILL.H
+
+
+Step 11:
+Block A moved down
+...NFE
+.BBNFE
+APP.F.K
+A.JQQQ
+A.J..H
+IILL.H
+
+
+Step 12:
+Block B moved left
+...NFE
+BB.NFE
+APP.F.K
+A.JQQQ
+A.J..H
+IILL.H
+
+
+Step 13:
+Block L moved right
+...NFE
+BB.NFE
+APP.F.K
+A.JQQQ
+A.J..H
+II.LLH
+
+
+Step 14:
+Block P moved right
+...NFE
+BB.NFE
+A.PPF.K
+A.JQQQ
+A.J..H
+II.LLH
+
+
+Step 15:
+Block I moved right
+...NFE
+BB.NFE
+A.PPF.K
+A.JQQQ
+A.J..H
+.IILLH
+
+
+Step 16:
+Block A moved down
+...NFE
+BB.NFE
+..PPF.K
+A.JQQQ
+A.J..H
+AIILLH
+
+
+Step 17:
+Block P moved left
+...NFE
+BB.NFE
+PP..F.K
+A.JQQQ
+A.J..H
+AIILLH
+
+
+Step 18:
+Block J moved up
+..JNFE
+BBJNFE
+PP..F.K
+A..QQQ
+A....H
+AIILLH
+
+
+Step 19:
+Block Q moved left
+..JNFE
+BBJNFE
+PP..F.K
+AQQQ..
+A....H
+AIILLH
+
+
+Step 20:
+Block F moved down
+..JN.E
+BBJN.E
+PP..F.K
+AQQQF.
+A...FH
+AIILLH
+
+
+Step 21:
+Block P moved right
+..JN.E
+BBJN.E
+..PPF.K
+AQQQF.
+A...FH
+AIILLH
+
+
+Step 22:
+Block A moved up
+..JN.E
+BBJN.E
+A.PPF.K
+AQQQF.
+A...FH
+.IILLH
+
+
+Step 23:
+Block I moved left
+..JN.E
+BBJN.E
+A.PPF.K
+AQQQF.
+A...FH
+II.LLH
+
+
+Step 24:
+Block L moved left
+..JN.E
+BBJN.E
+A.PPF.K
+AQQQF.
+A...FH
+IILL.H
+
+
+Step 25:
+Block F moved down
+..JN.E
+BBJN.E
+A.PP..K
+AQQQF.
+A...FH
+IILLFH
+
+
+Step 26:
+Block P moved right
+..JN.E
+BBJN.E
+A.....K
+AQQQF.
+A...FH
+IILLFH
+
+
+Nodes Visited: 775
+Execution Time: 35 ms

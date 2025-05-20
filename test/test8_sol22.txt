@@ -1,0 +1,62 @@
+Initial state
+Step 0:
+HAAA..B
+H..C..B
+HPPC..BK
+.D.C.EE
+.D...F.
+.GGG.F.
+
+
+Step 1:
+Block G moved left
+HAAA..B
+H..C..B
+HPPC..BK
+.D.C.EE
+.D...F.
+GGG..F.
+
+
+Step 2:
+Block C moved down
+HAAA..B
+H.....B
+HPP...BK
+.D.C.EE
+.D.C.F.
+GGGC.F.
+
+
+Step 3:
+Block E moved left
+HAAA..B
+H.....B
+HPP...BK
+.D.CEE.
+.D.C.F.
+GGGC.F.
+
+
+Step 4:
+Block B moved down
+HAAA...
+H......
+HPP....K
+.D.CEEB
+.D.C.FB
+GGGC.FB
+
+
+Step 5:
+Block P moved right
+HAAA...
+H......
+H......K
+.D.CEEB
+.D.C.FB
+GGGC.FB
+
+
+Nodes Visited: 1731
+Execution Time: 182 ms

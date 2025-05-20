@@ -127,7 +127,6 @@ public class GUIApp extends Application {
         outputArea.setStyle("-fx-font-family: monospace;");
 
         HBox controls = new HBox(10, prevButton, stepLabel, nextButton, finalButton);
-        controls.setAlignment(Pos.CENTER);
 
         ToggleButton toggleLogButton = new ToggleButton("Show Logs");
         toggleLogButton.setOnAction(ev -> {

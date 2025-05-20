@@ -1,0 +1,794 @@
+Initial state
+Step 0:
+...NNN
+ABCCEE
+ABDDF.
+PP.GFHK
+IIIGFH
+..JLL.
+..JMM.
+
+
+Step 1:
+Block H moved down
+...NNN
+ABCCEE
+ABDDF.
+PP.GF.K
+IIIGF.
+..JLLH
+..JMMH
+
+
+Step 2:
+Block B moved up
+.B.NNN
+ABCCEE
+A.DDF.
+PP.GF.K
+IIIGF.
+..JLLH
+..JMMH
+
+
+Step 3:
+Block D moved left
+.B.NNN
+ABCCEE
+ADD.F.
+PP.GF.K
+IIIGF.
+..JLLH
+..JMMH
+
+
+Step 4:
+Block G moved up
+.B.NNN
+ABCCEE
+ADDGF.
+PP.GF.K
+III.F.
+..JLLH
+..JMMH
+
+
+Step 5:
+Block I moved right
+.B.NNN
+ABCCEE
+ADDGF.
+PP.GF.K
+.IIIF.
+..JLLH
+..JMMH
+
+
+Step 6:
+Block N moved left
+.BNNN.
+ABCCEE
+ADDGF.
+PP.GF.K
+.IIIF.
+..JLLH
+..JMMH
+
+
+Step 7:
+Block A moved up
+ABNNN.
+ABCCEE
+.DDGF.
+PP.GF.K
+.IIIF.
+..JLLH
+..JMMH
+
+
+Step 8:
+Block N moved right
+AB.NNN
+ABCCEE
+.DDGF.
+PP.GF.K
+.IIIF.
+..JLLH
+..JMMH
+
+
+Step 9:
+Block P moved right
+AB.NNN
+ABCCEE
+.DDGF.
+.PPGF.K
+.IIIF.
+..JLLH
+..JMMH
+
+
+Step 10:
+Block N moved left
+ABNNN.
+ABCCEE
+.DDGF.
+.PPGF.K
+.IIIF.
+..JLLH
+..JMMH
+
+
+Step 11:
+Block A moved down
+.BNNN.
+.BCCEE
+.DDGF.
+.PPGF.K
+.IIIF.
+A.JLLH
+A.JMMH
+
+
+Step 12:
+Block P moved left
+.BNNN.
+.BCCEE
+.DDGF.
+PP.GF.K
+.IIIF.
+A.JLLH
+A.JMMH
+
+
+Step 13:
+Block A moved up
+.BNNN.
+.BCCEE
+.DDGF.
+PP.GF.K
+AIIIF.
+A.JLLH
+..JMMH
+
+
+Step 14:
+Block D moved left
+.BNNN.
+.BCCEE
+DD.GF.
+PP.GF.K
+AIIIF.
+A.JLLH
+..JMMH
+
+
+Step 15:
+Block P moved right
+.BNNN.
+.BCCEE
+DD.GF.
+.PPGF.K
+AIIIF.
+A.JLLH
+..JMMH
+
+
+Step 16:
+Block H moved up
+.BNNN.
+.BCCEE
+DD.GFH
+.PPGFHK
+AIIIF.
+A.JLL.
+..JMM.
+
+
+Step 17:
+Block P moved left
+.BNNN.
+.BCCEE
+DD.GFH
+PP.GFHK
+AIIIF.
+A.JLL.
+..JMM.
+
+
+Step 18:
+Block N moved right
+.B.NNN
+.BCCEE
+DD.GFH
+PP.GFHK
+AIIIF.
+A.JLL.
+..JMM.
+
+
+Step 19:
+Block P moved right
+.B.NNN
+.BCCEE
+DD.GFH
+.PPGFHK
+AIIIF.
+A.JLL.
+..JMM.
+
+
+Step 20:
+Block M moved right
+.B.NNN
+.BCCEE
+DD.GFH
+.PPGFHK
+AIIIF.
+A.JLL.
+..J.MM
+
+
+Step 21:
+Block H moved down
+.B.NNN
+.BCCEE
+DD.GF.
+.PPGF.K
+AIIIFH
+A.JLLH
+..J.MM
+
+
+Step 22:
+Block A moved down
+.B.NNN
+.BCCEE
+DD.GF.
+.PPGF.K
+.IIIFH
+A.JLLH
+A.J.MM
+
+
+Step 23:
+Block P moved left
+.B.NNN
+.BCCEE
+DD.GF.
+PP.GF.K
+.IIIFH
+A.JLLH
+A.J.MM
+
+
+Step 24:
+Block N moved left
+.BNNN.
+.BCCEE
+DD.GF.
+PP.GF.K
+.IIIFH
+A.JLLH
+A.J.MM
+
+
+Step 25:
+Block M moved left
+.BNNN.
+.BCCEE
+DD.GF.
+PP.GF.K
+.IIIFH
+A.JLLH
+A.JMM.
+
+
+Step 26:
+Block P moved right
+.BNNN.
+.BCCEE
+DD.GF.
+.PPGF.K
+.IIIFH
+A.JLLH
+A.JMM.
+
+
+Step 27:
+Block D moved right
+.BNNN.
+.BCCEE
+.DDGF.
+.PPGF.K
+.IIIFH
+A.JLLH
+A.JMM.
+
+
+Step 28:
+Block A moved up
+ABNNN.
+ABCCEE
+.DDGF.
+.PPGF.K
+.IIIFH
+..JLLH
+..JMM.
+
+
+Step 29:
+Block P moved left
+ABNNN.
+ABCCEE
+.DDGF.
+PP.GF.K
+.IIIFH
+..JLLH
+..JMM.
+
+
+Step 30:
+Block M moved right
+ABNNN.
+ABCCEE
+.DDGF.
+PP.GF.K
+.IIIFH
+..JLLH
+..J.MM
+
+
+Step 31:
+Block N moved right
+AB.NNN
+ABCCEE
+.DDGF.
+PP.GF.K
+.IIIFH
+..JLLH
+..J.MM
+
+
+Step 32:
+Block P moved right
+AB.NNN
+ABCCEE
+.DDGF.
+.PPGF.K
+.IIIFH
+..JLLH
+..J.MM
+
+
+Step 33:
+Block M moved left
+AB.NNN
+ABCCEE
+.DDGF.
+.PPGF.K
+.IIIFH
+..JLLH
+..JMM.
+
+
+Step 34:
+Block H moved up
+AB.NNN
+ABCCEE
+.DDGFH
+.PPGFHK
+.IIIF.
+..JLL.
+..JMM.
+
+
+Step 35:
+Block P moved left
+AB.NNN
+ABCCEE
+.DDGFH
+PP.GFHK
+.IIIF.
+..JLL.
+..JMM.
+
+
+Step 36:
+Block N moved left
+ABNNN.
+ABCCEE
+.DDGFH
+PP.GFHK
+.IIIF.
+..JLL.
+..JMM.
+
+
+Step 37:
+Block P moved right
+ABNNN.
+ABCCEE
+.DDGFH
+.PPGFHK
+.IIIF.
+..JLL.
+..JMM.
+
+
+Step 38:
+Block M moved right
+ABNNN.
+ABCCEE
+.DDGFH
+.PPGFHK
+.IIIF.
+..JLL.
+..J.MM
+
+
+Step 39:
+Block P moved left
+ABNNN.
+ABCCEE
+.DDGFH
+PP.GFHK
+.IIIF.
+..JLL.
+..J.MM
+
+
+Step 40:
+Block N moved right
+AB.NNN
+ABCCEE
+.DDGFH
+PP.GFHK
+.IIIF.
+..JLL.
+..J.MM
+
+
+Step 41:
+Block P moved right
+AB.NNN
+ABCCEE
+.DDGFH
+.PPGFHK
+.IIIF.
+..JLL.
+..J.MM
+
+
+Step 42:
+Block I moved left
+AB.NNN
+ABCCEE
+.DDGFH
+.PPGFHK
+III.F.
+..JLL.
+..J.MM
+
+
+Step 43:
+Block P moved left
+AB.NNN
+ABCCEE
+.DDGFH
+PP.GFHK
+III.F.
+..JLL.
+..J.MM
+
+
+Step 44:
+Block N moved left
+ABNNN.
+ABCCEE
+.DDGFH
+PP.GFHK
+III.F.
+..JLL.
+..J.MM
+
+
+Step 45:
+Block P moved right
+ABNNN.
+ABCCEE
+.DDGFH
+.PPGFHK
+III.F.
+..JLL.
+..J.MM
+
+
+Step 46:
+Block M moved left
+ABNNN.
+ABCCEE
+.DDGFH
+.PPGFHK
+III.F.
+..JLL.
+..JMM.
+
+
+Step 47:
+Block P moved left
+ABNNN.
+ABCCEE
+.DDGFH
+PP.GFHK
+III.F.
+..JLL.
+..JMM.
+
+
+Step 48:
+Block N moved right
+AB.NNN
+ABCCEE
+.DDGFH
+PP.GFHK
+III.F.
+..JLL.
+..JMM.
+
+
+Step 49:
+Block P moved right
+AB.NNN
+ABCCEE
+.DDGFH
+.PPGFHK
+III.F.
+..JLL.
+..JMM.
+
+
+Step 50:
+Block L moved right
+AB.NNN
+ABCCEE
+.DDGFH
+.PPGFHK
+III.F.
+..J.LL
+..JMM.
+
+
+Step 51:
+Block G moved down
+AB.NNN
+ABCCEE
+.DD.FH
+.PP.FHK
+IIIGF.
+..JGLL
+..JMM.
+
+
+Step 52:
+Block D moved right
+AB.NNN
+ABCCEE
+..DDFH
+.PP.FHK
+IIIGF.
+..JGLL
+..JMM.
+
+
+Step 53:
+Block B moved down
+A..NNN
+ABCCEE
+.BDDFH
+.PP.FHK
+IIIGF.
+..JGLL
+..JMM.
+
+
+Step 54:
+Block M moved right
+A..NNN
+ABCCEE
+.BDDFH
+.PP.FHK
+IIIGF.
+..JGLL
+..J.MM
+
+
+Step 55:
+Block P moved right
+A..NNN
+ABCCEE
+.BDDFH
+..PPFHK
+IIIGF.
+..JGLL
+..J.MM
+
+
+Step 56:
+Block H moved down
+A..NNN
+ABCCEE
+.BDDF.
+..PPFHK
+IIIGFH
+..JGLL
+..J.MM
+
+
+Step 57:
+Block G moved down
+A..NNN
+ABCCEE
+.BDDF.
+..PPFHK
+III.FH
+..JGLL
+..JGMM
+
+
+Step 58:
+Block N moved left
+ANNN..
+ABCCEE
+.BDDF.
+..PPFHK
+III.FH
+..JGLL
+..JGMM
+
+
+Step 59:
+Block B moved down
+ANNN..
+A.CCEE
+.BDDF.
+.BPPFHK
+III.FH
+..JGLL
+..JGMM
+
+
+Step 60:
+Block I moved right
+ANNN..
+A.CCEE
+.BDDF.
+.BPPFHK
+.IIIFH
+..JGLL
+..JGMM
+
+
+Step 61:
+Block C moved left
+ANNN..
+ACC.EE
+.BDDF.
+.BPPFHK
+.IIIFH
+..JGLL
+..JGMM
+
+
+Step 62:
+Block N moved right
+A..NNN
+ACC.EE
+.BDDF.
+.BPPFHK
+.IIIFH
+..JGLL
+..JGMM
+
+
+Step 63:
+Block E moved left
+A..NNN
+ACCEE.
+.BDDF.
+.BPPFHK
+.IIIFH
+..JGLL
+..JGMM
+
+
+Step 64:
+Block H moved up
+A..NNN
+ACCEEH
+.BDDFH
+.BPPF.K
+.IIIF.
+..JGLL
+..JGMM
+
+
+Step 65:
+Block A moved down
+...NNN
+.CCEEH
+.BDDFH
+.BPPF.K
+.IIIF.
+A.JGLL
+A.JGMM
+
+
+Step 66:
+Block C moved left
+...NNN
+CC.EEH
+.BDDFH
+.BPPF.K
+.IIIF.
+A.JGLL
+A.JGMM
+
+
+Step 67:
+Block A moved up
+...NNN
+CC.EEH
+ABDDFH
+ABPPF.K
+.IIIF.
+..JGLL
+..JGMM
+
+
+Step 68:
+Block E moved left
+...NNN
+CCEE.H
+ABDDFH
+ABPPF.K
+.IIIF.
+..JGLL
+..JGMM
+
+
+Step 69:
+Block N moved left
+NNN...
+CCEE.H
+ABDDFH
+ABPPF.K
+.IIIF.
+..JGLL
+..JGMM
+
+
+Step 70:
+Block F moved up
+NNN.F.
+CCEEFH
+ABDDFH
+ABPP..K
+.III..
+..JGLL
+..JGMM
+
+
+Step 71:
+Block P moved right
+NNN.F.
+CCEEFH
+ABDDFH
+AB....K
+.III..
+..JGLL
+..JGMM
+
+
+Nodes Visited: 2490
+Execution Time: 118 ms

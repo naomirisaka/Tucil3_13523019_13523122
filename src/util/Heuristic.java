@@ -180,7 +180,7 @@ public class Heuristic {
     // Dispatcher
     public static int evaluate(Board board, String name) {
         return switch (name) {
-            case "Blocking Pieces" -> blockingPiecesCount(board);
+            case "Blocking Pieces Count" -> blockingPiecesCount(board);
             case "Blocking Pieces With Movability" -> blockingPiecesWithMovability(board);
             case "Distance-to-Exit" -> distanceToExit(board);
             default -> blockingPiecesCount(board);

@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
-
 import model.Board;
 
 // fails to parse input file w K on top/bottom properly

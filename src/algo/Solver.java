@@ -5,29 +5,16 @@ import java.util.List;
 import model.Board;
 
 public interface Solver {
-    /**
-     * Menyelesaikan puzzle Rush Hour dari papan awal
-     * @param initialBoard papan awal permainan
-     * @return daftar Board yang merepresentasikan langkah-langkah solusi (termasuk papan awal & akhir)
-     */
+    // solves the puzzle and returns the solution path
     List<Board> solve(Board initialBoard);
 
-    /**
-     * Mengembalikan jumlah node (papan konfigurasi) yang telah dikunjungi selama solving
-     * @return jumlah node
-     */
+    // returns the number of nodes visited during the search
     int getVisitedNodeCount();
 
-    /**
-     * Mengembalikan waktu eksekusi solving dalam satuan milidetik
-     * @return waktu dalam ms
-     */
+    // returns the time taken to solve the puzzle in ms
     long getExecutionTime();
 
-    /**
-     * Mengembalikan jumlah langkah yang diperlukan untuk menyelesaikan puzzle
-     * @return jumlah langkah
-     */
+    // reconstructs the path from the initial board to the goal board
     List<Board> reconstructPath(Board goal);
 
 }

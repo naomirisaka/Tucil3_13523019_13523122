@@ -7,38 +7,14 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import algo.AStarSolver;
-import algo.GBFSSolver;
-import algo.IDSSolver;
-import algo.Solver;
-import algo.UCSSolver;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -47,6 +23,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.Board;
 import util.InputParser;
+import algo.*;
 
 public class GUIApp extends Application {
     private List<Board> solution;
@@ -74,12 +51,14 @@ public class GUIApp extends Application {
 
         initializeColorPalette();
 
+        // title 
         Font titleFont = Font.loadFont(getClass().getResourceAsStream("/fonts/StayPlayful.ttf"), 32);
         Label title = new Label("Rush Hour Puzzle Solver");
         title.setFont(titleFont);
         HBox titleBox = new HBox(title);
         titleBox.setAlignment(Pos.CENTER);
 
+        // input file
         Label fileLabel = new Label("Select input configuration file:");
         Button fileButton = new Button("Browse...");
         Label selectedFileLabel = new Label("No file selected.");
@@ -87,26 +66,31 @@ public class GUIApp extends Application {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
 
+        // algorithm selection
         Label algoLabel = new Label("Choose the algorithm:");
         ComboBox<String> algoComboBox = new ComboBox<>();
         algoComboBox.getItems().addAll("A*", "UCS", "GBFS", "IDS");
         algoComboBox.setValue("A*");
 
+        // heuristic selection
         Label heuristicLabel = new Label("Heuristic:");
         ComboBox<String> heuristicComboBox = new ComboBox<>();
         heuristicComboBox.getItems().addAll("Blocking Pieces Count", "Blocking Pieces With Movability", "Distance-to-Exit");
         heuristicComboBox.setValue("Blocking Heuristic");
 
+        // ids depth input
         Label depthLabel = new Label("IDS Max Depth:");
         TextField depthInput = new TextField("20");
         depthLabel.setVisible(false);
         depthInput.setVisible(false);
 
+        // output format selection
         Label outputTypeLabel = new Label("Output:");
         ComboBox<String> outputTypeComboBox = new ComboBox<>();
         outputTypeComboBox.getItems().addAll("Pagination", "Animation");
         outputTypeComboBox.setValue("Pagination");
 
+        // animation delay input
         Label delayLabel = new Label("Animation delay (ms):");
         TextField delayInput = new TextField("500");
         delayLabel.setVisible(false);
@@ -115,6 +99,7 @@ public class GUIApp extends Application {
         Button solveButton = new Button("Solve");
         Button exportButton = new Button("Save Solution");
 
+        // controls
         Button prevButton = new Button("Previous");
         Button nextButton = new Button("Next");
         Button finalButton = new Button("Final");
@@ -125,6 +110,7 @@ public class GUIApp extends Application {
         stepLabel.setVisible(false);
         exportButton.setVisible(false);
 
+        // input panel
         VBox inputPanel = new VBox(10);
         inputPanel.getChildren().addAll(
             fileLabel, inputFileBox,algoLabel, algoComboBox,
@@ -156,6 +142,7 @@ public class GUIApp extends Application {
             }
         });
 
+        // right panel
         rightPanel.getChildren().addAll(
             new Label("Board:"),
             boardGrid,
@@ -168,6 +155,7 @@ public class GUIApp extends Application {
         ); 
         rightPanel.setPadding(new Insets(10));
 
+        // main panel
         HBox mainPanels = new HBox(20, inputPanel, rightPanel);
 
         VBox root = new VBox(10, titleBox, mainPanels);
@@ -214,10 +202,10 @@ public class GUIApp extends Application {
         });
 
         algoComboBox.setOnAction(e -> {
-            boolean isIDS = algoComboBox.getValue().equals("IDS");
-            heuristicComboBox.setDisable(isIDS);
-            depthLabel.setVisible(isIDS);
-            depthInput.setVisible(isIDS);
+            String selectedAlgo = algoComboBox.getValue();
+            heuristicComboBox.setDisable(!selectedAlgo.equals("A*") && !selectedAlgo.equals("GBFS"));
+            depthLabel.setVisible(selectedAlgo.equals("IDS"));
+            depthInput.setVisible(selectedAlgo.equals("IDS"));
         });
 
         outputTypeComboBox.setOnAction(e -> {
@@ -293,7 +281,6 @@ public class GUIApp extends Application {
 
                         Board current = solution.get(currentStep);
                         if (current.move != null && current.move.equals("Primary piece exits through K")) {
-                            // Langsung lompat ke langkah terakhir (goal)
                             currentStep = solution.size() - 1;
                             displayStep(currentStep);
                             animationTimeline.stop();
@@ -520,10 +507,10 @@ public class GUIApp extends Application {
         StringBuilder sb = new StringBuilder();
         sb.append("Step ").append(step).append(":\n");
 
-        // Default label text
+        // default label text
         String movementText = "Initial state";
 
-        // Tampilkan info gerakan jika bukan board awal
+        // tampilkan info gerakan jika bukan board awal
         if (step > 0) {
             String move = current.move;
             if (move != null) {
@@ -553,7 +540,6 @@ public class GUIApp extends Application {
         nodeVisitedLabel.setText("Nodes Visited: " + solver.getVisitedNodeCount());
         execTimeLabel.setText("Execution Time: " + solver.getExecutionTime() + " ms");
     }
-
 
     public static void main(String[] args) {
         launch(args);

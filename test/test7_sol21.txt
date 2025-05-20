@@ -1,0 +1,156 @@
+Initial state
+Step 0:
+.........
+.VTOOQQ..
+.VT.ABBCD
+..T.AE.CD
+..UPPEFGHK
+..UIIIFGH
+..UJ..LLH
+...JMM.NN
+...RRRSSS
+.........
+
+
+Step 1:
+Block L moved left
+.........
+.VTOOQQ..
+.VT.ABBCD
+..T.AE.CD
+..UPPEFGHK
+..UIIIFGH
+..UJLL..H
+...JMM.NN
+...RRRSSS
+.........
+
+
+Step 2:
+Block G moved down
+.........
+.VTOOQQ..
+.VT.ABBCD
+..T.AE.CD
+..UPPEF.HK
+..UIIIFGH
+..UJLL.GH
+...JMM.NN
+...RRRSSS
+.........
+
+
+Step 3:
+Block N moved left
+.........
+.VTOOQQ..
+.VT.ABBCD
+..T.AE.CD
+..UPPEF.HK
+..UIIIFGH
+..UJLL.GH
+...JMMNN.
+...RRRSSS
+.........
+
+
+Step 4:
+Block H moved down
+.........
+.VTOOQQ..
+.VT.ABBCD
+..T.AE.CD
+..UPPEF..K
+..UIIIFGH
+..UJLL.GH
+...JMMNNH
+...RRRSSS
+.........
+
+
+Step 5:
+Block F moved up
+.........
+.VTOOQQ..
+.VT.ABBCD
+..T.AEFCD
+..UPPEF..K
+..UIII.GH
+..UJLL.GH
+...JMMNNH
+...RRRSSS
+.........
+
+
+Step 6:
+Block C moved up
+.......C.
+.VTOOQQC.
+.VT.ABB.D
+..T.AEF.D
+..UPPEF..K
+..UIII.GH
+..UJLL.GH
+...JMMNNH
+...RRRSSS
+.........
+
+
+Step 7:
+Block B moved right
+.......C.
+.VTOOQQC.
+.VT.A.BBD
+..T.AEF.D
+..UPPEF..K
+..UIII.GH
+..UJLL.GH
+...JMMNNH
+...RRRSSS
+.........
+
+
+Step 8:
+Block E moved up
+.......C.
+.VTOOQQC.
+.VT.AEBBD
+..T.AEF.D
+..UPP.F..K
+..UIII.GH
+..UJLL.GH
+...JMMNNH
+...RRRSSS
+.........
+
+
+Step 9:
+Block F moved down
+.......C.
+.VTOOQQC.
+.VT.AEBBD
+..T.AE..D
+..UPP....K
+..UIIIFGH
+..UJLLFGH
+...JMMNNH
+...RRRSSS
+.........
+
+
+Step 10:
+Block P moved right
+.......C.
+.VTOOQQC.
+.VT.AEBBD
+..T.AE..D
+..U......K
+..UIIIFGH
+..UJLLFGH
+...JMMNNH
+...RRRSSS
+.........
+
+
+Nodes Visited: 1023480
+Execution Time: 14908 ms

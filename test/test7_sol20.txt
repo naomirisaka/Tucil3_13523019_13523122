@@ -1,0 +1,408 @@
+Initial state
+Step 0:
+.........
+.VTOOQQ..
+.VT.ABBCD
+..T.AE.CD
+..UPPEFGHK
+..UIIIFGH
+..UJ..LLH
+...JMM.NN
+...RRRSSS
+.........
+
+
+Step 1:
+Block C moved up
+.......C.
+.VTOOQQC.
+.VT.ABB.D
+..T.AE..D
+..UPPEFGHK
+..UIIIFGH
+..UJ..LLH
+...JMM.NN
+...RRRSSS
+.........
+
+
+Step 2:
+Block B moved right
+.......C.
+.VTOOQQC.
+.VT.A.BBD
+..T.AE..D
+..UPPEFGHK
+..UIIIFGH
+..UJ..LLH
+...JMM.NN
+...RRRSSS
+.........
+
+
+Step 3:
+Block D moved up
+.......CD
+.VTOOQQCD
+.VT.A.BB.
+..T.AE...
+..UPPEFGHK
+..UIIIFGH
+..UJ..LLH
+...JMM.NN
+...RRRSSS
+.........
+
+
+Step 4:
+Block E moved up
+.......CD
+.VTOOQQCD
+.VT.AEBB.
+..T.AE...
+..UPP.FGHK
+..UIIIFGH
+..UJ..LLH
+...JMM.NN
+...RRRSSS
+.........
+
+
+Step 5:
+Block B moved right
+.......CD
+.VTOOQQCD
+.VT.AE.BB
+..T.AE...
+..UPP.FGHK
+..UIIIFGH
+..UJ..LLH
+...JMM.NN
+...RRRSSS
+.........
+
+
+Step 6:
+Block F moved up
+.......CD
+.VTOOQQCD
+.VT.AEFBB
+..T.AEF..
+..UPP..GHK
+..UIII.GH
+..UJ..LLH
+...JMM.NN
+...RRRSSS
+.........
+
+
+Step 7:
+Block L moved left
+.......CD
+.VTOOQQCD
+.VT.AEFBB
+..T.AEF..
+..UPP..GHK
+..UIII.GH
+..UJLL..H
+...JMM.NN
+...RRRSSS
+.........
+
+
+Step 8:
+Block G moved down
+.......CD
+.VTOOQQCD
+.VT.AEFBB
+..T.AEF..
+..UPP...HK
+..UIII.GH
+..UJLL.GH
+...JMM.NN
+...RRRSSS
+.........
+
+
+Step 9:
+Block F moved down
+.......CD
+.VTOOQQCD
+.VT.AE.BB
+..T.AE...
+..UPP...HK
+..UIII.GH
+..UJLLFGH
+...JMMFNN
+...RRRSSS
+.........
+
+
+Step 10:
+Block T moved up
+..T....CD
+.VTOOQQCD
+.VT.AE.BB
+....AE...
+..UPP...HK
+..UIII.GH
+..UJLLFGH
+...JMMFNN
+...RRRSSS
+.........
+
+
+Step 11:
+Block U moved down
+..T....CD
+.VTOOQQCD
+.VT.AE.BB
+....AE...
+...PP...HK
+...III.GH
+...JLLFGH
+..UJMMFNN
+..URRRSSS
+..U......
+
+
+Step 12:
+Block F moved up
+..T....CD
+.VTOOQQCD
+.VT.AEFBB
+....AEF..
+...PP...HK
+...III.GH
+...JLL.GH
+..UJMM.NN
+..URRRSSS
+..U......
+
+
+Step 13:
+Block V moved up
+.VT....CD
+.VTOOQQCD
+..T.AEFBB
+....AEF..
+...PP...HK
+...III.GH
+...JLL.GH
+..UJMM.NN
+..URRRSSS
+..U......
+
+
+Step 14:
+Block T moved down
+.V.....CD
+.V.OOQQCD
+....AEFBB
+....AEF..
+..TPP...HK
+..TIII.GH
+..TJLL.GH
+..UJMM.NN
+..URRRSSS
+..U......
+
+
+Step 15:
+Block V moved down
+.......CD
+...OOQQCD
+....AEFBB
+....AEF..
+..TPP...HK
+..TIII.GH
+..TJLL.GH
+..UJMM.NN
+.VURRRSSS
+.VU......
+
+
+Step 16:
+Block O moved left
+.......CD
+OO...QQCD
+....AEFBB
+....AEF..
+..TPP...HK
+..TIII.GH
+..TJLL.GH
+..UJMM.NN
+.VURRRSSS
+.VU......
+
+
+Step 17:
+Block V moved up
+.......CD
+OO...QQCD
+.V..AEFBB
+.V..AEF..
+..TPP...HK
+..TIII.GH
+..TJLL.GH
+..UJMM.NN
+..URRRSSS
+..U......
+
+
+Step 18:
+Block T moved up
+..T....CD
+OOT..QQCD
+.VT.AEFBB
+.V..AEF..
+...PP...HK
+...III.GH
+...JLL.GH
+..UJMM.NN
+..URRRSSS
+..U......
+
+
+Step 19:
+Block V moved down
+..T....CD
+OOT..QQCD
+..T.AEFBB
+....AEF..
+...PP...HK
+...III.GH
+...JLL.GH
+..UJMM.NN
+.VURRRSSS
+.VU......
+
+
+Step 20:
+Block U moved up
+..T....CD
+OOT..QQCD
+..T.AEFBB
+..U.AEF..
+..UPP...HK
+..UIII.GH
+...JLL.GH
+...JMM.NN
+.V.RRRSSS
+.V.......
+
+
+Step 21:
+Block V moved up
+..T....CD
+OOT..QQCD
+.VT.AEFBB
+.VU.AEF..
+..UPP...HK
+..UIII.GH
+...JLL.GH
+...JMM.NN
+...RRRSSS
+.........
+
+
+Step 22:
+Block Q moved left
+..T....CD
+OOTQQ..CD
+.VT.AEFBB
+.VU.AEF..
+..UPP...HK
+..UIII.GH
+...JLL.GH
+...JMM.NN
+...RRRSSS
+.........
+
+
+Step 23:
+Block V moved down
+..T....CD
+OOTQQ..CD
+..T.AEFBB
+..U.AEF..
+..UPP...HK
+..UIII.GH
+...JLL.GH
+...JMM.NN
+.V.RRRSSS
+.V.......
+
+
+Step 24:
+Block R moved left
+..T....CD
+OOTQQ..CD
+..T.AEFBB
+..U.AEF..
+..UPP...HK
+..UIII.GH
+...JLL.GH
+...JMM.NN
+.VRRR.SSS
+.V.......
+
+
+Step 25:
+Block S moved left
+..T....CD
+OOTQQ..CD
+..T.AEFBB
+..U.AEF..
+..UPP...HK
+..UIII.GH
+...JLL.GH
+...JMM.NN
+.VRRRSSS.
+.V.......
+
+
+Step 26:
+Block N moved left
+..T....CD
+OOTQQ..CD
+..T.AEFBB
+..U.AEF..
+..UPP...HK
+..UIII.GH
+...JLL.GH
+...JMMNN.
+.VRRRSSS.
+.V.......
+
+
+Step 27:
+Block H moved down
+..T....CD
+OOTQQ..CD
+..T.AEFBB
+..U.AEF..
+..UPP....K
+..UIII.G.
+...JLL.G.
+...JMMNNH
+.VRRRSSSH
+.V......H
+
+
+Step 28:
+Block P moved right
+..T....CD
+OOTQQ..CD
+..T.AEFBB
+..U.AEF..
+..U......K
+..UIII.G.
+...JLL.G.
+...JMMNNH
+.VRRRSSSH
+.V......H
+
+
+Nodes Visited: 631
+Execution Time: 234 ms

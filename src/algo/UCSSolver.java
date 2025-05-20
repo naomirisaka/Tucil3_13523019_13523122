@@ -64,7 +64,8 @@ public class UCSSolver implements Solver {
         }
     }
 
-    private List<Board> reconstructPath(Board goal) {
+    @Override
+    public List<Board> reconstructPath(Board goal) {
         List<Board> path = new ArrayList<>();
         for (Board b = goal; b != null; b = b.parent) {
             path.add(0, b);

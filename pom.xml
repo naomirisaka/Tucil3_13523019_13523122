@@ -31,6 +31,11 @@
     <directory>${project.basedir}/bin</directory>
     <sourceDirectory>${project.basedir}/src</sourceDirectory>
     <outputDirectory>${project.basedir}/bin/classes</outputDirectory>
+    <resources>
+      <resource>
+        <directory>resources</directory>
+      </resource>
+    </resources>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -41,7 +46,6 @@
         </configuration>
       </plugin>
 
-      <!-- Plugin to run JavaFX apps -->
       <plugin>
         <groupId>org.openjfx</groupId>
         <artifactId>javafx-maven-plugin</artifactId>

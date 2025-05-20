@@ -10,12 +10,12 @@ import java.util.Set;
 import model.Board;
 import util.Heuristic;
 
-public class GreedyBFSSolver implements Solver {
+public class GBFSSolver implements Solver {
     private int visitedNodes = 0;
     private long executionTime = 0;
     private final String heuristicName;
 
-    public GreedyBFSSolver(String heuristicName) {
+    public GBFSSolver(String heuristicName) {
         this.heuristicName = heuristicName;
     }
 
@@ -54,7 +54,8 @@ public class GreedyBFSSolver implements Solver {
         return new ArrayList<>();
     }
 
-    private List<Board> reconstructPath(Board goal) {
+    @Override
+    public List<Board> reconstructPath(Board goal) {
         List<Board> path = new ArrayList<>();
         for (Board b = goal; b != null; b = b.parent) {
             path.add(0, b);

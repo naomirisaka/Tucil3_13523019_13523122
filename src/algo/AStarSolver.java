@@ -52,7 +52,8 @@ public class AStarSolver implements Solver {
         return new ArrayList<>(); // tidak ada solusi
     }
 
-    private List<Board> reconstructPath(Board goal) {
+    @Override
+    public List<Board> reconstructPath(Board goal) {
         List<Board> path = new ArrayList<>();
         for (Board at = goal; at != null; at = at.parent)
             path.add(at);

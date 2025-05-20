@@ -1,0 +1,3812 @@
+Initial state
+Step 0:
+HAAA..B
+H..C..B
+HPPC..BK
+.D.C.EE
+.D...F.
+.GGG.F.
+
+
+Step 1:
+Block A moved right
+H..AAAB
+H..C..B
+HPPC..BK
+.D.C.EE
+.D...F.
+.GGG.F.
+
+
+Step 2:
+Block H moved down
+...AAAB
+...C..B
+.PPC..BK
+HD.C.EE
+HD...F.
+HGGG.F.
+
+
+Step 3:
+Block E moved left
+...AAAB
+...C..B
+.PPC..BK
+HD.CEE.
+HD...F.
+HGGG.F.
+
+
+Step 4:
+Block H moved up
+H..AAAB
+H..C..B
+HPPC..BK
+.D.CEE.
+.D...F.
+.GGG.F.
+
+
+Step 5:
+Block G moved left
+H..AAAB
+H..C..B
+HPPC..BK
+.D.CEE.
+.D...F.
+GGG..F.
+
+
+Step 6:
+Block H moved down
+...AAAB
+...C..B
+HPPC..BK
+HD.CEE.
+HD...F.
+GGG..F.
+
+
+Step 7:
+Block E moved right
+...AAAB
+...C..B
+HPPC..BK
+HD.C.EE
+HD...F.
+GGG..F.
+
+
+Step 8:
+Block G moved right
+...AAAB
+...C..B
+HPPC..BK
+HD.C.EE
+HD...F.
+..GGGF.
+
+
+Step 9:
+Block C moved down
+...AAAB
+......B
+HPPC..BK
+HD.C.EE
+HD.C.F.
+..GGGF.
+
+
+Step 10:
+Block H moved down
+...AAAB
+......B
+.PPC..BK
+HD.C.EE
+HD.C.F.
+H.GGGF.
+
+
+Step 11:
+Block H moved up
+H..AAAB
+H.....B
+HPPC..BK
+.D.C.EE
+.D.C.F.
+..GGGF.
+
+
+Step 12:
+Block E moved left
+H..AAAB
+H.....B
+HPPC..BK
+.D.CEE.
+.D.C.F.
+..GGGF.
+
+
+Step 13:
+Block H moved down
+...AAAB
+......B
+.PPC..BK
+HD.CEE.
+HD.C.F.
+H.GGGF.
+
+
+Step 14:
+Block G moved left
+...AAAB
+......B
+.PPC..BK
+HD.CEE.
+HD.C.F.
+HGGG.F.
+
+
+Step 15:
+Block H moved up
+H..AAAB
+H.....B
+HPPC..BK
+.D.CEE.
+.D.C.F.
+.GGG.F.
+
+
+Step 16:
+Block E moved right
+H..AAAB
+H.....B
+HPPC..BK
+.D.C.EE
+.D.C.F.
+.GGG.F.
+
+
+Step 17:
+Block H moved down
+...AAAB
+......B
+.PPC..BK
+HD.C.EE
+HD.C.F.
+HGGG.F.
+
+
+Step 18:
+Block P moved left
+...AAAB
+......B
+PP.C..BK
+HD.C.EE
+HD.C.F.
+HGGG.F.
+
+
+Step 19:
+Block G moved right
+...AAAB
+......B
+PP.C..BK
+HD.C.EE
+HD.C.F.
+H.GGGF.
+
+
+Step 20:
+Block D moved down
+...AAAB
+......B
+PP.C..BK
+H..C.EE
+HD.C.F.
+HDGGGF.
+
+
+Step 21:
+Block E moved left
+...AAAB
+......B
+PP.C..BK
+H..CEE.
+HD.C.F.
+HDGGGF.
+
+
+Step 22:
+Block B moved down
+...AAA.
+.......
+PP.C...K
+H..CEEB
+HD.C.FB
+HDGGGFB
+
+
+Step 23:
+Block D moved up
+...AAA.
+.......
+PP.C...K
+HD.CEEB
+HD.C.FB
+H.GGGFB
+
+
+Step 24:
+Block G moved left
+...AAA.
+.......
+PP.C...K
+HD.CEEB
+HD.C.FB
+HGGG.FB
+
+
+Step 25:
+Block C moved up
+...AAA.
+...C...
+PP.C...K
+HD.CEEB
+HD...FB
+HGGG.FB
+
+
+Step 26:
+Block G moved right
+...AAA.
+...C...
+PP.C...K
+HD.CEEB
+HD...FB
+H.GGGFB
+
+
+Step 27:
+Block D moved down
+...AAA.
+...C...
+PP.C...K
+H..CEEB
+HD...FB
+HDGGGFB
+
+
+Step 28:
+Block A moved left
+AAA....
+...C...
+PP.C...K
+H..CEEB
+HD...FB
+HDGGGFB
+
+
+Step 29:
+Block D moved up
+AAA....
+...C...
+PP.C...K
+HD.CEEB
+HD...FB
+H.GGGFB
+
+
+Step 30:
+Block G moved left
+AAA....
+...C...
+PP.C...K
+HD.CEEB
+HD...FB
+HGGG.FB
+
+
+Step 31:
+Block C moved up
+AAAC...
+...C...
+PP.C...K
+HD..EEB
+HD...FB
+HGGG.FB
+
+
+Step 32:
+Block G moved right
+AAAC...
+...C...
+PP.C...K
+HD..EEB
+HD...FB
+H.GGGFB
+
+
+Step 33:
+Block D moved down
+AAAC...
+...C...
+PP.C...K
+H...EEB
+HD...FB
+HDGGGFB
+
+
+Step 34:
+Block E moved left
+AAAC...
+...C...
+PP.C...K
+HEE...B
+HD...FB
+HDGGGFB
+
+
+Step 35:
+Block F moved up
+AAAC.F.
+...C.F.
+PP.C...K
+HEE...B
+HD....B
+HDGGG.B
+
+
+Step 36:
+Block G moved right
+AAAC.F.
+...C.F.
+PP.C...K
+HEE...B
+HD....B
+HD.GGGB
+
+
+Step 37:
+Block E moved right
+AAAC.F.
+...C.F.
+PP.C...K
+H...EEB
+HD....B
+HD.GGGB
+
+
+Step 38:
+Block G moved left
+AAAC.F.
+...C.F.
+PP.C...K
+H...EEB
+HD....B
+HDGGG.B
+
+
+Step 39:
+Block F moved down
+AAAC...
+...C.F.
+PP.C.F.K
+H...EEB
+HD....B
+HDGGG.B
+
+
+Step 40:
+Block G moved right
+AAAC...
+...C.F.
+PP.C.F.K
+H...EEB
+HD....B
+HD.GGGB
+
+
+Step 41:
+Block D moved up
+AAAC...
+...C.F.
+PP.C.F.K
+HD..EEB
+HD....B
+H..GGGB
+
+
+Step 42:
+Block G moved left
+AAAC...
+...C.F.
+PP.C.F.K
+HD..EEB
+HD....B
+HGGG..B
+
+
+Step 43:
+Block E moved left
+AAAC...
+...C.F.
+PP.C.F.K
+HDEE..B
+HD....B
+HGGG..B
+
+
+Step 44:
+Block G moved right
+AAAC...
+...C.F.
+PP.C.F.K
+HDEE..B
+HD....B
+H..GGGB
+
+
+Step 45:
+Block F moved up
+AAAC.F.
+...C.F.
+PP.C...K
+HDEE..B
+HD....B
+H..GGGB
+
+
+Step 46:
+Block G moved left
+AAAC.F.
+...C.F.
+PP.C...K
+HDEE..B
+HD....B
+HGGG..B
+
+
+Step 47:
+Block P moved right
+AAAC.F.
+...C.F.
+.PPC...K
+HDEE..B
+HD....B
+HGGG..B
+
+
+Step 48:
+Block H moved up
+AAAC.F.
+H..C.F.
+HPPC...K
+HDEE..B
+.D....B
+.GGG..B
+
+
+Step 49:
+Block G moved left
+AAAC.F.
+H..C.F.
+HPPC...K
+HDEE..B
+.D....B
+GGG...B
+
+
+Step 50:
+Block H moved down
+AAAC.F.
+...C.F.
+HPPC...K
+HDEE..B
+HD....B
+GGG...B
+
+
+Step 51:
+Block F moved down
+AAAC...
+...C...
+HPPC...K
+HDEE..B
+HD...FB
+GGG..FB
+
+
+Step 52:
+Block G moved right
+AAAC...
+...C...
+HPPC...K
+HDEE..B
+HD...FB
+..GGGFB
+
+
+Step 53:
+Block H moved up
+AAAC...
+H..C...
+HPPC...K
+HDEE..B
+.D...FB
+..GGGFB
+
+
+Step 54:
+Block E moved right
+AAAC...
+H..C...
+HPPC...K
+HD..EEB
+.D...FB
+..GGGFB
+
+
+Step 55:
+Block H moved down
+AAAC...
+...C...
+.PPC...K
+HD..EEB
+HD...FB
+H.GGGFB
+
+
+Step 56:
+Block G moved left
+AAAC...
+...C...
+.PPC...K
+HD..EEB
+HD...FB
+HGGG.FB
+
+
+Step 57:
+Block H moved up
+AAAC...
+H..C...
+HPPC...K
+HD..EEB
+.D...FB
+.GGG.FB
+
+
+Step 58:
+Block E moved left
+AAAC...
+H..C...
+HPPC...K
+HDEE..B
+.D...FB
+.GGG.FB
+
+
+Step 59:
+Block H moved down
+AAAC...
+...C...
+.PPC...K
+HDEE..B
+HD...FB
+HGGG.FB
+
+
+Step 60:
+Block B moved up
+AAAC..B
+...C..B
+.PPC..BK
+HDEE...
+HD...F.
+HGGG.F.
+
+
+Step 61:
+Block G moved right
+AAAC..B
+...C..B
+.PPC..BK
+HDEE...
+HD...F.
+H.GGGF.
+
+
+Step 62:
+Block H moved up
+AAAC..B
+H..C..B
+HPPC..BK
+HDEE...
+.D...F.
+..GGGF.
+
+
+Step 63:
+Block F moved up
+AAAC.FB
+H..C.FB
+HPPC..BK
+HDEE...
+.D.....
+..GGG..
+
+
+Step 64:
+Block H moved down
+AAAC.FB
+...C.FB
+.PPC..BK
+HDEE...
+HD.....
+H.GGG..
+
+
+Step 65:
+Block G moved left
+AAAC.FB
+...C.FB
+.PPC..BK
+HDEE...
+HD.....
+HGGG...
+
+
+Step 66:
+Block H moved up
+AAAC.FB
+H..C.FB
+HPPC..BK
+HDEE...
+.D.....
+.GGG...
+
+
+Step 67:
+Block G moved left
+AAAC.FB
+H..C.FB
+HPPC..BK
+HDEE...
+.D.....
+GGG....
+
+
+Step 68:
+Block H moved down
+AAAC.FB
+...C.FB
+HPPC..BK
+HDEE...
+HD.....
+GGG....
+
+
+Step 69:
+Block G moved right
+AAAC.FB
+...C.FB
+HPPC..BK
+HDEE...
+HD.....
+....GGG
+
+
+Step 70:
+Block E moved right
+AAAC.FB
+...C.FB
+HPPC..BK
+HD...EE
+HD.....
+....GGG
+
+
+Step 71:
+Block H moved down
+AAAC.FB
+...C.FB
+.PPC..BK
+HD...EE
+HD.....
+H...GGG
+
+
+Step 72:
+Block H moved up
+AAAC.FB
+H..C.FB
+HPPC..BK
+HD...EE
+.D.....
+....GGG
+
+
+Step 73:
+Block F moved down
+AAAC..B
+H..C.FB
+HPPC.FBK
+HD...EE
+.D.....
+....GGG
+
+
+Step 74:
+Block H moved down
+AAAC..B
+...C.FB
+.PPC.FBK
+HD...EE
+HD.....
+H...GGG
+
+
+Step 75:
+Block G moved left
+AAAC..B
+...C.FB
+.PPC.FBK
+HD...EE
+HD.....
+HGGG...
+
+
+Step 76:
+Block H moved up
+AAAC..B
+H..C.FB
+HPPC.FBK
+HD...EE
+.D.....
+.GGG...
+
+
+Step 77:
+Block F moved up
+AAAC.FB
+H..C.FB
+HPPC..BK
+HD...EE
+.D.....
+.GGG...
+
+
+Step 78:
+Block H moved down
+AAAC.FB
+...C.FB
+.PPC..BK
+HD...EE
+HD.....
+HGGG...
+
+
+Step 79:
+Block P moved left
+AAAC.FB
+...C.FB
+PP.C..BK
+HD...EE
+HD.....
+HGGG...
+
+
+Step 80:
+Block G moved right
+AAAC.FB
+...C.FB
+PP.C..BK
+HD...EE
+HD.....
+H...GGG
+
+
+Step 81:
+Block F moved down
+AAAC..B
+...C.FB
+PP.C.FBK
+HD...EE
+HD.....
+H...GGG
+
+
+Step 82:
+Block G moved left
+AAAC..B
+...C.FB
+PP.C.FBK
+HD...EE
+HD.....
+HGGG...
+
+
+Step 83:
+Block C moved down
+AAA...B
+.....FB
+PP.C.FBK
+HD.C.EE
+HD.C...
+HGGG...
+
+
+Step 84:
+Block G moved right
+AAA...B
+.....FB
+PP.C.FBK
+HD.C.EE
+HD.C...
+H...GGG
+
+
+Step 85:
+Block E moved left
+AAA...B
+.....FB
+PP.C.FBK
+HD.CEE.
+HD.C...
+H...GGG
+
+
+Step 86:
+Block G moved left
+AAA...B
+.....FB
+PP.C.FBK
+HD.CEE.
+HD.C...
+HGGG...
+
+
+Step 87:
+Block F moved up
+AAA..FB
+.....FB
+PP.C..BK
+HD.CEE.
+HD.C...
+HGGG...
+
+
+Step 88:
+Block G moved right
+AAA..FB
+.....FB
+PP.C..BK
+HD.CEE.
+HD.C...
+H...GGG
+
+
+Step 89:
+Block C moved down
+AAA..FB
+.....FB
+PP....BK
+HD.CEE.
+HD.C...
+H..CGGG
+
+
+Step 90:
+Block F moved down
+AAA...B
+.....FB
+PP...FBK
+HD.CEE.
+HD.C...
+H..CGGG
+
+
+Step 91:
+Block D moved down
+AAA...B
+.....FB
+PP...FBK
+H..CEE.
+HD.C...
+HD.CGGG
+
+
+Step 92:
+Block F moved up
+AAA..FB
+.....FB
+PP....BK
+H..CEE.
+HD.C...
+HD.CGGG
+
+
+Step 93:
+Block E moved right
+AAA..FB
+.....FB
+PP....BK
+H..C.EE
+HD.C...
+HD.CGGG
+
+
+Step 94:
+Block F moved down
+AAA...B
+.....FB
+PP...FBK
+H..C.EE
+HD.C...
+HD.CGGG
+
+
+Step 95:
+Block A moved right
+...AAAB
+.....FB
+PP...FBK
+H..C.EE
+HD.C...
+HD.CGGG
+
+
+Step 96:
+Block E moved left
+...AAAB
+.....FB
+PP...FBK
+H..CEE.
+HD.C...
+HD.CGGG
+
+
+Step 97:
+Block C moved up
+...AAAB
+...C.FB
+PP.C.FBK
+H..CEE.
+HD.....
+HD..GGG
+
+
+Step 98:
+Block G moved left
+...AAAB
+...C.FB
+PP.C.FBK
+H..CEE.
+HD.....
+HDGGG..
+
+
+Step 99:
+Block D moved up
+...AAAB
+...C.FB
+PP.C.FBK
+HD.CEE.
+HD.....
+H.GGG..
+
+
+Step 100:
+Block G moved right
+...AAAB
+...C.FB
+PP.C.FBK
+HD.CEE.
+HD.....
+H...GGG
+
+
+Step 101:
+Block E moved right
+...AAAB
+...C.FB
+PP.C.FBK
+HD.C.EE
+HD.....
+H...GGG
+
+
+Step 102:
+Block G moved left
+...AAAB
+...C.FB
+PP.C.FBK
+HD.C.EE
+HD.....
+HGGG...
+
+
+Step 103:
+Block A moved left
+AAA...B
+...C.FB
+PP.C.FBK
+HD.C.EE
+HD.....
+HGGG...
+
+
+Step 104:
+Block G moved right
+AAA...B
+...C.FB
+PP.C.FBK
+HD.C.EE
+HD.....
+H...GGG
+
+
+Step 105:
+Block E moved left
+AAA...B
+...C.FB
+PP.C.FBK
+HD.CEE.
+HD.....
+H...GGG
+
+
+Step 106:
+Block G moved left
+AAA...B
+...C.FB
+PP.C.FBK
+HD.CEE.
+HD.....
+HGGG...
+
+
+Step 107:
+Block F moved up
+AAA..FB
+...C.FB
+PP.C..BK
+HD.CEE.
+HD.....
+HGGG...
+
+
+Step 108:
+Block G moved right
+AAA..FB
+...C.FB
+PP.C..BK
+HD.CEE.
+HD.....
+H...GGG
+
+
+Step 109:
+Block D moved down
+AAA..FB
+...C.FB
+PP.C..BK
+H..CEE.
+HD.....
+HD..GGG
+
+
+Step 110:
+Block F moved down
+AAA...B
+...C.FB
+PP.C.FBK
+H..CEE.
+HD.....
+HD..GGG
+
+
+Step 111:
+Block G moved left
+AAA...B
+...C.FB
+PP.C.FBK
+H..CEE.
+HD.....
+HDGGG..
+
+
+Step 112:
+Block E moved right
+AAA...B
+...C.FB
+PP.C.FBK
+H..C.EE
+HD.....
+HDGGG..
+
+
+Step 113:
+Block G moved right
+AAA...B
+...C.FB
+PP.C.FBK
+H..C.EE
+HD.....
+HD..GGG
+
+
+Step 114:
+Block F moved up
+AAA..FB
+...C.FB
+PP.C..BK
+H..C.EE
+HD.....
+HD..GGG
+
+
+Step 115:
+Block G moved left
+AAA..FB
+...C.FB
+PP.C..BK
+H..C.EE
+HD.....
+HDGGG..
+
+
+Step 116:
+Block C moved down
+AAA..FB
+.....FB
+PP.C..BK
+H..C.EE
+HD.C...
+HDGGG..
+
+
+Step 117:
+Block F moved down
+AAA...B
+.....FB
+PP.C.FBK
+H..C.EE
+HD.C...
+HDGGG..
+
+
+Step 118:
+Block G moved right
+AAA...B
+.....FB
+PP.C.FBK
+H..C.EE
+HD.C...
+HD..GGG
+
+
+Step 119:
+Block E moved left
+AAA...B
+.....FB
+PP.C.FBK
+H..CEE.
+HD.C...
+HD..GGG
+
+
+Step 120:
+Block G moved left
+AAA...B
+.....FB
+PP.C.FBK
+H..CEE.
+HD.C...
+HDGGG..
+
+
+Step 121:
+Block C moved up
+AAAC..B
+...C.FB
+PP.C.FBK
+H...EE.
+HD.....
+HDGGG..
+
+
+Step 122:
+Block F moved up
+AAAC.FB
+...C.FB
+PP.C..BK
+H...EE.
+HD.....
+HDGGG..
+
+
+Step 123:
+Block G moved right
+AAAC.FB
+...C.FB
+PP.C..BK
+H...EE.
+HD.....
+HD..GGG
+
+
+Step 124:
+Block E moved left
+AAAC.FB
+...C.FB
+PP.C..BK
+HEE....
+HD.....
+HD..GGG
+
+
+Step 125:
+Block G moved left
+AAAC.FB
+...C.FB
+PP.C..BK
+HEE....
+HD.....
+HDGGG..
+
+
+Step 126:
+Block F moved down
+AAAC..B
+...C..B
+PP.C..BK
+HEE....
+HD...F.
+HDGGGF.
+
+
+Step 127:
+Block C moved down
+AAA...B
+......B
+PP.C..BK
+HEEC...
+HD.C.F.
+HDGGGF.
+
+
+Step 128:
+Block F moved up
+AAA..FB
+.....FB
+PP.C..BK
+HEEC...
+HD.C...
+HDGGG..
+
+
+Step 129:
+Block G moved right
+AAA..FB
+.....FB
+PP.C..BK
+HEEC...
+HD.C...
+HD..GGG
+
+
+Step 130:
+Block C moved down
+AAA..FB
+.....FB
+PP....BK
+HEEC...
+HD.C...
+HD.CGGG
+
+
+Step 131:
+Block F moved down
+AAA...B
+......B
+PP....BK
+HEEC.F.
+HD.C.F.
+HD.CGGG
+
+
+Step 132:
+Block B moved down
+AAA....
+.......
+PP....BK
+HEEC.FB
+HD.C.FB
+HD.CGGG
+
+
+Step 133:
+Block F moved up
+AAA..F.
+.....F.
+PP....BK
+HEEC..B
+HD.C..B
+HD.CGGG
+
+
+Step 134:
+Block C moved up
+AAAC.F.
+...C.F.
+PP.C..BK
+HEE...B
+HD....B
+HD..GGG
+
+
+Step 135:
+Block F moved down
+AAAC...
+...C...
+PP.C..BK
+HEE..FB
+HD...FB
+HD..GGG
+
+
+Step 136:
+Block G moved left
+AAAC...
+...C...
+PP.C..BK
+HEE..FB
+HD...FB
+HDGGG..
+
+
+Step 137:
+Block F moved down
+AAAC...
+...C...
+PP.C..BK
+HEE...B
+HD...FB
+HDGGGF.
+
+
+Step 138:
+Block C moved down
+AAA....
+.......
+PP.C..BK
+HEEC..B
+HD.C.FB
+HDGGGF.
+
+
+Step 139:
+Block F moved up
+AAA..F.
+.....F.
+PP.C..BK
+HEEC..B
+HD.C..B
+HDGGG..
+
+
+Step 140:
+Block G moved right
+AAA..F.
+.....F.
+PP.C..BK
+HEEC..B
+HD.C..B
+HD..GGG
+
+
+Step 141:
+Block F moved down
+AAA....
+.......
+PP.C..BK
+HEEC.FB
+HD.C.FB
+HD..GGG
+
+
+Step 142:
+Block G moved left
+AAA....
+.......
+PP.C..BK
+HEEC.FB
+HD.C.FB
+HDGGG..
+
+
+Step 143:
+Block B moved down
+AAA....
+.......
+PP.C...K
+HEEC.FB
+HD.C.FB
+HDGGG.B
+
+
+Step 144:
+Block F moved down
+AAA....
+.......
+PP.C...K
+HEEC..B
+HD.C.FB
+HDGGGFB
+
+
+Step 145:
+Block F moved up
+AAA..F.
+.....F.
+PP.C...K
+HEEC..B
+HD.C..B
+HDGGG.B
+
+
+Step 146:
+Block G moved right
+AAA..F.
+.....F.
+PP.C...K
+HEEC..B
+HD.C..B
+HD.GGGB
+
+
+Step 147:
+Block A moved right
+..AAAF.
+.....F.
+PP.C...K
+HEEC..B
+HD.C..B
+HD.GGGB
+
+
+Step 148:
+Block F moved down
+..AAA..
+.......
+PP.C...K
+HEEC.FB
+HD.C.FB
+HD.GGGB
+
+
+Step 149:
+Block G moved left
+..AAA..
+.......
+PP.C...K
+HEEC.FB
+HD.C.FB
+HDGGG.B
+
+
+Step 150:
+Block F moved down
+..AAA..
+.......
+PP.C...K
+HEEC..B
+HD.C.FB
+HDGGGFB
+
+
+Step 151:
+Block B moved up
+..AAA.B
+......B
+PP.C..BK
+HEEC...
+HD.C.F.
+HDGGGF.
+
+
+Step 152:
+Block F moved up
+..AAAFB
+.....FB
+PP.C..BK
+HEEC...
+HD.C...
+HDGGG..
+
+
+Step 153:
+Block G moved right
+..AAAFB
+.....FB
+PP.C..BK
+HEEC...
+HD.C...
+HD..GGG
+
+
+Step 154:
+Block C moved down
+..AAAFB
+.....FB
+PP....BK
+HEEC...
+HD.C...
+HD.CGGG
+
+
+Step 155:
+Block F moved down
+..AAA.B
+......B
+PP....BK
+HEEC.F.
+HD.C.F.
+HD.CGGG
+
+
+Step 156:
+Block B moved down
+..AAA..
+.......
+PP....BK
+HEEC.FB
+HD.C.FB
+HD.CGGG
+
+
+Step 157:
+Block F moved up
+..AAAF.
+.....F.
+PP....BK
+HEEC..B
+HD.C..B
+HD.CGGG
+
+
+Step 158:
+Block C moved up
+..AAAF.
+...C.F.
+PP.C..BK
+HEEC..B
+HD....B
+HD..GGG
+
+
+Step 159:
+Block F moved down
+..AAA..
+...C...
+PP.C..BK
+HEEC.FB
+HD...FB
+HD..GGG
+
+
+Step 160:
+Block G moved left
+..AAA..
+...C...
+PP.C..BK
+HEEC.FB
+HD...FB
+HDGGG..
+
+
+Step 161:
+Block F moved down
+..AAA..
+...C...
+PP.C..BK
+HEEC..B
+HD...FB
+HDGGGF.
+
+
+Step 162:
+Block C moved down
+..AAA..
+.......
+PP.C..BK
+HEEC..B
+HD.C.FB
+HDGGGF.
+
+
+Step 163:
+Block F moved up
+..AAAF.
+.....F.
+PP.C..BK
+HEEC..B
+HD.C..B
+HDGGG..
+
+
+Step 164:
+Block G moved right
+..AAAF.
+.....F.
+PP.C..BK
+HEEC..B
+HD.C..B
+HD..GGG
+
+
+Step 165:
+Block F moved down
+..AAA..
+.......
+PP.C..BK
+HEEC.FB
+HD.C.FB
+HD..GGG
+
+
+Step 166:
+Block G moved left
+..AAA..
+.......
+PP.C..BK
+HEEC.FB
+HD.C.FB
+HDGGG..
+
+
+Step 167:
+Block A moved right
+....AAA
+.......
+PP.C..BK
+HEEC.FB
+HD.C.FB
+HDGGG..
+
+
+Step 168:
+Block F moved down
+....AAA
+.......
+PP.C..BK
+HEEC..B
+HD.C.FB
+HDGGGF.
+
+
+Step 169:
+Block C moved up
+...CAAA
+...C...
+PP.C..BK
+HEE...B
+HD...FB
+HDGGGF.
+
+
+Step 170:
+Block F moved up
+...CAAA
+...C.F.
+PP.C.FBK
+HEE...B
+HD....B
+HDGGG..
+
+
+Step 171:
+Block G moved right
+...CAAA
+...C.F.
+PP.C.FBK
+HEE...B
+HD....B
+HD..GGG
+
+
+Step 172:
+Block E moved right
+...CAAA
+...C.F.
+PP.C.FBK
+H...EEB
+HD....B
+HD..GGG
+
+
+Step 173:
+Block G moved left
+...CAAA
+...C.F.
+PP.C.FBK
+H...EEB
+HD....B
+HDGGG..
+
+
+Step 174:
+Block D moved up
+...CAAA
+...C.F.
+PP.C.FBK
+HD..EEB
+HD....B
+H.GGG..
+
+
+Step 175:
+Block G moved right
+...CAAA
+...C.F.
+PP.C.FBK
+HD..EEB
+HD....B
+H...GGG
+
+
+Step 176:
+Block G moved left
+...CAAA
+...C.F.
+PP.C.FBK
+HD..EEB
+HD....B
+HGGG...
+
+
+Step 177:
+Block C moved down
+....AAA
+.....F.
+PP.C.FBK
+HD.CEEB
+HD.C..B
+HGGG...
+
+
+Step 178:
+Block G moved right
+....AAA
+.....F.
+PP.C.FBK
+HD.CEEB
+HD.C..B
+H...GGG
+
+
+Step 179:
+Block C moved down
+....AAA
+.....F.
+PP...FBK
+HD.CEEB
+HD.C..B
+H..CGGG
+
+
+Step 180:
+Block D moved down
+....AAA
+.....F.
+PP...FBK
+H..CEEB
+HD.C..B
+HD.CGGG
+
+
+Step 181:
+Block A moved left
+AAA....
+.....F.
+PP...FBK
+H..CEEB
+HD.C..B
+HD.CGGG
+
+
+Step 182:
+Block F moved up
+AAA..F.
+.....F.
+PP....BK
+H..CEEB
+HD.C..B
+HD.CGGG
+
+
+Step 183:
+Block C moved up
+AAAC.F.
+...C.F.
+PP.C..BK
+H...EEB
+HD....B
+HD..GGG
+
+
+Step 184:
+Block G moved left
+AAAC.F.
+...C.F.
+PP.C..BK
+H...EEB
+HD....B
+HDGGG..
+
+
+Step 185:
+Block F moved down
+AAAC...
+...C.F.
+PP.C.FBK
+H...EEB
+HD....B
+HDGGG..
+
+
+Step 186:
+Block G moved right
+AAAC...
+...C.F.
+PP.C.FBK
+H...EEB
+HD....B
+HD..GGG
+
+
+Step 187:
+Block D moved up
+AAAC...
+...C.F.
+PP.C.FBK
+HD..EEB
+HD....B
+H...GGG
+
+
+Step 188:
+Block G moved left
+AAAC...
+...C.F.
+PP.C.FBK
+HD..EEB
+HD....B
+HGGG...
+
+
+Step 189:
+Block E moved left
+AAAC...
+...C.F.
+PP.C.FBK
+HDEE..B
+HD....B
+HGGG...
+
+
+Step 190:
+Block G moved right
+AAAC...
+...C.F.
+PP.C.FBK
+HDEE..B
+HD....B
+H...GGG
+
+
+Step 191:
+Block F moved up
+AAAC.F.
+...C.F.
+PP.C..BK
+HDEE..B
+HD....B
+H...GGG
+
+
+Step 192:
+Block G moved left
+AAAC.F.
+...C.F.
+PP.C..BK
+HDEE..B
+HD....B
+HGGG...
+
+
+Step 193:
+Block F moved down
+AAAC...
+...C...
+PP.C..BK
+HDEE..B
+HD...FB
+HGGG.F.
+
+
+Step 194:
+Block G moved right
+AAAC...
+...C...
+PP.C..BK
+HDEE..B
+HD...FB
+H.GGGF.
+
+
+Step 195:
+Block E moved right
+AAAC...
+...C...
+PP.C..BK
+HD..EEB
+HD...FB
+H.GGGF.
+
+
+Step 196:
+Block G moved left
+AAAC...
+...C...
+PP.C..BK
+HD..EEB
+HD...FB
+HGGG.F.
+
+
+Step 197:
+Block C moved down
+AAA....
+.......
+PP.C..BK
+HD.CEEB
+HD.C.FB
+HGGG.F.
+
+
+Step 198:
+Block G moved right
+AAA....
+.......
+PP.C..BK
+HD.CEEB
+HD.C.FB
+H.GGGF.
+
+
+Step 199:
+Block D moved down
+AAA....
+.......
+PP.C..BK
+H..CEEB
+HD.C.FB
+HDGGGF.
+
+
+Step 200:
+Block B moved up
+AAA...B
+......B
+PP.C..BK
+H..CEE.
+HD.C.F.
+HDGGGF.
+
+
+Step 201:
+Block D moved up
+AAA...B
+......B
+PP.C..BK
+HD.CEE.
+HD.C.F.
+H.GGGF.
+
+
+Step 202:
+Block E moved right
+AAA...B
+......B
+PP.C..BK
+HD.C.EE
+HD.C.F.
+H.GGGF.
+
+
+Step 203:
+Block G moved left
+AAA...B
+......B
+PP.C..BK
+HD.C.EE
+HD.C.F.
+HGGG.F.
+
+
+Step 204:
+Block C moved up
+AAAC..B
+...C..B
+PP.C..BK
+HD...EE
+HD...F.
+HGGG.F.
+
+
+Step 205:
+Block E moved left
+AAAC..B
+...C..B
+PP.C..BK
+HDEE...
+HD...F.
+HGGG.F.
+
+
+Step 206:
+Block G moved right
+AAAC..B
+...C..B
+PP.C..BK
+HDEE...
+HD...F.
+H.GGGF.
+
+
+Step 207:
+Block F moved up
+AAAC.FB
+...C.FB
+PP.C..BK
+HDEE...
+HD.....
+H.GGG..
+
+
+Step 208:
+Block D moved down
+AAAC.FB
+...C.FB
+PP.C..BK
+H.EE...
+HD.....
+HDGGG..
+
+
+Step 209:
+Block F moved down
+AAAC..B
+...C..B
+PP.C..BK
+H.EE...
+HD...F.
+HDGGGF.
+
+
+Step 210:
+Block B moved down
+AAAC...
+...C...
+PP.C...K
+H.EE..B
+HD...FB
+HDGGGFB
+
+
+Step 211:
+Block F moved up
+AAAC.F.
+...C.F.
+PP.C...K
+H.EE..B
+HD....B
+HDGGG.B
+
+
+Step 212:
+Block G moved right
+AAAC.F.
+...C.F.
+PP.C...K
+H.EE..B
+HD....B
+HD.GGGB
+
+
+Step 213:
+Block F moved down
+AAAC...
+...C...
+PP.C...K
+H.EE.FB
+HD...FB
+HD.GGGB
+
+
+Step 214:
+Block G moved left
+AAAC...
+...C...
+PP.C...K
+H.EE.FB
+HD...FB
+HDGGG.B
+
+
+Step 215:
+Block E moved right
+AAAC...
+...C...
+PP.C...K
+H..EEFB
+HD...FB
+HDGGG.B
+
+
+Step 216:
+Block F moved down
+AAAC...
+...C...
+PP.C...K
+H..EE.B
+HD...FB
+HDGGGFB
+
+
+Step 217:
+Block F moved up
+AAAC.F.
+...C.F.
+PP.C...K
+H..EE.B
+HD....B
+HDGGG.B
+
+
+Step 218:
+Block G moved right
+AAAC.F.
+...C.F.
+PP.C...K
+H..EE.B
+HD....B
+HD.GGGB
+
+
+Step 219:
+Block B moved up
+AAAC.FB
+...C.FB
+PP.C..BK
+H..EE..
+HD.....
+HD.GGG.
+
+
+Step 220:
+Block G moved right
+AAAC.FB
+...C.FB
+PP.C..BK
+H..EE..
+HD.....
+HD..GGG
+
+
+Step 221:
+Block F moved down
+AAAC..B
+...C..B
+PP.C..BK
+H..EEF.
+HD...F.
+HD..GGG
+
+
+Step 222:
+Block G moved left
+AAAC..B
+...C..B
+PP.C..BK
+H..EEF.
+HD...F.
+HDGGG..
+
+
+Step 223:
+Block F moved down
+AAAC..B
+...C..B
+PP.C..BK
+H..EE..
+HD...F.
+HDGGGF.
+
+
+Step 224:
+Block D moved up
+AAAC..B
+...C..B
+PP.C..BK
+HD.EE..
+HD...F.
+H.GGGF.
+
+
+Step 225:
+Block F moved up
+AAAC.FB
+...C.FB
+PP.C..BK
+HD.EE..
+HD.....
+H.GGG..
+
+
+Step 226:
+Block G moved right
+AAAC.FB
+...C.FB
+PP.C..BK
+HD.EE..
+HD.....
+H...GGG
+
+
+Step 227:
+Block F moved down
+AAAC..B
+...C..B
+PP.C..BK
+HD.EEF.
+HD...F.
+H...GGG
+
+
+Step 228:
+Block G moved left
+AAAC..B
+...C..B
+PP.C..BK
+HD.EEF.
+HD...F.
+HGGG...
+
+
+Step 229:
+Block B moved down
+AAAC...
+...C...
+PP.C...K
+HD.EEFB
+HD...FB
+HGGG..B
+
+
+Step 230:
+Block G moved right
+AAAC...
+...C...
+PP.C...K
+HD.EEFB
+HD...FB
+H..GGGB
+
+
+Step 231:
+Block P moved right
+AAAC...
+...C...
+.PPC...K
+HD.EEFB
+HD...FB
+H..GGGB
+
+
+Step 232:
+Block G moved left
+AAAC...
+...C...
+.PPC...K
+HD.EEFB
+HD...FB
+HGGG..B
+
+
+Step 233:
+Block H moved up
+AAAC...
+H..C...
+HPPC...K
+HD.EEFB
+.D...FB
+.GGG..B
+
+
+Step 234:
+Block F moved down
+AAAC...
+H..C...
+HPPC...K
+HD.EE.B
+.D...FB
+.GGG.FB
+
+
+Step 235:
+Block H moved down
+AAAC...
+...C...
+.PPC...K
+HD.EE.B
+HD...FB
+HGGG.FB
+
+
+Step 236:
+Block F moved up
+AAAC.F.
+...C.F.
+.PPC...K
+HD.EE.B
+HD....B
+HGGG..B
+
+
+Step 237:
+Block H moved up
+AAAC.F.
+H..C.F.
+HPPC...K
+HD.EE.B
+.D....B
+.GGG..B
+
+
+Step 238:
+Block G moved left
+AAAC.F.
+H..C.F.
+HPPC...K
+HD.EE.B
+.D....B
+GGG...B
+
+
+Step 239:
+Block H moved down
+AAAC.F.
+...C.F.
+HPPC...K
+HD.EE.B
+HD....B
+GGG...B
+
+
+Step 240:
+Block F moved down
+AAAC...
+...C...
+HPPC...K
+HD.EE.B
+HD...FB
+GGG..FB
+
+
+Step 241:
+Block G moved right
+AAAC...
+...C...
+HPPC...K
+HD.EE.B
+HD...FB
+..GGGFB
+
+
+Step 242:
+Block F moved up
+AAAC.F.
+...C.F.
+HPPC...K
+HD.EE.B
+HD....B
+..GGG.B
+
+
+Step 243:
+Block H moved down
+AAAC.F.
+...C.F.
+.PPC...K
+HD.EE.B
+HD....B
+H.GGG.B
+
+
+Step 244:
+Block H moved up
+AAAC.F.
+H..C.F.
+HPPC...K
+HD.EE.B
+.D....B
+..GGG.B
+
+
+Step 245:
+Block E moved right
+AAAC.F.
+H..C.F.
+HPPC...K
+HD..EEB
+.D....B
+..GGG.B
+
+
+Step 246:
+Block G moved right
+AAAC.F.
+H..C.F.
+HPPC...K
+HD..EEB
+.D....B
+...GGGB
+
+
+Step 247:
+Block G moved left
+AAAC.F.
+H..C.F.
+HPPC...K
+HD..EEB
+.D....B
+GGG...B
+
+
+Step 248:
+Block H moved down
+AAAC.F.
+...C.F.
+HPPC...K
+HD..EEB
+HD....B
+GGG...B
+
+
+Step 249:
+Block F moved down
+AAAC...
+...C.F.
+HPPC.F.K
+HD..EEB
+HD....B
+GGG...B
+
+
+Step 250:
+Block G moved right
+AAAC...
+...C.F.
+HPPC.F.K
+HD..EEB
+HD....B
+...GGGB
+
+
+Step 251:
+Block H moved up
+AAAC...
+H..C.F.
+HPPC.F.K
+HD..EEB
+.D....B
+...GGGB
+
+
+Step 252:
+Block D moved down
+AAAC...
+H..C.F.
+HPPC.F.K
+H...EEB
+.D....B
+.D.GGGB
+
+
+Step 253:
+Block H moved down
+AAAC...
+...C.F.
+.PPC.F.K
+H...EEB
+HD....B
+HD.GGGB
+
+
+Step 254:
+Block F moved up
+AAAC.F.
+...C.F.
+.PPC...K
+H...EEB
+HD....B
+HD.GGGB
+
+
+Step 255:
+Block H moved up
+AAAC.F.
+H..C.F.
+HPPC...K
+H...EEB
+.D....B
+.D.GGGB
+
+
+Step 256:
+Block G moved left
+AAAC.F.
+H..C.F.
+HPPC...K
+H...EEB
+.D....B
+.DGGG.B
+
+
+Step 257:
+Block H moved down
+AAAC.F.
+...C.F.
+.PPC...K
+H...EEB
+HD....B
+HDGGG.B
+
+
+Step 258:
+Block E moved left
+AAAC.F.
+...C.F.
+.PPC...K
+HEE...B
+HD....B
+HDGGG.B
+
+
+Step 259:
+Block G moved right
+AAAC.F.
+...C.F.
+.PPC...K
+HEE...B
+HD....B
+HD.GGGB
+
+
+Step 260:
+Block H moved up
+AAAC.F.
+H..C.F.
+HPPC...K
+HEE...B
+.D....B
+.D.GGGB
+
+
+Step 261:
+Block F moved down
+AAAC...
+H..C...
+HPPC...K
+HEE..FB
+.D...FB
+.D.GGGB
+
+
+Step 262:
+Block G moved left
+AAAC...
+H..C...
+HPPC...K
+HEE..FB
+.D...FB
+.DGGG.B
+
+
+Step 263:
+Block H moved down
+AAAC...
+...C...
+.PPC...K
+HEE..FB
+HD...FB
+HDGGG.B
+
+
+Step 264:
+Block F moved down
+AAAC...
+...C...
+.PPC...K
+HEE...B
+HD...FB
+HDGGGFB
+
+
+Step 265:
+Block H moved up
+AAAC...
+H..C...
+HPPC...K
+HEE...B
+.D...FB
+.DGGGFB
+
+
+Step 266:
+Block C moved down
+AAA....
+H......
+HPPC...K
+HEEC..B
+.D.C.FB
+.DGGGFB
+
+
+Step 267:
+Block H moved down
+AAA....
+.......
+.PPC...K
+HEEC..B
+HD.C.FB
+HDGGGFB
+
+
+Step 268:
+Block F moved up
+AAA..F.
+.....F.
+.PPC...K
+HEEC..B
+HD.C..B
+HDGGG.B
+
+
+Step 269:
+Block G moved right
+AAA..F.
+.....F.
+.PPC...K
+HEEC..B
+HD.C..B
+HD.GGGB
+
+
+Step 270:
+Block H moved up
+AAA..F.
+H....F.
+HPPC...K
+HEEC..B
+.D.C..B
+.D.GGGB
+
+
+Step 271:
+Block F moved down
+AAA....
+H......
+HPPC...K
+HEEC.FB
+.D.C.FB
+.D.GGGB
+
+
+Step 272:
+Block G moved left
+AAA....
+H......
+HPPC...K
+HEEC.FB
+.D.C.FB
+.DGGG.B
+
+
+Step 273:
+Block H moved down
+AAA....
+.......
+.PPC...K
+HEEC.FB
+HD.C.FB
+HDGGG.B
+
+
+Step 274:
+Block A moved right
+....AAA
+.......
+.PPC...K
+HEEC.FB
+HD.C.FB
+HDGGG.B
+
+
+Step 275:
+Block H moved up
+H...AAA
+H......
+HPPC...K
+.EEC.FB
+.D.C.FB
+.DGGG.B
+
+
+Step 276:
+Block F moved down
+H...AAA
+H......
+HPPC...K
+.EEC..B
+.D.C.FB
+.DGGGFB
+
+
+Step 277:
+Block H moved down
+....AAA
+.......
+.PPC...K
+HEEC..B
+HD.C.FB
+HDGGGFB
+
+
+Step 278:
+Block C moved up
+...CAAA
+...C...
+.PPC...K
+HEE...B
+HD...FB
+HDGGGFB
+
+
+Step 279:
+Block H moved up
+H..CAAA
+H..C...
+HPPC...K
+.EE...B
+.D...FB
+.DGGGFB
+
+
+Step 280:
+Block E moved right
+H..CAAA
+H..C...
+HPPC...K
+....EEB
+.D...FB
+.DGGGFB
+
+
+Step 281:
+Block H moved down
+...CAAA
+...C...
+.PPC...K
+H...EEB
+HD...FB
+HDGGGFB
+
+
+Step 282:
+Block C moved down
+....AAA
+.......
+.PPC...K
+H..CEEB
+HD.C.FB
+HDGGGFB
+
+
+Step 283:
+Block H moved up
+H...AAA
+H......
+HPPC...K
+...CEEB
+.D.C.FB
+.DGGGFB
+
+
+Step 284:
+Block D moved up
+H...AAA
+H......
+HPPC...K
+.D.CEEB
+.D.C.FB
+..GGGFB
+
+
+Step 285:
+Block G moved left
+H...AAA
+H......
+HPPC...K
+.D.CEEB
+.D.C.FB
+GGG..FB
+
+
+Step 286:
+Block H moved down
+....AAA
+.......
+HPPC...K
+HD.CEEB
+HD.C.FB
+GGG..FB
+
+
+Step 287:
+Block C moved down
+....AAA
+.......
+HPP....K
+HD.CEEB
+HD.C.FB
+GGGC.FB
+
+
+Step 288:
+Block C moved up
+...CAAA
+...C...
+HPPC...K
+HD..EEB
+HD...FB
+GGG..FB
+
+
+Step 289:
+Block G moved right
+...CAAA
+...C...
+HPPC...K
+HD..EEB
+HD...FB
+..GGGFB
+
+
+Step 290:
+Block E moved left
+...CAAA
+...C...
+HPPC...K
+HDEE..B
+HD...FB
+..GGGFB
+
+
+Step 291:
+Block H moved down
+...CAAA
+...C...
+.PPC...K
+HDEE..B
+HD...FB
+H.GGGFB
+
+
+Step 292:
+Block G moved left
+...CAAA
+...C...
+.PPC...K
+HDEE..B
+HD...FB
+HGGG.FB
+
+
+Step 293:
+Block H moved up
+H..CAAA
+H..C...
+HPPC...K
+.DEE..B
+.D...FB
+.GGG.FB
+
+
+Step 294:
+Block F moved up
+H..CAAA
+H..C.F.
+HPPC.F.K
+.DEE..B
+.D....B
+.GGG..B
+
+
+Step 295:
+Block H moved down
+...CAAA
+...C.F.
+.PPC.F.K
+HDEE..B
+HD....B
+HGGG..B
+
+
+Step 296:
+Block G moved right
+...CAAA
+...C.F.
+.PPC.F.K
+HDEE..B
+HD....B
+H..GGGB
+
+
+Step 297:
+Block H moved up
+H..CAAA
+H..C.F.
+HPPC.F.K
+.DEE..B
+.D....B
+...GGGB
+
+
+Step 298:
+Block F moved down
+H..CAAA
+H..C...
+HPPC...K
+.DEE.FB
+.D...FB
+...GGGB
+
+
+Step 299:
+Block H moved down
+...CAAA
+...C...
+.PPC...K
+HDEE.FB
+HD...FB
+H..GGGB
+
+
+Step 300:
+Block G moved left
+...CAAA
+...C...
+.PPC...K
+HDEE.FB
+HD...FB
+HGGG..B
+
+
+Step 301:
+Block H moved up
+H..CAAA
+H..C...
+HPPC...K
+.DEE.FB
+.D...FB
+.GGG..B
+
+
+Step 302:
+Block G moved left
+H..CAAA
+H..C...
+HPPC...K
+.DEE.FB
+.D...FB
+GGG...B
+
+
+Step 303:
+Block H moved down
+...CAAA
+...C...
+HPPC...K
+HDEE.FB
+HD...FB
+GGG...B
+
+
+Step 304:
+Block G moved right
+...CAAA
+...C...
+HPPC...K
+HDEE.FB
+HD...FB
+...GGGB
+
+
+Step 305:
+Block E moved right
+...CAAA
+...C...
+HPPC...K
+HD.EEFB
+HD...FB
+...GGGB
+
+
+Step 306:
+Block H moved up
+H..CAAA
+H..C...
+HPPC...K
+.D.EEFB
+.D...FB
+...GGGB
+
+
+Step 307:
+Block F moved up
+H..CAAA
+H..C.F.
+HPPC.F.K
+.D.EE.B
+.D....B
+...GGGB
+
+
+Step 308:
+Block H moved down
+...CAAA
+...C.F.
+.PPC.F.K
+HD.EE.B
+HD....B
+H..GGGB
+
+
+Step 309:
+Block G moved left
+...CAAA
+...C.F.
+.PPC.F.K
+HD.EE.B
+HD....B
+HGGG..B
+
+
+Step 310:
+Block H moved up
+H..CAAA
+H..C.F.
+HPPC.F.K
+.D.EE.B
+.D....B
+.GGG..B
+
+
+Step 311:
+Block F moved down
+H..CAAA
+H..C...
+HPPC...K
+.D.EE.B
+.D...FB
+.GGG.FB
+
+
+Step 312:
+Block H moved down
+...CAAA
+...C...
+.PPC...K
+HD.EE.B
+HD...FB
+HGGG.FB
+
+
+Step 313:
+Block G moved right
+...CAAA
+...C...
+.PPC...K
+HD.EE.B
+HD...FB
+H.GGGFB
+
+
+Step 314:
+Block H moved up
+H..CAAA
+H..C...
+HPPC...K
+.D.EE.B
+.D...FB
+..GGGFB
+
+
+Step 315:
+Block F moved up
+H..CAAA
+H..C.F.
+HPPC.F.K
+.D.EE.B
+.D....B
+..GGG.B
+
+
+Step 316:
+Block H moved down
+...CAAA
+...C.F.
+.PPC.F.K
+HD.EE.B
+HD....B
+H.GGG.B
+
+
+Step 317:
+Block E moved left
+...CAAA
+...C.F.
+.PPC.F.K
+HDEE..B
+HD....B
+H.GGG.B
+
+
+Step 318:
+Block H moved up
+H..CAAA
+H..C.F.
+HPPC.F.K
+.DEE..B
+.D....B
+..GGG.B
+
+
+Step 319:
+Block B moved up
+H..CAAA
+H..C.FB
+HPPC.FBK
+.DEE..B
+.D.....
+..GGG..
+
+
+Step 320:
+Block H moved down
+...CAAA
+...C.FB
+.PPC.FBK
+HDEE..B
+HD.....
+H.GGG..
+
+
+Step 321:
+Block G moved left
+...CAAA
+...C.FB
+.PPC.FBK
+HDEE..B
+HD.....
+HGGG...
+
+
+Step 322:
+Block H moved up
+H..CAAA
+H..C.FB
+HPPC.FBK
+.DEE..B
+.D.....
+.GGG...
+
+
+Step 323:
+Block F moved down
+H..CAAA
+H..C..B
+HPPC..BK
+.DEE..B
+.D...F.
+.GGG.F.
+
+
+Step 324:
+Block H moved down
+...CAAA
+...C..B
+.PPC..BK
+HDEE..B
+HD...F.
+HGGG.F.
+
+
+Step 325:
+Block G moved right
+...CAAA
+...C..B
+.PPC..BK
+HDEE..B
+HD...F.
+H.GGGF.
+
+
+Step 326:
+Block H moved up
+H..CAAA
+H..C..B
+HPPC..BK
+.DEE..B
+.D...F.
+..GGGF.
+
+
+Step 327:
+Block G moved left
+H..CAAA
+H..C..B
+HPPC..BK
+.DEE..B
+.D...F.
+GGG..F.
+
+
+Step 328:
+Block H moved down
+...CAAA
+...C..B
+HPPC..BK
+HDEE..B
+HD...F.
+GGG..F.
+
+
+Step 329:
+Block G moved right
+...CAAA
+...C..B
+HPPC..BK
+HDEE..B
+HD...F.
+..GGGF.
+
+
+Step 330:
+Block E moved right
+...CAAA
+...C..B
+HPPC..BK
+HD..EEB
+HD...F.
+..GGGF.
+
+
+Step 331:
+Block H moved up
+H..CAAA
+H..C..B
+HPPC..BK
+.D..EEB
+.D...F.
+..GGGF.
+
+
+Step 332:
+Block G moved left
+H..CAAA
+H..C..B
+HPPC..BK
+.D..EEB
+.D...F.
+GGG..F.
+
+
+Step 333:
+Block H moved down
+...CAAA
+...C..B
+HPPC..BK
+HD..EEB
+HD...F.
+GGG..F.
+
+
+Step 334:
+Block C moved down
+....AAA
+......B
+HPP...BK
+HD.CEEB
+HD.C.F.
+GGGC.F.
+
+
+Step 335:
+Block H moved up
+H...AAA
+H.....B
+HPP...BK
+.D.CEEB
+.D.C.F.
+GGGC.F.
+
+
+Step 336:
+Block P moved right
+H...AAA
+H.....B
+H...PPBK
+.D.CEEB
+.D.C.F.
+GGGC.F.
+
+
+Step 337:
+Block H moved down
+....AAA
+......B
+H...PPBK
+HD.CEEB
+HD.C.F.
+GGGC.F.
+
+
+Step 338:
+Block C moved up
+...CAAA
+...C..B
+H..CPPBK
+HD..EEB
+HD...F.
+GGG..F.
+
+
+Step 339:
+Block H moved up
+H..CAAA
+H..C..B
+H..CPPBK
+.D..EEB
+.D...F.
+GGG..F.
+
+
+Step 340:
+Block E moved left
+H..CAAA
+H..C..B
+H..CPPBK
+.DEE..B
+.D...F.
+GGG..F.
+
+
+Step 341:
+Block H moved down
+...CAAA
+...C..B
+H..CPPBK
+HDEE..B
+HD...F.
+GGG..F.
+
+
+Step 342:
+Block G moved right
+...CAAA
+...C..B
+H..CPPBK
+HDEE..B
+HD...F.
+..GGGF.
+
+
+Step 343:
+Block H moved down
+...CAAA
+...C..B
+...CPPBK
+HDEE..B
+HD...F.
+H.GGGF.
+
+
+Step 344:
+Block H moved up
+H..CAAA
+H..C..B
+H..CPPBK
+.DEE..B
+.D...F.
+..GGGF.
+
+
+Step 345:
+Block F moved up
+H..CAAA
+H..C..B
+H..CPPBK
+.DEE.FB
+.D...F.
+..GGG..
+
+
+Step 346:
+Block G moved right
+H..CAAA
+H..C..B
+H..CPPBK
+.DEE.FB
+.D...F.
+....GGG
+
+
+Step 347:
+Block H moved down
+...CAAA
+...C..B
+...CPPBK
+HDEE.FB
+HD...F.
+H...GGG
+
+
+Step 348:
+Block E moved right
+...CAAA
+...C..B
+...CPPBK
+HD.EEFB
+HD...F.
+H...GGG
+
+
+Step 349:
+Block H moved up
+H..CAAA
+H..C..B
+H..CPPBK
+.D.EEFB
+.D...F.
+....GGG
+
+
+Step 350:
+Block G moved left
+H..CAAA
+H..C..B
+H..CPPBK
+.D.EEFB
+.D...F.
+GGG....
+
+
+Step 351:
+Block H moved down
+...CAAA
+...C..B
+H..CPPBK
+HD.EEFB
+HD...F.
+GGG....
+
+
+Step 352:
+Block F moved down
+...CAAA
+...C..B
+H..CPPBK
+HD.EE.B
+HD...F.
+GGG..F.
+
+
+Step 353:
+Block G moved right
+...CAAA
+...C..B
+H..CPPBK
+HD.EE.B
+HD...F.
+..GGGF.
+
+
+Step 354:
+Block H moved up
+H..CAAA
+H..C..B
+H..CPPBK
+.D.EE.B
+.D...F.
+..GGGF.
+
+
+Step 355:
+Block F moved up
+H..CAAA
+H..C..B
+H..CPPBK
+.D.EEFB
+.D...F.
+..GGG..
+
+
+Step 356:
+Block H moved down
+...CAAA
+...C..B
+...CPPBK
+HD.EEFB
+HD...F.
+H.GGG..
+
+
+Step 357:
+Block G moved left
+...CAAA
+...C..B
+...CPPBK
+HD.EEFB
+HD...F.
+HGGG...
+
+
+Step 358:
+Block H moved up
+H..CAAA
+H..C..B
+H..CPPBK
+.D.EEFB
+.D...F.
+.GGG...
+
+
+Step 359:
+Block F moved down
+H..CAAA
+H..C..B
+H..CPPBK
+.D.EE.B
+.D...F.
+.GGG.F.
+
+
+Step 360:
+Block H moved down
+...CAAA
+...C..B
+...CPPBK
+HD.EE.B
+HD...F.
+HGGG.F.
+
+
+Step 361:
+Block E moved left
+...CAAA
+...C..B
+...CPPBK
+HDEE..B
+HD...F.
+HGGG.F.
+
+
+Step 362:
+Block H moved up
+H..CAAA
+H..C..B
+H..CPPBK
+.DEE..B
+.D...F.
+.GGG.F.
+
+
+Step 363:
+Block B moved down
+H..CAAA
+H..C...
+H..CPP.K
+.DEE..B
+.D...FB
+.GGG.FB
+
+
+Step 364:
+Block H moved down
+...CAAA
+...C...
+...CPP.K
+HDEE..B
+HD...FB
+HGGG.FB
+
+
+Step 365:
+Block F moved up
+...CAAA
+...C...
+...CPP.K
+HDEE.FB
+HD...FB
+HGGG..B
+
+
+Step 366:
+Block H moved up
+H..CAAA
+H..C...
+H..CPP.K
+.DEE.FB
+.D...FB
+.GGG..B
+
+
+Step 367:
+Block G moved left
+H..CAAA
+H..C...
+H..CPP.K
+.DEE.FB
+.D...FB
+GGG...B
+
+
+Step 368:
+Block H moved down
+...CAAA
+...C...
+H..CPP.K
+HDEE.FB
+HD...FB
+GGG...B
+
+
+Step 369:
+Block F moved down
+...CAAA
+...C...
+H..CPP.K
+HDEE..B
+HD...FB
+GGG..FB
+
+
+Step 370:
+Block G moved right
+...CAAA
+...C...
+H..CPP.K
+HDEE..B
+HD...FB
+..GGGFB
+
+
+Step 371:
+Block E moved right
+...CAAA
+...C...
+H..CPP.K
+HD..EEB
+HD...FB
+..GGGFB
+
+
+Step 372:
+Block H moved down
+...CAAA
+...C...
+...CPP.K
+HD..EEB
+HD...FB
+H.GGGFB
+
+
+Step 373:
+Block H moved up
+H..CAAA
+H..C...
+H..CPP.K
+.D..EEB
+.D...FB
+..GGGFB
+
+
+Step 374:
+Block G moved left
+H..CAAA
+H..C...
+H..CPP.K
+.D..EEB
+.D...FB
+GGG..FB
+
+
+Step 375:
+Block H moved down
+...CAAA
+...C...
+H..CPP.K
+HD..EEB
+HD...FB
+GGG..FB
+
+
+Step 376:
+Block C moved down
+....AAA
+.......
+H...PP.K
+HD.CEEB
+HD.C.FB
+GGGC.FB
+
+
+Step 377:
+Block H moved up
+H...AAA
+H......
+H...PP.K
+.D.CEEB
+.D.C.FB
+GGGC.FB
+
+
+Step 378:
+Block D moved up
+HD..AAA
+HD.....
+H...PP.K
+...CEEB
+...C.FB
+GGGC.FB
+
+
+Step 379:
+Block H moved down
+.D..AAA
+.D.....
+H...PP.K
+H..CEEB
+H..C.FB
+GGGC.FB
+
+
+Step 380:
+Block P moved right
+.D..AAA
+.D.....
+H......K
+H..CEEB
+H..C.FB
+GGGC.FB
+
+
+Nodes Visited: 1206
+Execution Time: 114 ms

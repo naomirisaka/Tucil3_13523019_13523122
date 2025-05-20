@@ -1,0 +1,134 @@
+Initial state
+Step 0:
+...NNN
+ABCCEE
+ABDDF.
+PP.GFHK
+IIIGFH
+..JLL.
+..JMM.
+
+
+Step 1:
+Block L moved right
+...NNN
+ABCCEE
+ABDDF.
+PP.GFHK
+IIIGFH
+..J.LL
+..JMM.
+
+
+Step 2:
+Block G moved down
+...NNN
+ABCCEE
+ABDDF.
+PP..FHK
+IIIGFH
+..JGLL
+..JMM.
+
+
+Step 3:
+Block N moved left
+NNN...
+ABCCEE
+ABDDF.
+PP..FHK
+IIIGFH
+..JGLL
+..JMM.
+
+
+Step 4:
+Block P moved right
+NNN...
+ABCCEE
+ABDDF.
+..PPFHK
+IIIGFH
+..JGLL
+..JMM.
+
+
+Step 5:
+Block B moved down
+NNN...
+A.CCEE
+ABDDF.
+.BPPFHK
+IIIGFH
+..JGLL
+..JMM.
+
+
+Step 6:
+Block A moved down
+NNN...
+..CCEE
+ABDDF.
+ABPPFHK
+IIIGFH
+..JGLL
+..JMM.
+
+
+Step 7:
+Block C moved left
+NNN...
+CC..EE
+ABDDF.
+ABPPFHK
+IIIGFH
+..JGLL
+..JMM.
+
+
+Step 8:
+Block E moved left
+NNN...
+CCEE..
+ABDDF.
+ABPPFHK
+IIIGFH
+..JGLL
+..JMM.
+
+
+Step 9:
+Block H moved up
+NNN..H
+CCEE.H
+ABDDF.
+ABPPF.K
+IIIGF.
+..JGLL
+..JMM.
+
+
+Step 10:
+Block F moved up
+NNN.FH
+CCEEFH
+ABDDF.
+ABPP..K
+IIIG..
+..JGLL
+..JMM.
+
+
+Step 11:
+Block P moved right
+NNN.FH
+CCEEFH
+ABDDF.
+AB....K
+IIIG..
+..JGLL
+..JMM.
+
+
+Nodes Visited: 15048
+Execution Time: 296 ms

@@ -155,8 +155,14 @@ public class GUIApp extends Application {
         ); 
         rightPanel.setPadding(new Insets(10));
 
+        ScrollPane rightScrollPane = new ScrollPane(rightPanel);
+        HBox.setHgrow(rightScrollPane, Priority.ALWAYS);
+        rightScrollPane.setMaxWidth(Double.MAX_VALUE);
+        rightScrollPane.setFitToWidth(true); 
+        rightScrollPane.setPrefViewportHeight(600);
+
         // main panel
-        HBox mainPanels = new HBox(20, inputPanel, rightPanel);
+        HBox mainPanels = new HBox(20, inputPanel, rightScrollPane);
 
         VBox root = new VBox(10, titleBox, mainPanels);
         root.setPadding(new Insets(10));

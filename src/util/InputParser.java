@@ -17,7 +17,7 @@ public class InputParser {
         Scanner scanner = new Scanner(file);
         int rows = 0, cols = 0;
         int pieceAmt = 0;
-        int kCount = 0;          // <-- hitung semua kemunculan 'K'
+        int kCount = 0;        
 
         // Baca baris konfigurasi ukuran papan
         while (scanner.hasNextLine()) {
